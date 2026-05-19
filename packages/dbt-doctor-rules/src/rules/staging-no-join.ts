@@ -2,8 +2,7 @@ import type { Rule } from "../types.js";
 import { isStagingModelPath } from "../utils/path-layer.js";
 import { report } from "../utils/report.js";
 
-const JOIN_PATTERN =
-  /\b(cross\s+join|inner\s+join|left\s+join|right\s+join|full\s+join|join)\b/i;
+const JOIN_PATTERN = /\b(cross\s+join|inner\s+join|left\s+join|right\s+join|full\s+join|join)\b/i;
 
 /**
  * Staging should rename/recast only — joins belong in intermediate/marts.

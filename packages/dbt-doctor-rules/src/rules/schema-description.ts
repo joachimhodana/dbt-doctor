@@ -13,7 +13,9 @@ export const schemaDescription: Rule = {
     const diagnostics = [];
     for (const file of yamlFiles) {
       if (!isSchemaFile(file)) continue;
-      const modelBlocks = readFile(file).split(/\n\s*-\s+name:\s+/).slice(1);
+      const modelBlocks = readFile(file)
+        .split(/\n\s*-\s+name:\s+/)
+        .slice(1);
       for (const block of modelBlocks) {
         const modelName = block.match(/^["']?(\w+)/)?.[1];
         if (!modelName) continue;

@@ -31,8 +31,10 @@ const readDbtVersionHint = (rootDirectory: string): string | null => {
     if (!isFile(filePath)) continue;
     try {
       const content = fs.readFileSync(filePath, "utf-8");
-      const match = content.match(/dbt-(?:core|snowflake|bigquery|postgres|redshift|duckdb)[^=\s]*[=<>!~]*\s*([0-9][^\s,;]*)/i)
-        ?? content.match(/dbt-core[^0-9]*([0-9]+\.[0-9]+(?:\.[0-9]+)?)/i);
+      const match =
+        content.match(
+          /dbt-(?:core|snowflake|bigquery|postgres|redshift|duckdb)[^=\s]*[=<>!~]*\s*([0-9][^\s,;]*)/i,
+        ) ?? content.match(/dbt-core[^0-9]*([0-9]+\.[0-9]+(?:\.[0-9]+)?)/i);
       if (match?.[1]) return match[1].replace(/^[=<>!~]+/, "").trim();
     } catch {
       continue;

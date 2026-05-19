@@ -10,7 +10,12 @@ export const emptyModelFile: Rule = {
     for (const file of sqlFiles) {
       if (readFile(file).trim().length > 0) continue;
       diagnostics.push(
-        report(emptyModelFile, file, "Model SQL file is empty", "Add model SQL or remove the unused file."),
+        report(
+          emptyModelFile,
+          file,
+          "Model SQL file is empty",
+          "Add model SQL or remove the unused file.",
+        ),
       );
     }
     return diagnostics;

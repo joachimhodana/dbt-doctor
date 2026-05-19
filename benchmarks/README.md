@@ -41,17 +41,17 @@ Open-source dbt projects scored by [dbt-doctor](https://dbt-doctor.joachimhodana
 
 ## Fields
 
-| Field | Description |
-| ----- | ----------- |
-| `slug` | Stable id (kebab-case, unique) |
-| `name` | Display name |
-| `githubUrl` | Repository URL |
-| `packageName` | dbt project name from `dbt_project.yml` |
-| `score` | 0–100 from dbt-doctor |
-| `errorCount` | Error diagnostics |
-| `warningCount` | Warning diagnostics |
-| `fileCount` | Files scanned |
-| `commitSha` | Git SHA when scanned |
-| `scannedAt` | ISO timestamp |
+| Field          | Description                             |
+| -------------- | --------------------------------------- |
+| `slug`         | Stable id (kebab-case, unique)          |
+| `name`         | Display name                            |
+| `githubUrl`    | Repository URL                          |
+| `packageName`  | dbt project name from `dbt_project.yml` |
+| `score`        | 0–100 from dbt-doctor                   |
+| `errorCount`   | Error diagnostics                       |
+| `warningCount` | Warning diagnostics                     |
+| `fileCount`    | Files scanned                           |
+| `commitSha`    | Git SHA when scanned                    |
+| `scannedAt`    | ISO timestamp                           |
 
 When editing the file, bump `generatedAt` and set `doctorVersion` to the dbt-doctor version used for the scan.

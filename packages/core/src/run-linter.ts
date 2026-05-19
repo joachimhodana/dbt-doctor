@@ -33,10 +33,7 @@ interface SqlfluffFileResult {
   violations?: SqlfluffViolation[];
 }
 
-const runSqlfluffBatch = (
-  rootDirectory: string,
-  absolutePaths: string[],
-): Promise<Diagnostic[]> =>
+const runSqlfluffBatch = (rootDirectory: string, absolutePaths: string[]): Promise<Diagnostic[]> =>
   new Promise((resolve) => {
     if (absolutePaths.length === 0) {
       resolve([]);
@@ -121,13 +118,7 @@ export const isSqlfluffAvailable = (): Promise<boolean> =>
   });
 
 export const runLinter = async (options: RunLinterOptions): Promise<Diagnostic[]> => {
-  const {
-    rootDirectory,
-    project,
-    includePaths,
-    ignoredTags,
-    skipSqlfluff = false,
-  } = options;
+  const { rootDirectory, project, includePaths, ignoredTags, skipSqlfluff = false } = options;
 
   const customDiagnostics = runCustomRules({
     rootDirectory,

@@ -53,7 +53,9 @@ export const calculateScore = async (
     const remote = parseScoreResult(await response.json());
     return remote ?? calculateScoreLocal(diagnostics);
   } catch (error) {
-    console.warn(`[dbt-doctor] Score API unreachable (${describeFailure(error)}), using local score`);
+    console.warn(
+      `[dbt-doctor] Score API unreachable (${describeFailure(error)}), using local score`,
+    );
     return calculateScoreLocal(diagnostics);
   } finally {
     clearTimeout(timeoutId);

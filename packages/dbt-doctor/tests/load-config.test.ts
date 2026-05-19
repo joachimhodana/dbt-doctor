@@ -201,10 +201,7 @@ describe("loadConfig", () => {
     it("falls through to package.json when config file has malformed JSON", () => {
       const fallbackDirectory = path.join(tempRootDirectory, "malformed-with-fallback");
       fs.mkdirSync(fallbackDirectory, { recursive: true });
-      fs.writeFileSync(
-        path.join(fallbackDirectory, "dbt-doctor.config.json"),
-        "not valid json{{{",
-      );
+      fs.writeFileSync(path.join(fallbackDirectory, "dbt-doctor.config.json"), "not valid json{{{");
       fs.writeFileSync(
         path.join(fallbackDirectory, "package.json"),
         JSON.stringify({

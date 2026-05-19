@@ -12,8 +12,7 @@ export const directSourceAndRef: Rule = {
   id: "direct-source-and-ref",
   severity: "warn",
   category: "Architecture",
-  recommendation:
-    "Do not mix {{ source() }} and {{ ref() }} in one model — stage sources first",
+  recommendation: "Do not mix {{ source() }} and {{ ref() }} in one model — stage sources first",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];
     for (const file of sqlFiles) {

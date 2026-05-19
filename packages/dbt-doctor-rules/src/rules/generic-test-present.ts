@@ -11,7 +11,9 @@ export const genericTestPresent: Rule = {
     for (const file of yamlFiles) {
       const relative = file.replace(/\\/g, "/");
       if (!relative.includes("/models/") || !/schema\.(yml|yaml)$/.test(relative)) continue;
-      const columnBlocks = readFile(file).split(/\n\s+-\s+name:\s+/).slice(1);
+      const columnBlocks = readFile(file)
+        .split(/\n\s+-\s+name:\s+/)
+        .slice(1);
       for (const block of columnBlocks) {
         const columnName = block.match(/^["']?(\w+)/)?.[1];
         if (!columnName || !/(^id$|_id$|_key$)/i.test(columnName)) continue;

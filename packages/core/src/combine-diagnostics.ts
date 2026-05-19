@@ -12,6 +12,12 @@ interface CombineDiagnosticsInput {
 }
 
 export const combineDiagnostics = (input: CombineDiagnosticsInput): Diagnostic[] =>
-  mergeAndFilterDiagnostics(input.lintDiagnostics, input.directory, input.userConfig, input.readFileLinesSync ?? createNodeReadFileLinesSync(input.directory), {
-    respectInlineDisables: input.respectInlineDisables,
-  });
+  mergeAndFilterDiagnostics(
+    input.lintDiagnostics,
+    input.directory,
+    input.userConfig,
+    input.readFileLinesSync ?? createNodeReadFileLinesSync(input.directory),
+    {
+      respectInlineDisables: input.respectInlineDisables,
+    },
+  );

@@ -22,8 +22,7 @@ export const calculateScoreLocal = (diagnostics: Diagnostic[]): ScoreResult => {
     }
   }
 
-  const penalty =
-    errorRules.size * ERROR_RULE_PENALTY + warningRules.size * WARNING_RULE_PENALTY;
+  const penalty = errorRules.size * ERROR_RULE_PENALTY + warningRules.size * WARNING_RULE_PENALTY;
   const score = Math.max(0, Math.round(PERFECT_SCORE - penalty));
 
   return { score, label: getScoreLabel(score) };

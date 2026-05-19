@@ -17,8 +17,7 @@ export const clearAutoSuppressionCaches = (): void => {
 const shouldAutoSuppress = (diagnostic: Diagnostic): boolean => {
   const filePath = diagnostic.filePath;
 
-  const rule =
-    diagnostic.plugin === "dbt-doctor" ? dbtDoctorPlugin.rules[diagnostic.rule] : null;
+  const rule = diagnostic.plugin === "dbt-doctor" ? dbtDoctorPlugin.rules[diagnostic.rule] : null;
   if (rule?.tags?.includes("test-noise")) {
     let isTest = testFileResultCache.get(filePath);
     if (isTest === undefined) {

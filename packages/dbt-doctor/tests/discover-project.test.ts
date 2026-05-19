@@ -3,10 +3,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { discoverProject } from "@dbt-doctor/project-info";
 
-const fixtureDir = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "fixtures/basic-dbt",
-);
+const fixtureDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "fixtures/basic-dbt");
 
 describe("discoverProject", () => {
   it("detects a minimal dbt project", () => {

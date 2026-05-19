@@ -49,7 +49,9 @@ const formatGeneratedAt = (isoTimestamp: string): string => {
 
 const fetchLeaderboard = async (): Promise<LeaderboardFile | null> => {
   try {
-    const response = await fetch(LEADERBOARD_JSON_PATH, { next: { revalidate: REVALIDATE_SECONDS } });
+    const response = await fetch(LEADERBOARD_JSON_PATH, {
+      next: { revalidate: REVALIDATE_SECONDS },
+    });
     if (!response.ok) return null;
     const leaderboard = (await response.json()) as LeaderboardFile;
     if (!Array.isArray(leaderboard.entries)) return null;

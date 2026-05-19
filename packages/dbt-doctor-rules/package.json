@@ -2,7 +2,12 @@
   "name": "dbt-doctor-rules",
   "version": "0.1.0",
   "description": "Custom lint rules for dbt-doctor",
-  "keywords": ["dbt", "linter", "sql", "data"],
+  "keywords": [
+    "data",
+    "dbt",
+    "linter",
+    "sql"
+  ],
   "homepage": "https://github.com/joachimhodana/dbt-doctor#readme",
   "bugs": {
     "url": "https://github.com/joachimhodana/dbt-doctor/issues"
@@ -14,7 +19,10 @@
     "url": "https://github.com/joachimhodana/dbt-doctor.git",
     "directory": "packages/dbt-doctor-rules"
   },
-  "files": ["dist/**/*.js", "dist/**/*.d.ts"],
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
   "type": "module",
   "sideEffects": false,
   "exports": {

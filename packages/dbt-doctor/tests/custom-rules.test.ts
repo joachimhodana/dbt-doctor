@@ -4,10 +4,7 @@ import { describe, expect, it } from "vitest";
 import { runCustomRules } from "dbt-doctor-rules";
 import { discoverProject } from "@dbt-doctor/project-info";
 
-const fixtureDir = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "fixtures/basic-dbt",
-);
+const fixtureDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "fixtures/basic-dbt");
 
 const ruleIds = (diagnostics: { rule: string }[]): string[] =>
   diagnostics.map((diagnostic) => diagnostic.rule);

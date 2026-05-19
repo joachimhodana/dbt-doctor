@@ -44,10 +44,8 @@ export const parseDbtProjectYaml = (content: string): DbtProjectYaml => ({
   macroPaths: readPathList(content, "macro-paths") ?? readPathList(content, "macro_paths"),
   testPaths: readPathList(content, "test-paths") ?? readPathList(content, "test_paths"),
   seedPaths: readPathList(content, "seed-paths") ?? readPathList(content, "seed_paths"),
-  snapshotPaths:
-    readPathList(content, "snapshot-paths") ?? readPathList(content, "snapshot_paths"),
-  analysisPaths:
-    readPathList(content, "analysis-paths") ?? readPathList(content, "analysis_paths"),
+  snapshotPaths: readPathList(content, "snapshot-paths") ?? readPathList(content, "snapshot_paths"),
+  analysisPaths: readPathList(content, "analysis-paths") ?? readPathList(content, "analysis_paths"),
 });
 
 export const readDbtProjectYaml = (directory: string): DbtProjectYaml | null => {

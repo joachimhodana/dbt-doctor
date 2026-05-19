@@ -25,7 +25,5 @@ export const getDiagnosticRuleIdentity = (diagnostic: Diagnostic): DiagnosticRul
   ruleKey: `${diagnostic.plugin}/${diagnostic.rule}`,
   category: diagnostic.category,
   tags:
-    diagnostic.plugin === "dbt-doctor"
-      ? (dbtDoctorPlugin.rules[diagnostic.rule]?.tags ?? [])
-      : [],
+    diagnostic.plugin === "dbt-doctor" ? (dbtDoctorPlugin.rules[diagnostic.rule]?.tags ?? []) : [],
 });

@@ -1,7 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { Diagnostic, ProjectInfo } from "@dbt-doctor/types";
-import { DBT_PROJECT_FILENAME, SOURCE_FILE_PATTERN, YAML_SOURCE_PATTERN, isFile } from "@dbt-doctor/project-info";
+import {
+  DBT_PROJECT_FILENAME,
+  SOURCE_FILE_PATTERN,
+  YAML_SOURCE_PATTERN,
+  isFile,
+} from "@dbt-doctor/project-info";
 import { ALL_DBT_DOCTOR_RULES } from "./rule-registry.js";
 import type { RuleContext } from "./types.js";
 

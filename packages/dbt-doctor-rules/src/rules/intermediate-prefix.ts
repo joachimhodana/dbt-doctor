@@ -7,5 +7,11 @@ export const intermediatePrefix: Rule = {
   category: "Naming",
   recommendation: "Use int_ prefix for intermediate models",
   run: ({ sqlFiles }) =>
-    checkLayerPrefix(intermediatePrefix, sqlFiles, ["/intermediate/", "/int/"], "int_", "Intermediate"),
+    checkLayerPrefix(
+      intermediatePrefix,
+      sqlFiles,
+      ["/intermediate/", "/int/"],
+      "int_",
+      "Intermediate",
+    ),
 };
