@@ -20,7 +20,8 @@ export const clusterByHint: Rule = {
       const lineCount = sql.split("\n").length;
       const name = modelBaseName(file);
       const yaml = findModelBlock(name, yamlFiles, readFile, isUnderModelsYaml);
-      const isLarge = lineCount >= LARGE_MODEL_LINE_COUNT || /materialized:\s*table/i.test(yaml?.block ?? sql);
+      const isLarge =
+        lineCount >= LARGE_MODEL_LINE_COUNT || /materialized:\s*table/i.test(yaml?.block ?? sql);
       if (!isLarge) continue;
       if (yaml && blockHasClusterBy(yaml.block)) continue;
       if (/cluster_by\s*=/i.test(sql)) continue;

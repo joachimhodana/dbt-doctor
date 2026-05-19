@@ -2,7 +2,10 @@ import { RECOMMENDED_DBT_PACKAGE_MARKERS } from "../constants.js";
 import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 
-const packagesContent = (yamlFiles: string[], readFile: (path: string) => string): string | null => {
+const packagesContent = (
+  yamlFiles: string[],
+  readFile: (path: string) => string,
+): string | null => {
   if (!yamlFiles.includes("packages.yml")) return null;
   return readFile("packages.yml");
 };

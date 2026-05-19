@@ -12,7 +12,8 @@ const collectDocumentedSeeds = (
   const documented = new Map<string, string>();
   for (const file of yamlFiles) {
     const relative = file.replace(/\\/g, "/");
-    if (!relative.includes("/seeds/") && !relative.startsWith("seeds/") && relative !== "seeds") continue;
+    if (!relative.includes("/seeds/") && !relative.startsWith("seeds/") && relative !== "seeds")
+      continue;
     if (!/\.(yml|yaml)$/i.test(file)) continue;
     for (const block of splitNamedYamlBlocks(readFile(file), "seeds")) {
       if (blockHasDescription(block.block)) {

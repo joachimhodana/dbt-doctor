@@ -9,7 +9,7 @@ const expectationsMarker = RECOMMENDED_DBT_PACKAGE_MARKERS.find((m) => m.id === 
 const hasExpectationsPackage = (packagesContent: string | null): boolean =>
   Boolean(
     packagesContent &&
-      expectationsMarker?.patterns.some((pattern) => packagesContent.includes(pattern)),
+    expectationsMarker?.patterns.some((pattern) => packagesContent.includes(pattern)),
   );
 
 const yamlHasExpectationTest = (yamlFiles: string[], readFile: (p: string) => string): boolean => {

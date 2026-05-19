@@ -3,7 +3,10 @@ import { isModelSqlPath, isUnderModelsYaml, modelBaseName } from "../utils/model
 import { splitNamedYamlBlocks } from "../utils/yaml-blocks.js";
 import { report } from "../utils/report.js";
 
-const collectDocumentedModelNames = (yamlFiles: string[], readFile: (path: string) => string): Set<string> => {
+const collectDocumentedModelNames = (
+  yamlFiles: string[],
+  readFile: (path: string) => string,
+): Set<string> => {
   const names = new Set<string>();
   for (const file of yamlFiles) {
     if (!isUnderModelsYaml(file)) continue;

@@ -2,11 +2,14 @@ import path from "node:path";
 
 export const normalizePath = (filePath: string): string => filePath.replace(/\\/g, "/");
 
-export const modelBaseName = (sqlPath: string): string => path.basename(sqlPath, path.extname(sqlPath));
+export const modelBaseName = (sqlPath: string): string =>
+  path.basename(sqlPath, path.extname(sqlPath));
 
 export const isModelSqlPath = (filePath: string): boolean => {
   const relative = normalizePath(filePath);
-  return (relative.includes("/models/") || relative.startsWith("models/")) && /\.sql$/i.test(relative);
+  return (
+    (relative.includes("/models/") || relative.startsWith("models/")) && /\.sql$/i.test(relative)
+  );
 };
 
 export const isUnderModelsYaml = (filePath: string): boolean => {
@@ -27,5 +30,10 @@ export const siblingModelYamlCandidates = (sqlPath: string): string[] => {
 
 export const isCollectiveSchemaYaml = (filePath: string): boolean => {
   const base = path.basename(normalizePath(filePath)).toLowerCase();
-  return base === "schema.yml" || base === "schema.yaml" || base === "models.yml" || base === "models.yaml";
+  return (
+    base === "schema.yml" ||
+    base === "schema.yaml" ||
+    base === "models.yml" ||
+    base === "models.yaml"
+  );
 };

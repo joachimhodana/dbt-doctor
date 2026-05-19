@@ -1,5 +1,8 @@
 /** Split top-level list items under a YAML key (models, macros, seeds) at two-space indent. */
-export const splitNamedYamlBlocks = (content: string, listKey: string): { name: string; block: string }[] => {
+export const splitNamedYamlBlocks = (
+  content: string,
+  listKey: string,
+): { name: string; block: string }[] => {
   const header = content.match(new RegExp(`^\\s*${listKey}:\\s*\\n`, "m"));
   if (!header || header.index === undefined) return [];
 
@@ -39,8 +42,7 @@ export const splitColumnBlocks = (modelBlock: string): { name: string; block: st
 };
 
 export const blockHasTest = (block: string, testName: string): boolean =>
-  new RegExp(`-\\s+${testName}\\b`).test(block) ||
-  new RegExp(`-\\s+${testName}:`).test(block);
+  new RegExp(`-\\s+${testName}\\b`).test(block) || new RegExp(`-\\s+${testName}:`).test(block);
 
 export const blockHasRelationshipTest = (block: string): boolean =>
   /relationships:/.test(block) || /dbt_expectations\./.test(block);

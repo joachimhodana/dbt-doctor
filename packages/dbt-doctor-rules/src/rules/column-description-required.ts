@@ -1,6 +1,10 @@
 import type { Rule } from "../types.js";
 import { isUnderModelsYaml } from "../utils/model-paths.js";
-import { blockHasDescription, splitColumnBlocks, splitNamedYamlBlocks } from "../utils/yaml-blocks.js";
+import {
+  blockHasDescription,
+  splitColumnBlocks,
+  splitNamedYamlBlocks,
+} from "../utils/yaml-blocks.js";
 import { report } from "../utils/report.js";
 
 export const columnDescriptionRequired: Rule = {

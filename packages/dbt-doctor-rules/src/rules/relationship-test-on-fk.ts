@@ -2,7 +2,11 @@ import type { Rule } from "../types.js";
 import { FOREIGN_KEY_COLUMN_PATTERN } from "../constants.js";
 import { isMartModelPath } from "../utils/path-layer.js";
 import { isModelSqlPath, isUnderModelsYaml, modelBaseName } from "../utils/model-paths.js";
-import { blockHasRelationshipTest, findModelBlock, splitColumnBlocks } from "../utils/yaml-blocks.js";
+import {
+  blockHasRelationshipTest,
+  findModelBlock,
+  splitColumnBlocks,
+} from "../utils/yaml-blocks.js";
 import { report } from "../utils/report.js";
 
 export const relationshipTestOnFk: Rule = {

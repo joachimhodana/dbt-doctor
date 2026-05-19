@@ -28,7 +28,7 @@ export const sourcePiiMeta: Rule = {
               sourcePiiMeta,
               file,
               `Column "${column.name}" on "${entity.name}" looks like PII but has no governance meta`,
-              'Add meta: { pii: true } or tags for catalog and access policies.',
+              "Add meta: { pii: true } or tags for catalog and access policies.",
             ),
           );
         }

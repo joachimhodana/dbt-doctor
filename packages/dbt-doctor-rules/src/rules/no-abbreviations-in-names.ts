@@ -22,7 +22,8 @@ export const noAbbreviationsInNames: Rule = {
   severity: "warn",
   category: "Best Practices",
   tags: ["strict", "style"],
-  recommendation: "Use full words in model names instead of abbreviations (e.g. architecture not arch)",
+  recommendation:
+    "Use full words in model names instead of abbreviations (e.g. architecture not arch)",
   run: ({ sqlFiles }) => {
     const diagnostics = [];
     for (const file of sqlFiles) {

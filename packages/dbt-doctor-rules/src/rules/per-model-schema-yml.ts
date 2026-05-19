@@ -7,12 +7,15 @@ export const perModelSchemaYml: Rule = {
   severity: "warn",
   category: "Documentation",
   tags: ["strict"],
-  recommendation: "Add a schema YAML file named after each model (e.g. stg_orders.yml for stg_orders.sql)",
+  recommendation:
+    "Add a schema YAML file named after each model (e.g. stg_orders.yml for stg_orders.sql)",
   run: ({ sqlFiles, fileExists }) => {
     const diagnostics = [];
     for (const file of sqlFiles) {
       if (!isModelSqlPath(file)) continue;
-      const hasSidecar = siblingModelYamlCandidates(file).some((candidate) => fileExists(candidate));
+      const hasSidecar = siblingModelYamlCandidates(file).some((candidate) =>
+        fileExists(candidate),
+      );
       if (hasSidecar) continue;
       const name = modelBaseName(file);
       diagnostics.push(
