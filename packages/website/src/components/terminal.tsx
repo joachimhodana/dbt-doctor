@@ -7,6 +7,7 @@ import { SITE_HOST } from "@/constants/site";
 import { getDoctorFace } from "@/utils/get-doctor-face";
 import { getScoreColorClass } from "@/utils/get-score-color-class";
 import { getScoreLabel } from "@/utils/get-score-label";
+import { PlatformLogos } from "./platform-logos";
 
 const COPIED_RESET_DELAY_MS = 2000;
 const INITIAL_DELAY_MS = 250;
@@ -501,9 +502,7 @@ const Terminal = () => {
             </div>
             <div className="text-neutral-500">Your agent writes bad dbt. This catches it.</div>
             <Spacer />
-            <div className="text-neutral-500">
-              Snowflake, BigQuery, Redshift, Postgres, DuckDB, and more.
-            </div>
+            <PlatformLogos />
             <Spacer />
           </FadeIn>
         )}
