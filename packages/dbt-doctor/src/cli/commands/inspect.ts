@@ -3,7 +3,9 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
 import {
+  applyConfigPreset,
   buildJsonReport,
+  buildSarifReport,
   filterDiagnosticsForSurface,
   filterSourceFiles,
   getDiffInfo,
@@ -11,6 +13,7 @@ import {
   loadConfigWithSource,
   logger,
   resolveConfigRootDir,
+  setLoggerSilent,
   toRelativePath,
 } from "@dbt-doctor/core";
 import { inspect } from "../../inspect.js";
@@ -43,7 +46,7 @@ import { VERSION } from "../utils/version.js";
 export const inspectAction = async (directory: string, flags: InspectFlags): Promise<void> => {
   const isScoreOnly = Boolean(flags.score);
   const isJsonMode = Boolean(flags.json);
-  const isQuiet = isScoreOnly || isJsonMode;
+  const isQuiet = isScoreOnly || isJsonMode || Boolean(flags.sarif);
   const requestedDirectory = path.resolve(directory);
   const startTime = performance.now();
 
@@ -54,8 +57,10 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
   try {
     validateModeFlags(flags);
 
+    if (flags.sarif) setLoggerSilent(true);
+
     const loadedConfig = loadConfigWithSource(requestedDirectory);
-    const userConfig = loadedConfig?.config ?? null;
+    const userConfig = applyConfigPreset(loadedConfig?.config ?? null);
     const redirectedDirectory = resolveConfigRootDir(
       loadedConfig?.config ?? null,
       loadedConfig?.sourceDirectory ?? null,
@@ -240,6 +245,7 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
         ...scanOptions,
         includePaths,
         configOverride: userConfig,
+        writeBaseline: flags.writeBaseline,
       });
       allDiagnostics.push(...scanResult.diagnostics);
       completedScans.push({ directory: projectDirectory, result: scanResult });
@@ -259,6 +265,11 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
           totalElapsedMilliseconds: performance.now() - startTime,
         }),
       );
+    }
+
+    if (flags.sarif) {
+      const sarif = buildSarifReport(allDiagnostics, VERSION);
+      process.stdout.write(`${JSON.stringify(sarif, null, 2)}\n`);
     }
 
     if (flags.annotations) {

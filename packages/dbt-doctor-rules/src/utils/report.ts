@@ -6,6 +6,8 @@ export const report = (
   filePath: string,
   message: string,
   help: string,
+  line: number = 1,
+  column: number = 1,
 ): Diagnostic => ({
   filePath,
   plugin: "dbt-doctor",
@@ -13,7 +15,7 @@ export const report = (
   severity: rule.severity === "error" ? "error" : "warning",
   message,
   help,
-  line: 1,
-  column: 1,
+  line,
+  column,
   category: rule.category,
 });

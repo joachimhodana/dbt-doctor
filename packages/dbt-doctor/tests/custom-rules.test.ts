@@ -1,38 +1,61 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vite-plus/test";
 import { runCustomRules } from "dbt-doctor-rules";
 import { discoverProject } from "@dbt-doctor/project-info";
 
 const fixtureDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "fixtures/basic-dbt");
 
-const ruleIds = (diagnostics: { rule: string }[]): string[] =>
-  diagnostics.map((diagnostic) => diagnostic.rule);
-
 describe("runCustomRules", () => {
-  it("runs dbt-doctor rules on fixture project", () => {
+  let rules: string[];
+
+  beforeAll(() => {
     const project = discoverProject(fixtureDir);
-    const diagnostics = runCustomRules({
+    rules = runCustomRules({
       rootDirectory: fixtureDir,
       project,
       ignoredTags: new Set(),
-    });
-    expect(Array.isArray(diagnostics)).toBe(true);
+    }).map((diagnostic) => diagnostic.rule);
   });
 
   it("flags architecture anti-patterns in fixture models", () => {
-    const project = discoverProject(fixtureDir);
-    const diagnostics = runCustomRules({
-      rootDirectory: fixtureDir,
-      project,
-      ignoredTags: new Set(),
-    });
-    const rules = ruleIds(diagnostics);
-
     expect(rules).toContain("source-in-downstream");
     expect(rules).toContain("direct-source-and-ref");
     expect(rules).toContain("staging-no-join");
     expect(rules).toContain("no-select-star");
     expect(rules).toContain("staging-naming-convention");
+    expect(rules).toContain("model-line-length");
+  });
+
+  it("flags strict documentation and governance rules", () => {
+    expect(rules).toContain("per-model-schema-yml");
+    expect(rules).toContain("undocumented-model");
+    expect(rules).toContain("seed-documented");
+    expect(rules).toContain("macro-documented");
+    expect(rules).toContain("model-contract-enforced");
+    expect(rules).toContain("no-abbreviations-in-names");
+    expect(rules).toContain("recommended-dbt-packages");
+  });
+
+  it("can ignore enterprise-tagged rules", () => {
+    const project = discoverProject(fixtureDir);
+    const ignored = runCustomRules({
+      rootDirectory: fixtureDir,
+      project,
+      ignoredTags: new Set(["enterprise"]),
+    }).map((d) => d.rule);
+    expect(ignored).not.toContain("column-description-required");
+    expect(ignored).not.toContain("model-owner-or-meta");
+  });
+
+  it("can ignore strict-tagged rules", () => {
+    const project = discoverProject(fixtureDir);
+    const ignored = runCustomRules({
+      rootDirectory: fixtureDir,
+      project,
+      ignoredTags: new Set(["strict"]),
+    }).map((d) => d.rule);
+    expect(ignored).not.toContain("per-model-schema-yml");
+    expect(ignored).not.toContain("model-contract-enforced");
   });
 });

@@ -1,18 +1,22 @@
 import { performance } from "node:perf_hooks";
 import {
+  applyConfigPreset,
   calculateScore,
   combineDiagnostics,
   computeSqlIncludePaths,
+  filterBaselineDiagnostics,
   filterDiagnosticsForSurface,
   formatErrorChain,
   highlighter,
   isLoggerSilent,
   loadConfigWithSource,
   logger,
+  resolveBaselinePath,
   resolveConfigRootDir,
   resolveLintIncludePaths,
   runLinter,
   setLoggerSilent,
+  writeBaselineFile,
 } from "@dbt-doctor/core";
 import { discoverProject } from "@dbt-doctor/project-info";
 import type {
@@ -46,6 +50,7 @@ interface ResolvedInspectOptions {
   skipSqlfluff: boolean;
   ignoredTags: ReadonlySet<string>;
   outputSurface: DiagnosticSurface;
+  writeBaseline: boolean;
 }
 
 const buildIgnoredTags = (userConfig: DbtDoctorConfig | null): ReadonlySet<string> => {
@@ -75,6 +80,7 @@ const mergeInspectOptions = (
   skipSqlfluff: userConfig?.skipSqlfluff ?? false,
   ignoredTags: buildIgnoredTags(userConfig),
   outputSurface: inputOptions.outputSurface ?? "cli",
+  writeBaseline: inputOptions.writeBaseline ?? false,
 });
 
 export const inspect = async (
@@ -94,7 +100,7 @@ export const inspect = async (
       loadedConfig?.sourceDirectory ?? null,
     );
     if (redirectedDirectory) scanDirectory = redirectedDirectory;
-    userConfig = loadedConfig?.config ?? null;
+    userConfig = applyConfigPreset(loadedConfig?.config ?? null);
   }
 
   const options = mergeInspectOptions(inputOptions, userConfig);
@@ -166,13 +172,18 @@ const runInspect = async (
     : Promise.resolve<Diagnostic[]>([]);
 
   const lintDiagnostics = await lintPromise;
-  const diagnostics = combineDiagnostics({
+  const combinedDiagnostics = combineDiagnostics({
     lintDiagnostics,
     directory,
     isDiffMode,
     userConfig,
     respectInlineDisables: options.respectInlineDisables,
   });
+  const baselinePath = resolveBaselinePath(directory, userConfig?.baseline);
+  if (options.writeBaseline && baselinePath) {
+    writeBaselineFile(baselinePath, combinedDiagnostics);
+  }
+  const diagnostics = filterBaselineDiagnostics(combinedDiagnostics, baselinePath);
 
   const elapsedMilliseconds = performance.now() - startTime;
 
@@ -194,7 +205,11 @@ const runInspect = async (
   // don't dilute the headline number. Surface-included diagnostics
   // still flow through `result.diagnostics` for CLI/JSON consumers.
   const scoreDiagnostics = filterDiagnosticsForSurface(diagnostics, "score", userConfig);
-  const scoreResult = await calculateScore(scoreDiagnostics, { offline: options.offline });
+  const scoreResult = await calculateScore(scoreDiagnostics, {
+    offline: options.offline,
+    scoreMode: userConfig?.scoreMode,
+    totalFilesScanned: lintSourceFileCount,
+  });
   const noScoreMessage = options.offline
     ? "Score unavailable in offline mode."
     : "Score unavailable (could not reach the score API).";

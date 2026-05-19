@@ -1,5 +1,6 @@
 import { FETCH_TIMEOUT_MS, SCORE_API_URL } from "./constants.js";
 import { calculateScoreLocal } from "./calculate-score-local.js";
+import type { CalculateScoreLocalOptions } from "./calculate-score-local.js";
 import type { Diagnostic, ScoreResult } from "@dbt-doctor/types";
 
 const parseScoreResult = (value: unknown): ScoreResult | null => {
@@ -23,7 +24,7 @@ const describeFailure = (error: unknown): string => {
   return String(error);
 };
 
-export interface CalculateScoreOptions {
+export interface CalculateScoreOptions extends CalculateScoreLocalOptions {
   offline?: boolean;
 }
 
@@ -31,8 +32,12 @@ export const calculateScore = async (
   diagnostics: Diagnostic[],
   options: CalculateScoreOptions = {},
 ): Promise<ScoreResult | null> => {
+  const localOptions: CalculateScoreLocalOptions = {
+    scoreMode: options.scoreMode,
+    totalFilesScanned: options.totalFilesScanned,
+  };
   if (options.offline) {
-    return calculateScoreLocal(diagnostics);
+    return calculateScoreLocal(diagnostics, localOptions);
   }
 
   const controller = new AbortController();
@@ -47,16 +52,16 @@ export const calculateScore = async (
     });
 
     if (!response.ok) {
-      return calculateScoreLocal(diagnostics);
+      return calculateScoreLocal(diagnostics, localOptions);
     }
 
     const remote = parseScoreResult(await response.json());
-    return remote ?? calculateScoreLocal(diagnostics);
+    return remote ?? calculateScoreLocal(diagnostics, localOptions);
   } catch (error) {
     console.warn(
       `[dbt-doctor] Score API unreachable (${describeFailure(error)}), using local score`,
     );
-    return calculateScoreLocal(diagnostics);
+    return calculateScoreLocal(diagnostics, localOptions);
   } finally {
     clearTimeout(timeoutId);
   }

@@ -29,6 +29,8 @@ export interface InspectOptions {
   includePaths?: string[];
   configOverride?: DbtDoctorConfig | null;
   respectInlineDisables?: boolean;
+  /** Write findings to the baseline file before filtering (see `config.baseline`). */
+  writeBaseline?: boolean;
   /**
    * Surface that consumes the printed diagnostic output (terminal
    * summary + per-rule list). Defaults to `"cli"`, which shows every

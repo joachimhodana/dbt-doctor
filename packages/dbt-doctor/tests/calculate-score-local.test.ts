@@ -28,4 +28,16 @@ describe("calculateScoreLocal", () => {
     ]);
     expect(result.score).toBeLessThan(100);
   });
+
+  it("applies files score mode penalty from affected file ratio", () => {
+    const result = calculateScoreLocal(
+      [
+        diagnostic({ filePath: "models/a.sql", rule: "a" }),
+        diagnostic({ filePath: "models/b.sql", rule: "b" }),
+      ],
+      { scoreMode: "files", totalFilesScanned: 10 },
+    );
+    // 2 unique warnings (1.5) + 2/10 files × 40 = 8 → 90.5 rounds to 91
+    expect(result.score).toBe(91);
+  });
 });

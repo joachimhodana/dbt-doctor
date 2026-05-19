@@ -365,4 +365,29 @@ describe("loadConfig", () => {
       expect(config).toBeNull();
     });
   });
+
+  describe("tier-4 config fields", () => {
+    let tier4Directory: string;
+
+    beforeAll(() => {
+      tier4Directory = path.join(tempRootDirectory, "tier-4-config");
+      fs.mkdirSync(tier4Directory, { recursive: true });
+      fs.writeFileSync(
+        path.join(tier4Directory, "dbt-doctor.config.json"),
+        JSON.stringify({
+          preset: "enterprise",
+          scoreMode: "files",
+          baseline: "baselines/known.json",
+        }),
+      );
+    });
+
+    it("loads preset, scoreMode, and baseline from config file", () => {
+      expect(loadConfig(tier4Directory)).toEqual({
+        preset: "enterprise",
+        scoreMode: "files",
+        baseline: "baselines/known.json",
+      });
+    });
+  });
 });

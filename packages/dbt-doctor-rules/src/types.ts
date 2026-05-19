@@ -7,7 +7,10 @@ export interface RuleContext {
   project: ProjectInfo;
   sqlFiles: string[];
   yamlFiles: string[];
+  macroSqlFiles: string[];
+  seedDataFiles: string[];
   readFile: (relativePath: string) => string;
+  fileExists: (relativePath: string) => boolean;
 }
 
 export interface Rule {

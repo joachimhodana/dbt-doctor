@@ -1,0 +1,66 @@
+/** Split top-level list items under a YAML key (models, macros, seeds) at two-space indent. */
+export const splitNamedYamlBlocks = (content: string, listKey: string): { name: string; block: string }[] => {
+  const header = content.match(new RegExp(`^\\s*${listKey}:\\s*\\n`, "m"));
+  if (!header || header.index === undefined) return [];
+
+  const tail = content.slice(header.index + header[0].length);
+  const itemRegex = /^\s{2}-\s+name:\s+["']?([\w.-]+)/gm;
+  const indices: { name: string; index: number }[] = [];
+
+  for (const match of tail.matchAll(itemRegex)) {
+    if (match.index !== undefined) indices.push({ name: match[1], index: match.index });
+  }
+
+  return indices.map(({ name, index }, i) => {
+    const end = i + 1 < indices.length ? indices[i + 1].index : tail.length;
+    return { name, block: tail.slice(index, end) };
+  });
+};
+
+export const blockHasDescription = (block: string): boolean =>
+  /description:\s*\S/.test(block.split("columns:")[0] ?? block);
+
+export const blockHasContractEnforced = (block: string): boolean =>
+  /contract:\s*\n\s*enforced:\s*true/i.test(block) ||
+  /contract:\s*\{[^}]*enforced:\s*true/i.test(block) ||
+  /contract:\s*enforced:\s*true/i.test(block);
+
+export const splitColumnBlocks = (modelBlock: string): { name: string; block: string }[] => {
+  const columnsIndex = modelBlock.search(/\n\s*columns:\s*\n/);
+  if (columnsIndex < 0) return [];
+  const tail = modelBlock.slice(columnsIndex);
+  const results: { name: string; block: string }[] = [];
+  for (const part of tail.split(/\n\s+-\s+name:\s+/).slice(1)) {
+    const name = part.match(/^["']?([\w.-]+)/)?.[1];
+    if (!name) continue;
+    results.push({ name, block: part });
+  }
+  return results;
+};
+
+export const blockHasTest = (block: string, testName: string): boolean =>
+  new RegExp(`-\\s+${testName}\\b`).test(block) ||
+  new RegExp(`-\\s+${testName}:`).test(block);
+
+export const blockHasRelationshipTest = (block: string): boolean =>
+  /relationships:/.test(block) || /dbt_expectations\./.test(block);
+
+export const blockHasMetaOwner = (block: string): boolean =>
+  /meta:\s*\n[\s\S]*?\bowner:/.test(block) || /\bowner:\s*\S/.test(block);
+
+export const blockHasClusterBy = (block: string): boolean => /cluster_by:/.test(block);
+
+export const findModelBlock = (
+  modelName: string,
+  yamlFiles: string[],
+  readFile: (path: string) => string,
+  isYamlPath: (path: string) => boolean,
+): { file: string; block: string } | null => {
+  for (const file of yamlFiles) {
+    if (!isYamlPath(file)) continue;
+    for (const block of splitNamedYamlBlocks(readFile(file), "models")) {
+      if (block.name === modelName) return { file, block: block.block };
+    }
+  }
+  return null;
+};

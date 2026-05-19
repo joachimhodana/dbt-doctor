@@ -1,10 +1,12 @@
 export type {
   DiagnosticSurface,
-  FailOnLevel,
   DbtDoctorConfig,
   DbtDoctorIgnoreOverride,
+  DbtDoctorPreset,
+  FailOnLevel,
   RuleSeverityControls,
   RuleSeverityOverride,
+  ScoreMode,
   SurfaceControls,
 } from "./config.js";
 export type { DiagnoseOptions, DiagnoseResult } from "./diagnose.js";

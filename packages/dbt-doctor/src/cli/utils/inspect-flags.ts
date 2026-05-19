@@ -20,4 +20,6 @@ export interface InspectFlags {
   explain?: string;
   why?: string;
   failOn?: string;
+  sarif?: boolean;
+  writeBaseline?: boolean;
 }

@@ -1,5 +1,10 @@
 export type FailOnLevel = "error" | "warning" | "none";
 
+/** How the local 0–100 score is computed when the API is offline or falls back. */
+export type ScoreMode = "unique-rules" | "files";
+
+export type DbtDoctorPreset = "default" | "strict" | "enterprise";
+
 export interface DbtDoctorIgnoreOverride {
   files: string[];
   rules?: string[];
@@ -85,6 +90,9 @@ export interface SurfaceControls {
 }
 
 export interface DbtDoctorConfig {
+  preset?: DbtDoctorPreset;
+  scoreMode?: ScoreMode;
+  baseline?: boolean | string;
   ignore?: DbtDoctorIgnoreConfig;
   lint?: boolean;
   verbose?: boolean;

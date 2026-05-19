@@ -2,6 +2,9 @@
   "name": "@dbt-doctor/types",
   "version": "0.0.2",
   "description": "Shared TypeScript types for dbt-doctor packages",
+  "bugs": {
+    "url": "https://github.com/joachimhodana/dbt-doctor/issues"
+  },
   "license": "MIT",
   "author": "Joachim Hodana",
   "repository": {
@@ -9,23 +12,20 @@
     "url": "https://github.com/joachimhodana/dbt-doctor.git",
     "directory": "packages/types"
   },
-  "bugs": {
-    "url": "https://github.com/joachimhodana/dbt-doctor/issues"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "type": "module",
-  "sideEffects": false,
   "files": [
     "dist/**/*.js",
     "dist/**/*.d.ts"
   ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "prepublishOnly": "pnpm run build",

@@ -10,7 +10,7 @@ export const resolveCliInspectOptions = (
   verbose: flags.verbose ?? userConfig?.verbose ?? false,
   scoreOnly: Boolean(flags.score),
   offline: Boolean(flags.offline) || (userConfig?.offline ?? false) || isCiEnvironment(),
-  silent: Boolean(flags.json),
+  silent: Boolean(flags.json) || Boolean(flags.sarif),
   respectInlineDisables: flags.respectInlineDisables ?? userConfig?.respectInlineDisables ?? true,
   outputSurface: flags.prComment ? "prComment" : "cli",
 });

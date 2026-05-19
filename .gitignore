@@ -1,5 +1,8 @@
 node_modules
 dist
+
+# Optional local npm overrides; never commit registry tokens into tracked .npmrc
+.npmrc.local
 .turbo
 *.log
 .DS_Store

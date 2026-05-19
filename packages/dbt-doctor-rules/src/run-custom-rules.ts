@@ -57,8 +57,25 @@ export const runCustomRules = (options: RunCustomRulesOptions): Diagnostic[] => 
   const { rootDirectory, project, includePaths, ignoredTags } = options;
 
   let sqlFiles = listProjectFiles(rootDirectory, project.modelPaths, SOURCE_FILE_PATTERN);
-  const yamlDirs = [...new Set([...project.modelPaths, ...project.seedPaths, "models"])];
+  const yamlDirs = [
+    ...new Set([
+      ...project.modelPaths,
+      ...project.seedPaths,
+      ...project.macroPaths,
+      ...project.snapshotPaths,
+      "models",
+      "seeds",
+      "macros",
+      "snapshots",
+    ]),
+  ];
   let yamlFiles = listProjectFiles(rootDirectory, yamlDirs, YAML_SOURCE_PATTERN);
+  let macroSqlFiles = listProjectFiles(rootDirectory, project.macroPaths, SOURCE_FILE_PATTERN);
+  let seedDataFiles = listProjectFiles(
+    rootDirectory,
+    project.seedPaths,
+    /\.(csv|tsv|parquet|json)$/i,
+  );
 
   if (includePaths && includePaths.length > 0) {
     const allowed = new Set(includePaths.map((p) => p.replace(/\\/g, "/")));
@@ -69,12 +86,18 @@ export const runCustomRules = (options: RunCustomRulesOptions): Diagnostic[] => 
   if (isFile(path.join(rootDirectory, DBT_PROJECT_FILENAME))) {
     yamlFiles.push("dbt_project.yml");
   }
+  const packagesYml = path.join(rootDirectory, "packages.yml");
+  if (isFile(packagesYml)) {
+    yamlFiles.push("packages.yml");
+  }
 
   const context: RuleContext = {
     rootDirectory,
     project,
     sqlFiles,
     yamlFiles: [...new Set(yamlFiles)],
+    macroSqlFiles,
+    seedDataFiles,
     readFile: (relativePath) => {
       try {
         return fs.readFileSync(path.join(rootDirectory, relativePath), "utf-8");
@@ -82,6 +105,7 @@ export const runCustomRules = (options: RunCustomRulesOptions): Diagnostic[] => 
         return "";
       }
     },
+    fileExists: (relativePath) => isFile(path.join(rootDirectory, relativePath)),
   };
 
   const diagnostics: Diagnostic[] = [];

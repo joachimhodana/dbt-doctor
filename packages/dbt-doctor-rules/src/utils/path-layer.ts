@@ -35,3 +35,9 @@ export const isDownstreamModelPath = (filePath: string): boolean =>
 
 export const isModelsRootSqlFile = (filePath: string): boolean =>
   /^models\/[^/]+\.sql$/i.test(normalizeModelPath(filePath));
+
+export const modelLayerFolder = (filePath: string): string | null => {
+  const relative = normalizeModelPath(filePath);
+  const match = relative.match(/^models\/([^/]+)\//);
+  return match?.[1]?.toLowerCase() ?? null;
+};

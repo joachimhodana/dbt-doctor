@@ -1,6 +1,6 @@
 # dbt-doctor
 
-Fork of [react-doctor](https://github.com/millionco/react-doctor) adapted for dbt projects (SQL, YAML, Jinja).
+Clone of [react-doctor](https://github.com/millionco/react-doctor) adapted for dbt projects (SQL, YAML, Jinja).
 
 ## Stack
 

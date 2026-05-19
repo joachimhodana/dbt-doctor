@@ -1,12 +1,18 @@
 import type {
   DiagnosticSurface,
   DbtDoctorConfig,
+  DbtDoctorPreset,
   RuleSeverityOverride,
+  ScoreMode,
   SurfaceControls,
 } from "@dbt-doctor/types";
 import { DIAGNOSTIC_SURFACES, isDiagnosticSurface } from "./diagnostic-surface.js";
 
 const VALID_RULE_SEVERITIES: ReadonlyArray<RuleSeverityOverride> = ["error", "warn", "off"];
+
+const VALID_PRESETS: ReadonlyArray<DbtDoctorPreset> = ["default", "strict", "enterprise"];
+
+const VALID_SCORE_MODES: ReadonlyArray<ScoreMode> = ["unique-rules", "files"];
 
 // Boolean fields where the user might write `"true"` / `"false"` strings
 // in JSON by mistake. We coerce-and-warn rather than silently accept the
@@ -201,6 +207,31 @@ export const validateConfigTypes = (config: DbtDoctorConfig): DbtDoctorConfig =>
     applyFieldValidator(config, validated, fieldName, (value) => validateString(fieldName, value));
   }
   applyFieldValidator(config, validated, "surfaces", validateSurfacesField);
+  applyFieldValidator(config, validated, "preset", (value) => {
+    if (typeof value === "string" && VALID_PRESETS.includes(value as DbtDoctorPreset)) {
+      return value as DbtDoctorPreset;
+    }
+    warnConfigField(
+      `config field "preset" must be one of: ${VALID_PRESETS.join(", ")} (got ${formatType(value)}); ignoring.`,
+    );
+    return undefined;
+  });
+  applyFieldValidator(config, validated, "scoreMode", (value) => {
+    if (typeof value === "string" && VALID_SCORE_MODES.includes(value as ScoreMode)) {
+      return value as ScoreMode;
+    }
+    warnConfigField(
+      `config field "scoreMode" must be one of: ${VALID_SCORE_MODES.join(", ")} (got ${formatType(value)}); ignoring.`,
+    );
+    return undefined;
+  });
+  applyFieldValidator(config, validated, "baseline", (value) => {
+    if (typeof value === "boolean" || typeof value === "string") return value;
+    warnConfigField(
+      `config field "baseline" must be a boolean or string path (got ${typeof value}); ignoring.`,
+    );
+    return undefined;
+  });
   for (const fieldName of SEVERITY_FIELD_NAMES) {
     applyFieldValidator(config, validated, fieldName, (value) =>
       validateSeverityMap(fieldName, value),

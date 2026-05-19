@@ -569,7 +569,7 @@ const Terminal = () => {
         {state.showCta && (
           <div className="mt-8">
             <div className="mb-3 border-l-2 border-neutral-700 pl-3 text-xs leading-relaxed text-neutral-600">
-              <strong className="text-neutral-500">dbt-doctor</strong> is a fork of beautiful{" "}
+              <strong className="text-neutral-500">dbt-doctor</strong> is a clone of{" "}
               <a
                 href="https://github.com/millionco/react-doctor"
                 target="_blank"
@@ -596,7 +596,7 @@ const Terminal = () => {
               >
                 MIT License
               </a>
-              ; this project adapts its ideas (CLI, scoring, agent tooling) for{" "}
+              ; this project clones and adapts its ideas (CLI, scoring, agent tooling) for{" "}
               <strong className="text-neutral-500">dbt</strong> and remains{" "}
               <strong className="text-neutral-500">MIT</strong> as well — see the monorepo{" "}
               <a
