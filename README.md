@@ -8,6 +8,10 @@ Your agent writes bad dbt. This catches it.
 npx dbt-doctor@latest
 ```
 
+## Documentation
+
+**CLI, configuration, GitHub Action, scoring, and API:** [packages/dbt-doctor/README.md](packages/dbt-doctor/README.md)
+
 ## Fork notice
 
 **dbt-doctor** is a fork of [react-doctor](https://github.com/millionco/react-doctor) (MIT). See [LICENSE](LICENSE).
@@ -15,7 +19,7 @@ npx dbt-doctor@latest
 ## Requirements
 
 - Node.js 22+
-- sqlfluff: `pip install sqlfluff sqlfluff-templater-dbt`
+- sqlfluff (optional but recommended): `pip install sqlfluff sqlfluff-templater-dbt`
 
 ## License
 
