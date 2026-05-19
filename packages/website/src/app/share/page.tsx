@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SHARE_BASE_URL, SITE_HOST } from "@/constants/site";
 import { clampScore } from "@/utils/clamp-score";
 import { getDoctorFace } from "@/utils/get-doctor-face";
 import { getScoreColorClass } from "@/utils/get-score-color-class";
@@ -9,7 +10,6 @@ import BadgeSnippet from "./badge-snippet";
 const MAX_PROJECT_NAME_LENGTH = 100;
 const MAX_DISPLAY_COUNT = 99_999;
 const COMMAND = "npx dbt-doctor@latest";
-const SHARE_BASE_URL = "https://www.dbt.doctor/share";
 const X_ICON_PATH =
   "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z";
 const LINKEDIN_ICON_PATH =
@@ -108,7 +108,7 @@ const SharePage = async ({ searchParams }: { searchParams: Promise<ShareSearchPa
         {projectName && <div className="mb-4 text-xl text-white">{projectName}</div>}
         <DoctorFace score={score} />
         <div className="mt-2 text-neutral-500">
-          dbt Doctor <span className="text-neutral-600">(www.dbt.doctor)</span>
+          dbt Doctor <span className="text-neutral-600">({SITE_HOST})</span>
         </div>
       </div>
 

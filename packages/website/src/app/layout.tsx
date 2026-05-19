@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SITE_ORIGIN } from "@/constants/site";
 import "./globals.css";
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -9,7 +10,7 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
-const SITE_URL = "https://www.dbt.doctor";
+const SITE_URL = SITE_ORIGIN;
 const TWITTER_IMAGE_PATH = "/dbt-doctor-og-banner.svg";
 
 export const metadata: Metadata = {

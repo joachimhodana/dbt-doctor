@@ -2,6 +2,8 @@
 
 Your agent writes bad dbt. This catches it.
 
+**Site:** [dbt-doctor.joachimhodana.com](https://dbt-doctor.joachimhodana.com)
+
 ```bash
 npx dbt-doctor@latest
 ```

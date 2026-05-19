@@ -4,6 +4,7 @@ import {
   SCORE_BAR_WIDTH_CHARS,
   SCORE_GOOD_THRESHOLD,
   SCORE_OK_THRESHOLD,
+  SITE_HOST,
 } from "@dbt-doctor/core";
 import type { ScoreResult } from "@dbt-doctor/types";
 import { colorizeByScore } from "./colorize-by-score.js";
@@ -30,7 +31,7 @@ const buildScoreLabel = (score: number): string => {
   return "Critical";
 };
 
-const BRANDING_LINE = `dbt Doctor ${highlighter.dim("(www.dbt.doctor)")}`;
+const BRANDING_LINE = `dbt Doctor ${highlighter.dim(`(${SITE_HOST})`)}`;
 
 export const printScoreHeader = (scoreResult: ScoreResult): void => {
   const { score } = scoreResult;

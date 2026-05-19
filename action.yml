@@ -24,7 +24,7 @@ inputs:
     description: "Exit non-zero when diagnostics fire (error, warning, none)."
     default: "error"
   offline:
-    description: "Use local score calculation only (skip dbt.doctor API)"
+    description: "Use local score calculation only (skip dbt-doctor score API)"
     default: "false"
   annotations:
     description: "Emit diagnostics as GitHub Actions annotations"

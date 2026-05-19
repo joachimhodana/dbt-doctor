@@ -20,9 +20,13 @@ export const SCORE_OK_THRESHOLD = 50;
 
 export const SCORE_BAR_WIDTH_CHARS = 50;
 
-export const SCORE_API_URL = "https://www.dbt.doctor/api/score";
+export const SITE_ORIGIN = "https://dbt-doctor.joachimhodana.com";
 
-export const SHARE_BASE_URL = "https://www.dbt.doctor/share";
+export const SITE_HOST = "dbt-doctor.joachimhodana.com";
+
+export const SCORE_API_URL = `${SITE_ORIGIN}/api/score`;
+
+export const SHARE_BASE_URL = `${SITE_ORIGIN}/share`;
 
 export const FETCH_TIMEOUT_MS = 10_000;
 

@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { SHARE_BADGE_BASE_URL, SHARE_BASE_URL } from "@/constants/site";
 
 const COPY_FEEDBACK_DURATION_MS = 2000;
-const BADGE_BASE_URL = "https://www.dbt.doctor/share/badge";
-const SHARE_BASE_URL = "https://www.dbt.doctor/share";
+const BADGE_BASE_URL = SHARE_BADGE_BASE_URL;
 
 interface BadgeSnippetProps {
   searchParamsString: string;
