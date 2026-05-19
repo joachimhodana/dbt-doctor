@@ -61,8 +61,15 @@ export const printSummary = (
   noScoreMessage: string,
   isOffline: boolean,
 ): void => {
+  const affectedFileCount = collectAffectedFiles(diagnostics).size;
+  const issueCount = diagnostics.length;
+
   if (scoreResult) {
-    printScoreHeader(scoreResult);
+    printScoreHeader(scoreResult, {
+      issueCount,
+      affectedFileCount,
+      totalFileCount: totalSourceFileCount,
+    });
   } else {
     printNoScoreHeader(noScoreMessage);
   }

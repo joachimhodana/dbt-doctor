@@ -34,6 +34,11 @@ const program = new Command()
     "--fail-on <level>",
     "exit with error code on diagnostics: error, warning, none (default: error)",
   )
+  .option("--preset <name>", "config preset: default, strict, enterprise (overrides .dbt-doctor)")
+  .option(
+    "--score-mode <mode>",
+    "score formula: files (default) or unique-rules (overrides .dbt-doctor)",
+  )
   .option("--annotations", "output diagnostics as GitHub Actions annotations")
   .option("--sarif", "output diagnostics as SARIF 2.1 JSON (for GitHub Code Scanning and similar)")
   .option(
@@ -61,8 +66,8 @@ const program = new Command()
     "after",
     `
 ${highlighter.dim("Configuration:")}
-  Place a ${highlighter.info("dbt-doctor.config.json")} (or ${highlighter.info('"dbtDoctor"')} key in your package.json) in the project root.
-  CLI flags always override config values. See the README for the full schema.
+  Place a ${highlighter.info(".dbt-doctor")} props file (KEY=value, # comments) in the project root.
+  CLI flags override config. See the README for all options.
 
 ${highlighter.dim("Learn more:")}
   ${highlighter.info(CANONICAL_GITHUB_URL)}

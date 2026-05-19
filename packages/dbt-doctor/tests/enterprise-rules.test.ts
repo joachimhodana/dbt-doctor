@@ -53,7 +53,10 @@ const seedEnterpriseProject = (root: string): void => {
     `${Array.from({ length: 9 }, (_, i) => `with c${i} as (select 1) select 1`).join(";\n")};\n`,
   );
   write("models/marts/big.sql", `${"select 1 as n\n".repeat(85)}`);
-  write("snapshots/s.yml", "version: 2\nsnapshots:\n  - name: u\n    relation: ref('fct_orders')\n");
+  write(
+    "snapshots/s.yml",
+    "version: 2\nsnapshots:\n  - name: u\n    relation: ref('fct_orders')\n",
+  );
 };
 
 describe("enterprise rules", () => {

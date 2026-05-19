@@ -20,6 +20,8 @@ export interface InspectFlags {
   explain?: string;
   why?: string;
   failOn?: string;
+  preset?: string;
+  scoreMode?: string;
   sarif?: boolean;
   writeBaseline?: boolean;
 }

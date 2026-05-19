@@ -33,13 +33,28 @@ const buildScoreLabel = (score: number): string => {
 
 const BRANDING_LINE = `dbt Doctor ${highlighter.dim(`(${SITE_HOST})`)}`;
 
-export const printScoreHeader = (scoreResult: ScoreResult): void => {
+export interface ScoreHeaderStats {
+  issueCount: number;
+  affectedFileCount: number;
+  totalFileCount: number;
+}
+
+export const printScoreHeader = (scoreResult: ScoreResult, stats?: ScoreHeaderStats): void => {
   const { score } = scoreResult;
   const label = scoreResult.label || buildScoreLabel(score);
   const { filledSegment, emptySegment } = buildScoreBarSegments(score);
 
   logger.log(`  ${BRANDING_LINE}`);
   logger.log(`  Score: ${colorizeByScore(`${score}`, score)} ${highlighter.dim(`(${label})`)}`);
+  if (stats) {
+    const fileLabel =
+      stats.totalFileCount > 0
+        ? `${stats.affectedFileCount}/${stats.totalFileCount} files`
+        : `${stats.affectedFileCount} files`;
+    logger.log(
+      `  ${highlighter.dim(`${stats.issueCount} ${stats.issueCount === 1 ? "finding" : "findings"} · ${fileLabel}`)}`,
+    );
+  }
   logger.log(`  ${filledSegment}${emptySegment}`);
   logger.break();
 };

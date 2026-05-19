@@ -12,6 +12,7 @@ import {
   highlighter,
   loadConfigWithSource,
   logger,
+  mergeConfigWithCliFlags,
   resolveConfigRootDir,
   setLoggerSilent,
   toRelativePath,
@@ -60,7 +61,13 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
     if (flags.sarif) setLoggerSilent(true);
 
     const loadedConfig = loadConfigWithSource(requestedDirectory);
-    const userConfig = applyConfigPreset(loadedConfig?.config ?? null);
+    const userConfig = applyConfigPreset(
+      mergeConfigWithCliFlags(loadedConfig?.config ?? null, {
+        preset: flags.preset,
+        scoreMode: flags.scoreMode,
+        failOn: flags.failOn,
+      }),
+    );
     const redirectedDirectory = resolveConfigRootDir(
       loadedConfig?.config ?? null,
       loadedConfig?.sourceDirectory ?? null,

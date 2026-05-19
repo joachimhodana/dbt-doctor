@@ -28,7 +28,10 @@ describe("buildSarifReport", () => {
       name: "dbt-doctor",
       version: "0.0.2",
       rules: [
-        { id: "dbt-doctor/no-select-star", shortDescription: { text: "dbt-doctor/no-select-star" } },
+        {
+          id: "dbt-doctor/no-select-star",
+          shortDescription: { text: "dbt-doctor/no-select-star" },
+        },
         {
           id: "dbt-doctor/model-has-tests",
           shortDescription: { text: "dbt-doctor/model-has-tests" },

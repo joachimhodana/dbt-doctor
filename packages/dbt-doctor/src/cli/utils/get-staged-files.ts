@@ -40,7 +40,7 @@ const PROJECT_CONFIG_FILENAMES = [
   "tsconfig.json",
   "tsconfig.base.json",
   "package.json",
-  "dbt-doctor.config.json",
+  ".dbt-doctor",
   "oxlint.json",
   ".oxlintrc.json",
 ];

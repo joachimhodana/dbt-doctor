@@ -23,6 +23,12 @@ inputs:
   fail-on:
     description: "Exit non-zero when diagnostics fire (error, warning, none)."
     default: "error"
+  preset:
+    description: "Config preset: default, strict, enterprise (see .dbt-doctor)."
+    required: false
+  score-mode:
+    description: "Score formula: files (default, penalizes affected-file ratio) or unique-rules."
+    required: false
   offline:
     description: "Use local score calculation only (skip dbt-doctor score API)"
     default: "false"
@@ -78,6 +84,8 @@ runs:
         INPUT_DIFF: ${{ inputs.diff }}
         INPUT_GITHUB_TOKEN: ${{ inputs.github-token }}
         INPUT_FAIL_ON: ${{ inputs.fail-on }}
+        INPUT_PRESET: ${{ inputs.preset }}
+        INPUT_SCORE_MODE: ${{ inputs.score-mode }}
         INPUT_OFFLINE: ${{ inputs.offline }}
         INPUT_ANNOTATIONS: ${{ inputs.annotations }}
         RUNNER_TEMP: ${{ runner.temp }}
@@ -87,6 +95,8 @@ runs:
         if [ "$INPUT_VERBOSE" = "true" ]; then FLAGS+=("--verbose"); fi
         if [ -n "$INPUT_PROJECT" ]; then FLAGS+=("--project" "$INPUT_PROJECT"); fi
         if [ -n "$INPUT_DIFF" ]; then FLAGS+=("--diff" "$INPUT_DIFF"); fi
+        if [ -n "$INPUT_PRESET" ]; then FLAGS+=("--preset" "$INPUT_PRESET"); fi
+        if [ -n "$INPUT_SCORE_MODE" ]; then FLAGS+=("--score-mode" "$INPUT_SCORE_MODE"); fi
         if [ "$INPUT_OFFLINE" = "true" ]; then FLAGS+=("--offline"); fi
         if [ "$INPUT_ANNOTATIONS" = "true" ]; then FLAGS+=("--annotations"); fi
 
@@ -112,9 +122,13 @@ runs:
       env:
         INPUT_DIRECTORY: ${{ inputs.directory }}
         INPUT_OFFLINE: ${{ inputs.offline }}
+        INPUT_PRESET: ${{ inputs.preset }}
+        INPUT_SCORE_MODE: ${{ inputs.score-mode }}
       run: |
         SCORE_ARGS=("$INPUT_DIRECTORY" "--score" "--fail-on" "none")
         if [ "$INPUT_OFFLINE" = "true" ]; then SCORE_ARGS+=("--offline"); fi
+        if [ -n "$INPUT_PRESET" ]; then SCORE_ARGS+=("--preset" "$INPUT_PRESET"); fi
+        if [ -n "$INPUT_SCORE_MODE" ]; then SCORE_ARGS+=("--score-mode" "$INPUT_SCORE_MODE"); fi
         SCORE=$(npx dbt-doctor@latest "${SCORE_ARGS[@]}" 2>/dev/null | tail -1 | tr -d '[:space:]') || true
         if [[ -n "$SCORE" && "$SCORE" =~ ^[0-9]+$ ]]; then
           echo "score=$SCORE" >> "$GITHUB_OUTPUT"
