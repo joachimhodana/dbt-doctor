@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Copy, Check, ChevronRight, RotateCcw } from "lucide-react";
 import { PERFECT_SCORE } from "@/constants";
+import { SITE_HOST } from "@/constants/site";
 import { getDoctorFace } from "@/utils/get-doctor-face";
 import { getScoreColorClass } from "@/utils/get-score-color-class";
 import { getScoreLabel } from "@/utils/get-score-label";
@@ -18,13 +19,37 @@ const SCORE_REVEAL_DELAY_MS = 250;
 const SCORE_FRAME_COUNT = 20;
 const SCORE_FRAME_DELAY_MS = 30;
 const POST_SCORE_DELAY_MS = 300;
-const TARGET_SCORE = 42;
 const SCORE_BAR_WIDTH_MOBILE = 15;
 const SCORE_BAR_WIDTH_DESKTOP = 30;
-const TOTAL_ISSUE_COUNT = 18;
 const TOTAL_SOURCE_FILE_COUNT = 24;
-const AFFECTED_FILE_COUNT = 12;
-const ELAPSED_TIME = "2.1s";
+const ELAPSED_TIME = "2.6s";
+
+/** Matches @dbt-doctor/core calculateScoreLocal — penalty per unique rule, not per finding. */
+const ERROR_RULE_PENALTY = 1.5;
+const WARNING_RULE_PENALTY = 0.75;
+
+const computeDemoScore = (diagnostics: RuleDiagnostic[]): number => {
+  const errorRules = new Set<string>();
+  const warningRules = new Set<string>();
+  for (const diagnostic of diagnostics) {
+    if (diagnostic.severity === "error") {
+      errorRules.add(diagnostic.ruleKey);
+    } else {
+      warningRules.add(diagnostic.ruleKey);
+    }
+  }
+  const penalty =
+    errorRules.size * ERROR_RULE_PENALTY + warningRules.size * WARNING_RULE_PENALTY;
+  return Math.max(0, Math.round(PERFECT_SCORE - penalty));
+};
+
+const countDemoIssues = (diagnostics: RuleDiagnostic[]): number =>
+  diagnostics.reduce((total, diagnostic) => total + diagnostic.count, 0);
+
+const countDemoAffectedFiles = (diagnostics: RuleDiagnostic[]): number =>
+  new Set(
+    diagnostics.map((diagnostic) => diagnostic.location.replace(/:\d+$/, "").split(":")[0]),
+  ).size;
 
 const ANIMATION_COMPLETED_KEY = "dbt-doctor-animation-completed";
 const COMMAND = "npx dbt-doctor@latest";
@@ -41,38 +66,23 @@ interface RuleDiagnostic {
   location: string;
 }
 
-const DIAGNOSTICS: RuleDiagnostic[] = [
+/** Top rule groups shown in the animation — worst architectural smells first. */
+const VISIBLE_DIAGNOSTICS: RuleDiagnostic[] = [
   {
-    ruleKey: "dbt-doctor/no-select-star",
-    severity: "warning",
-    message: "Avoid SELECT * in dbt models",
-    help: "List columns explicitly for stable contracts and clearer lineage.",
-    count: 4,
-    location: "models/staging/stripe_customers.sql:12",
-  },
-  {
-    ruleKey: "dbt-doctor/staging-prefix",
-    severity: "warning",
-    message: 'Staging model "stripe_customers" should use stg_ prefix',
-    help: "Rename to stg_<name> for consistent layer naming.",
-    count: 1,
-    location: "models/staging/stripe_customers.sql",
-  },
-  {
-    ruleKey: "dbt-doctor/prefer-ref-over-raw-source",
-    severity: "warning",
-    message: "Model may reference another relation without ref()",
-    help: "Use {{ ref('model_name') }} for dbt lineage and environment safety.",
-    count: 2,
-    location: "models/intermediate/int_orders.sql:8",
-  },
-  {
-    ruleKey: "dbt-doctor/schema-description",
-    severity: "warning",
-    message: 'Model "fct_revenue" is missing a description',
-    help: "Add a description field under the model in schema.yml.",
+    ruleKey: "dbt-doctor/source-in-downstream",
+    severity: "error",
+    message: "{{ source() }} used outside staging layer",
+    help: "Reference sources only in staging; downstream models should use ref().",
     count: 3,
-    location: "models/marts/schema.yml:14",
+    location: "models/marts/fct_revenue.sql:14",
+  },
+  {
+    ruleKey: "dbt-doctor/hardcoded-database",
+    severity: "error",
+    message: "Hard-coded database.schema.table reference in SQL",
+    help: "Use {{ ref() }} or {{ source() }} instead of literal relation names.",
+    count: 2,
+    location: "models/intermediate/int_orders.sql:22",
   },
   {
     ruleKey: "dbt-doctor/no-run-query-in-model",
@@ -82,7 +92,156 @@ const DIAGNOSTICS: RuleDiagnostic[] = [
     count: 1,
     location: "models/marts/dim_users.sql:5",
   },
+  {
+    ruleKey: "dbt-doctor/staging-no-join",
+    severity: "warning",
+    message: "JOIN found in staging model",
+    help: "Keep staging thin; join in intermediate or marts layers.",
+    count: 2,
+    location: "models/staging/stg_orders.sql:31",
+  },
+  {
+    ruleKey: "dbt-doctor/no-select-star",
+    severity: "warning",
+    message: "Avoid SELECT * in dbt models",
+    help: "List columns explicitly for stable contracts and clearer lineage.",
+    count: 9,
+    location: "models/staging/stg_customers.sql:12",
+  },
+  {
+    ruleKey: "dbt-doctor/schema-description",
+    severity: "warning",
+    message: 'Model "fct_revenue" is missing a description',
+    help: "Add a description field under the model in schema.yml.",
+    count: 6,
+    location: "models/marts/schema.yml:14",
+  },
+  {
+    ruleKey: "dbt-doctor/source-freshness",
+    severity: "warning",
+    message: "Source missing freshness configuration",
+    help: "Add freshness to _sources.yml for SLA monitoring.",
+    count: 4,
+    location: "models/staging/_sources.yml:8",
+  },
+  {
+    ruleKey: "dbt-doctor/model-outside-layer-folder",
+    severity: "warning",
+    message: "Model SQL file sits directly under models/",
+    help: "Move into staging/, intermediate/, or marts/ subfolders.",
+    count: 1,
+    location: "models/legacy_orders.sql",
+  },
 ];
+
+/** Remaining dbt-doctor + sqlfluff rules (collapsed in CLI) — needed for an honest Critical score. */
+const HIDDEN_DBT_RULE_IDS = [
+  "staging-prefix",
+  "staging-naming-convention",
+  "staging-materialized-view",
+  "intermediate-prefix",
+  "marts-prefix",
+  "generic-test-present",
+  "direct-source-and-ref",
+  "prefer-ref-over-raw-source",
+  "dbt-project-name",
+  "bigquery-partition-filter",
+  "materialization-hint",
+  "empty-model-file",
+  "jinja-config-block",
+] as const;
+
+const SQLFLUFF_RULE_CODES = [
+  "AL01",
+  "AL02",
+  "AL05",
+  "AM01",
+  "AM02",
+  "AM04",
+  "CP01",
+  "CP02",
+  "CP03",
+  "CP04",
+  "CP05",
+  "CV01",
+  "CV02",
+  "CV03",
+  "CV04",
+  "CV05",
+  "CV06",
+  "CV07",
+  "CV08",
+  "CV10",
+  "CV11",
+  "JJ01",
+  "LT01",
+  "LT02",
+  "LT04",
+  "LT05",
+  "LT06",
+  "LT08",
+  "LT09",
+  "LT12",
+  "LT13",
+  "LT14",
+  "LT15",
+  "RF02",
+  "RF04",
+  "RF05",
+  "RF06",
+  "ST01",
+  "ST02",
+  "ST03",
+  "ST05",
+  "ST06",
+  "ST07",
+  "ST08",
+  "ST09",
+  "ST10",
+  "ST11",
+  "TQ01",
+  "TQ02",
+  "TQ03",
+  "LT07",
+  "LT10",
+  "LT11",
+  "RF01",
+  "RF03",
+] as const;
+
+const buildAllScoreDiagnostics = (): RuleDiagnostic[] => {
+  const hiddenDbt: RuleDiagnostic[] = HIDDEN_DBT_RULE_IDS.map((ruleId) => ({
+    ruleKey: `dbt-doctor/${ruleId}`,
+    severity: "warning",
+    message: "",
+    help: "",
+    count: 2,
+    location: "",
+  }));
+
+  const hiddenSqlfluff: RuleDiagnostic[] = SQLFLUFF_RULE_CODES.map((code) => ({
+    ruleKey: `sqlfluff/${code}`,
+    severity: "warning",
+    message: "",
+    help: "",
+    count: 3,
+    location: "",
+  }));
+
+  return [...VISIBLE_DIAGNOSTICS, ...hiddenDbt, ...hiddenSqlfluff];
+};
+
+const ALL_SCORE_DIAGNOSTICS = buildAllScoreDiagnostics();
+
+const TARGET_SCORE = computeDemoScore(ALL_SCORE_DIAGNOSTICS);
+const SCORE_RULE_COUNT = new Set(ALL_SCORE_DIAGNOSTICS.map((diagnostic) => diagnostic.ruleKey))
+  .size;
+const COLLAPSED_RULE_COUNT = SCORE_RULE_COUNT - VISIBLE_DIAGNOSTICS.length;
+const TOTAL_ISSUE_COUNT = countDemoIssues(ALL_SCORE_DIAGNOSTICS);
+const AFFECTED_FILE_COUNT = Math.max(
+  countDemoAffectedFiles(VISIBLE_DIAGNOSTICS),
+  18,
+);
 
 const easeOutCubic = (progress: number) => 1 - Math.pow(1 - progress, 3);
 
@@ -137,12 +296,18 @@ const ScoreHeader = ({ score }: { score: number }) => {
           </span>
         </div>
         <div>
-          dbt Doctor <span className="text-neutral-500">(www.dbt.doctor)</span>
+          dbt Doctor <span className="text-neutral-500">({SITE_HOST})</span>
         </div>
       </div>
     </div>
   );
 };
+
+const CollapsedRulesSummary = () => (
+  <div className="mb-1 text-neutral-500">
+    {`  … +${COLLAPSED_RULE_COUNT} more rules (dbt-doctor + sqlfluff)`}
+  </div>
+);
 
 const DiagnosticItem = ({ diagnostic }: { diagnostic: RuleDiagnostic }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -197,10 +362,10 @@ const CopyCommand = () => {
   const IconComponent = didCopy ? Check : Copy;
   const iconClass = didCopy
     ? "shrink-0 text-green-400"
-    : "shrink-0 text-white/50 transition-colors group-hover:text-white";
+    : "shrink-0 text-white/60 transition-colors group-hover:text-white";
 
   return (
-    <div className="group flex items-center gap-4 border border-white/20 px-3 py-1.5 transition-colors hover:bg-white/5">
+    <div className="group flex items-center gap-4 rounded-md border border-orange-200/20 bg-[#120e0d] px-3 py-1.5 transition-colors hover:bg-[#1b1412]">
       <span className="select-all whitespace-nowrap text-white">{COMMAND}</span>
       <button onClick={handleCopy}>
         <IconComponent size={16} className={iconClass} />
@@ -233,7 +398,7 @@ const COMPLETED_STATE: AnimationState = {
   typedCommand: COMMAND,
   isTyping: false,
   showVersion: true,
-  visibleDiagnosticCount: DIAGNOSTICS.length,
+  visibleDiagnosticCount: VISIBLE_DIAGNOSTICS.length,
   score: TARGET_SCORE,
   showCountsSummary: true,
   showCta: true,
@@ -284,7 +449,7 @@ const Terminal = () => {
       update({ showVersion: true });
       await sleep(POST_VERSION_DELAY_MS);
 
-      for (let index = 0; index < DIAGNOSTICS.length; index++) {
+      for (let index = 0; index < VISIBLE_DIAGNOSTICS.length; index++) {
         if (cancelled) return;
         update({ visibleDiagnosticCount: index + 1 });
         const jitteredDelay =
@@ -318,7 +483,14 @@ const Terminal = () => {
   }, []);
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-3xl bg-[#0a0a0a] p-6 pb-32 font-mono text-base leading-relaxed text-neutral-300 sm:p-8 sm:pb-40 sm:text-lg">
+    <div className="mx-auto min-h-screen w-full max-w-4xl bg-[radial-gradient(120%_120%_at_50%_0%,#2a1a16_0%,#0a0a0a_55%)] px-4 py-6 pb-24 font-mono text-base leading-relaxed text-neutral-300 sm:px-6 sm:py-10 sm:pb-32 sm:text-lg">
+      <div className="rounded-xl border border-orange-200/15 bg-[#0b0b0b]/95 p-5 shadow-[0_0_0_1px_rgba(255,105,74,0.06),0_30px_80px_rgba(0,0,0,0.45)] sm:p-7">
+        <div className="mb-4 flex items-center gap-2 text-[10px] text-neutral-500">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#ff6b4a]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#ffb86a]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#4ade80]" />
+          <span className="ml-2 tracking-wide text-neutral-600">dbt-doctor terminal</span>
+        </div>
       <div>
         <span className="text-neutral-500">$ </span>
         <span>{state.typedCommand}</span>
@@ -341,7 +513,7 @@ const Terminal = () => {
 
       {state.visibleDiagnosticCount > 0 && (
         <div>
-          {DIAGNOSTICS.slice(0, state.visibleDiagnosticCount).map((diagnostic) => (
+          {VISIBLE_DIAGNOSTICS.slice(0, state.visibleDiagnosticCount).map((diagnostic) => (
             <FadeIn key={diagnostic.ruleKey}>
               <DiagnosticItem diagnostic={diagnostic} />
             </FadeIn>
@@ -351,6 +523,7 @@ const Terminal = () => {
 
       {state.score !== null && (
         <FadeIn>
+          {COLLAPSED_RULE_COUNT > 0 && <CollapsedRulesSummary />}
           <ScoreHeader score={state.score} />
           <Spacer />
         </FadeIn>
@@ -360,9 +533,9 @@ const Terminal = () => {
         <FadeIn>
           <div>
             <span className="text-neutral-500">{"  "}</span>
-            <span className="text-red-400">{TOTAL_ISSUE_COUNT} issues</span>
+            <span className="text-red-400">{TOTAL_ISSUE_COUNT} findings</span>
             <span className="text-neutral-500">
-              {`  across ${AFFECTED_FILE_COUNT}/${TOTAL_SOURCE_FILE_COUNT} files  in ${ELAPSED_TIME}`}
+              {`  (${SCORE_RULE_COUNT} rules)  across ${AFFECTED_FILE_COUNT}/${TOTAL_SOURCE_FILE_COUNT} files  in ${ELAPSED_TIME}`}
             </span>
           </div>
           <Spacer />
@@ -377,7 +550,7 @@ const Terminal = () => {
             <CopyCommand />
             <a
               href="/leaderboard"
-              className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap border border-white/20 px-3 py-1.5 text-white transition-all hover:bg-white/5 active:scale-[0.98]"
+              className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-orange-200/20 bg-[#120e0d] px-3 py-1.5 text-white transition-all hover:bg-[#1b1412] active:scale-[0.98]"
             >
               Leaderboard
             </a>
@@ -385,7 +558,7 @@ const Terminal = () => {
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap border border-white/20 bg-white px-3 py-1.5 text-black transition-all hover:bg-white/90 active:scale-[0.98]"
+              className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-[#ff8e72] bg-[#ff694a] px-3 py-1.5 text-[#120d0b] transition-all hover:bg-[#ff7a5f] active:scale-[0.98]"
             >
               <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
                 <path fillRule="evenodd" clipRule="evenodd" d={GITHUB_ICON_PATH} />
@@ -433,6 +606,7 @@ const Terminal = () => {
           </button>
         </div>
       )}
+      </div>
     </div>
   );
 };
