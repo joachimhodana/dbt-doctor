@@ -15,14 +15,14 @@ export const isDiagnosticSurface = (value: unknown): value is DiagnosticSurface 
  *
  * `design`-tagged rules are weak-signal style cleanup — they still ship
  * to the local CLI so developers see them while editing, but they're
- * removed from the PR comment surface, the score, and the CI gate so
- * they can't bury real React findings or fail a build over a Tailwind
- * shorthand. Override per-surface via `config.surfaces.<surface>` to
- * promote individual rules back in by tag, category, or rule id.
+ * removed from PR comments and the CI gate so they can't bury real dbt
+ * findings. Score includes `style` rules by default so the headline
+ * number matches audit severity. Override per-surface via
+ * `config.surfaces.<surface>` to tune visibility.
  */
 export const DEFAULT_SURFACE_EXCLUDED_TAGS: Record<DiagnosticSurface, ReadonlyArray<string>> = {
   cli: [],
-  prComment: ["design", "style"],
-  score: ["design", "style"],
-  ciFailure: ["design", "style"],
+  prComment: ["design"],
+  score: ["design"],
+  ciFailure: ["design"],
 };

@@ -47,7 +47,8 @@ describe("DiagnosticSurface guards", () => {
     expect(isDiagnosticSurface("unknown")).toBe(false);
   });
 
-  it("excludes style tags from PR comment by default", () => {
-    expect(DEFAULT_SURFACE_EXCLUDED_TAGS.prComment).toContain("style");
+  it("excludes only design tags from score by default (style counts toward score)", () => {
+    expect(DEFAULT_SURFACE_EXCLUDED_TAGS.score).toEqual(["design"]);
+    expect(DEFAULT_SURFACE_EXCLUDED_TAGS.score).not.toContain("style");
   });
 });

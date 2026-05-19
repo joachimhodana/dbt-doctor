@@ -14,6 +14,20 @@ export const ERROR_PREVIEW_LENGTH_CHARS = 200;
 
 export const PERFECT_SCORE = 100;
 
+/** Default score mode — penalizes affected-file ratio, not just rule variety. */
+export const DEFAULT_SCORE_MODE = "files" as const;
+
+export const SCORE_ERROR_RULE_PENALTY = 1.5;
+
+export const SCORE_WARNING_RULE_PENALTY = 0.75;
+
+export const MAX_FILE_RATIO_PENALTY = 40;
+
+/** One score point per N findings (capped). */
+export const SCORE_FINDINGS_PER_PENALTY_POINT = 7;
+
+export const SCORE_VOLUME_PENALTY_CAP = 15;
+
 export const SCORE_GOOD_THRESHOLD = 75;
 
 export const SCORE_OK_THRESHOLD = 50;

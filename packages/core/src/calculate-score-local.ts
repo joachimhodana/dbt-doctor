@@ -1,10 +1,14 @@
-import { PERFECT_SCORE } from "./constants.js";
+import {
+  DEFAULT_SCORE_MODE,
+  MAX_FILE_RATIO_PENALTY,
+  PERFECT_SCORE,
+  SCORE_ERROR_RULE_PENALTY,
+  SCORE_FINDINGS_PER_PENALTY_POINT,
+  SCORE_VOLUME_PENALTY_CAP,
+  SCORE_WARNING_RULE_PENALTY,
+} from "./constants.js";
 import type { Diagnostic, ScoreMode, ScoreResult } from "@dbt-doctor/types";
 import { getScoreLabel } from "./get-score-label.js";
-
-const ERROR_RULE_PENALTY = 1.5;
-const WARNING_RULE_PENALTY = 0.75;
-const MAX_FILE_RATIO_PENALTY = 40;
 
 export interface CalculateScoreLocalOptions {
   scoreMode?: ScoreMode;
@@ -22,8 +26,25 @@ const uniqueRulePenalty = (diagnostics: Diagnostic[]): number => {
       warningRules.add(ruleKey);
     }
   }
-  return errorRules.size * ERROR_RULE_PENALTY + warningRules.size * WARNING_RULE_PENALTY;
+  return (
+    errorRules.size * SCORE_ERROR_RULE_PENALTY + warningRules.size * SCORE_WARNING_RULE_PENALTY
+  );
 };
+
+const fileRatioPenalty = (
+  diagnostics: Diagnostic[],
+  totalFilesScanned: number | undefined,
+): number => {
+  const affectedFiles = new Set(diagnostics.map((diagnostic) => diagnostic.filePath)).size;
+  const total = Math.max(totalFilesScanned ?? affectedFiles, 1);
+  return Math.round((affectedFiles / total) * MAX_FILE_RATIO_PENALTY);
+};
+
+const volumePenalty = (diagnosticCount: number): number =>
+  Math.min(
+    SCORE_VOLUME_PENALTY_CAP,
+    Math.floor(diagnosticCount / SCORE_FINDINGS_PER_PENALTY_POINT),
+  );
 
 export const calculateScoreLocal = (
   diagnostics: Diagnostic[],
@@ -33,14 +54,15 @@ export const calculateScoreLocal = (
     return { score: PERFECT_SCORE, label: getScoreLabel(PERFECT_SCORE) };
   }
 
+  const scoreMode = options.scoreMode ?? DEFAULT_SCORE_MODE;
   const rulePenalty = uniqueRulePenalty(diagnostics);
-  let filePenalty = 0;
-  if (options.scoreMode === "files") {
-    const affectedFiles = new Set(diagnostics.map((d) => d.filePath)).size;
-    const total = Math.max(options.totalFilesScanned ?? affectedFiles, 1);
-    filePenalty = Math.round((affectedFiles / total) * MAX_FILE_RATIO_PENALTY);
-  }
+  const filesPenalty =
+    scoreMode === "files" ? fileRatioPenalty(diagnostics, options.totalFilesScanned) : 0;
+  const findingsPenalty = volumePenalty(diagnostics.length);
 
-  const score = Math.max(0, Math.round(PERFECT_SCORE - rulePenalty - filePenalty));
+  const score = Math.max(
+    0,
+    Math.round(PERFECT_SCORE - rulePenalty - filesPenalty - findingsPenalty),
+  );
   return { score, label: getScoreLabel(score) };
 };

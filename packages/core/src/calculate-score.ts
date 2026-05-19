@@ -1,7 +1,7 @@
-import { FETCH_TIMEOUT_MS, SCORE_API_URL } from "./constants.js";
+import { DEFAULT_SCORE_MODE, FETCH_TIMEOUT_MS, SCORE_API_URL } from "./constants.js";
 import { calculateScoreLocal } from "./calculate-score-local.js";
 import type { CalculateScoreLocalOptions } from "./calculate-score-local.js";
-import type { Diagnostic, ScoreResult } from "@dbt-doctor/types";
+import type { Diagnostic, ScoreMode, ScoreResult } from "@dbt-doctor/types";
 
 const parseScoreResult = (value: unknown): ScoreResult | null => {
   if (typeof value !== "object" || value === null) return null;
@@ -12,8 +12,28 @@ const parseScoreResult = (value: unknown): ScoreResult | null => {
   return { score: scoreValue, label: labelValue };
 };
 
-const stripFilePaths = (diagnostics: Diagnostic[]): Omit<Diagnostic, "filePath">[] =>
-  diagnostics.map(({ filePath: _filePath, ...rest }) => rest);
+const buildScoreApiPayload = (
+  diagnostics: Diagnostic[],
+  scoreMode: ScoreMode,
+  totalFilesScanned: number | undefined,
+): string =>
+  JSON.stringify({
+    diagnostics: diagnostics.map(
+      ({ filePath, plugin, rule, severity, message, help, line, column, category }) => ({
+        filePath,
+        plugin,
+        rule,
+        severity,
+        message,
+        help,
+        line,
+        column,
+        category,
+      }),
+    ),
+    scoreMode,
+    totalFilesScanned,
+  });
 
 const isAbortError = (error: unknown): boolean =>
   error instanceof Error && (error.name === "AbortError" || error.name === "TimeoutError");
@@ -32,8 +52,9 @@ export const calculateScore = async (
   diagnostics: Diagnostic[],
   options: CalculateScoreOptions = {},
 ): Promise<ScoreResult | null> => {
+  const scoreMode = options.scoreMode ?? DEFAULT_SCORE_MODE;
   const localOptions: CalculateScoreLocalOptions = {
-    scoreMode: options.scoreMode,
+    scoreMode,
     totalFilesScanned: options.totalFilesScanned,
   };
   if (options.offline) {
@@ -47,7 +68,7 @@ export const calculateScore = async (
     const response = await fetch(SCORE_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ diagnostics: stripFilePaths(diagnostics) }),
+      body: buildScoreApiPayload(diagnostics, scoreMode, options.totalFilesScanned),
       signal: controller.signal,
     });
 
