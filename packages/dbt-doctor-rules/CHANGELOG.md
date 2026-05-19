@@ -1,5 +1,17 @@
 # dbt-doctor-rules
 
+## 0.1.0
+
+### Minor Changes
+
+- Add 15 enterprise-tier lint rules plus strict documentation and architecture checks.
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dbt-doctor/types@0.1.0
+  - @dbt-doctor/project-info@0.1.0
+
 ## 0.0.2
 
 ### Patch Changes

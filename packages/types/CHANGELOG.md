@@ -1,5 +1,11 @@
 # @dbt-doctor/types
 
+## 0.1.0
+
+### Minor Changes
+
+- Extend config and inspect types for presets, baseline, SARIF, and files-based scoring.
+
 ## 0.0.2
 
 ### Patch Changes

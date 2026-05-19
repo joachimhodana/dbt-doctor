@@ -1,6 +1,6 @@
 {
   "name": "dbt-doctor-rules",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Custom lint rules for dbt-doctor",
   "keywords": [
     "data",

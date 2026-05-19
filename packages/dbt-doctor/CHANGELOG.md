@@ -1,5 +1,19 @@
 # dbt-doctor
 
+## 0.1.0
+
+### Minor Changes
+
+- Add enterprise lint rules, config presets (`strict`, `enterprise`), baseline filtering, SARIF output, and files-based scoring mode.
+- CLI: `--sarif`, `--write-baseline`; offline/CI uses local scoring.
+
+### Patch Changes
+
+- Updated dependencies []:
+  - dbt-doctor-rules@0.1.0
+  - @dbt-doctor/types@0.1.0
+  - @dbt-doctor/project-info@0.1.0
+
 ## 0.0.2
 
 ### Patch Changes

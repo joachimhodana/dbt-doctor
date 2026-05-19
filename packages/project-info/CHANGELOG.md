@@ -1,5 +1,16 @@
 # @dbt-doctor/project-info
 
+## 0.1.0
+
+### Minor Changes
+
+- Release aligned with dbt-doctor 0.1.0 enterprise platform features.
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @dbt-doctor/types@0.1.0
+
 ## 0.0.2
 
 ### Patch Changes
