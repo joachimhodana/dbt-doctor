@@ -1,81 +1,44 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { DbtDoctorConfig } from "@dbt-doctor/types";
-import { isFile, isMonorepoRoot, isPlainObject } from "@dbt-doctor/project-info";
+import { isFile, isMonorepoRoot } from "@dbt-doctor/project-info";
 import { logger } from "./logger.js";
+import { DBT_DOCTOR_CONFIG_FILENAME, parseDbtDoctorProps } from "./parse-dbt-doctor-props.js";
 import { validateConfigTypes } from "./validate-config-types.js";
-
-const CONFIG_FILENAME = "dbt-doctor.config.json";
-const PACKAGE_JSON_CONFIG_KEY = "dbtDoctor";
 
 interface LoadedDbtDoctorConfig {
   config: DbtDoctorConfig;
-  /**
-   * Absolute path of the directory that contained the resolved config
-   * file (or `package.json` with the `dbtDoctor` key). Path-valued
-   * config fields like `rootDir` are resolved relative to this
-   * directory, never the CWD.
-   */
+  /** Directory containing `.dbt-doctor` (path fields like `rootDir` resolve relative to this). */
   sourceDirectory: string;
 }
 
-const loadConfigFromDirectory = (directory: string): LoadedDbtDoctorConfig | null => {
-  const configFilePath = path.join(directory, CONFIG_FILENAME);
-
-  if (isFile(configFilePath)) {
-    try {
-      const fileContent = fs.readFileSync(configFilePath, "utf-8");
-      const parsed: unknown = JSON.parse(fileContent);
-      if (isPlainObject(parsed)) {
-        return {
-          config: validateConfigTypes(parsed as DbtDoctorConfig),
-          sourceDirectory: directory,
-        };
-      }
-      logger.warn(`${CONFIG_FILENAME} must be a JSON object, ignoring.`);
-    } catch (error) {
-      logger.warn(
-        `Failed to parse ${CONFIG_FILENAME}: ${error instanceof Error ? error.message : String(error)}`,
-      );
-    }
+const loadPropsConfig = (configFilePath: string): DbtDoctorConfig | null => {
+  try {
+    const fileContent = fs.readFileSync(configFilePath, "utf-8");
+    return validateConfigTypes(parseDbtDoctorProps(fileContent));
+  } catch (error) {
+    logger.warn(
+      `Failed to parse ${DBT_DOCTOR_CONFIG_FILENAME}: ${error instanceof Error ? error.message : String(error)}`,
+    );
+    return null;
   }
-
-  const packageJsonPath = path.join(directory, "package.json");
-  if (isFile(packageJsonPath)) {
-    try {
-      const fileContent = fs.readFileSync(packageJsonPath, "utf-8");
-      const packageJson: unknown = JSON.parse(fileContent);
-      if (isPlainObject(packageJson)) {
-        const embeddedConfig = packageJson[PACKAGE_JSON_CONFIG_KEY];
-        if (isPlainObject(embeddedConfig)) {
-          return {
-            config: validateConfigTypes(embeddedConfig as DbtDoctorConfig),
-            sourceDirectory: directory,
-          };
-        }
-      }
-    } catch {
-      return null;
-    }
-  }
-
-  return null;
 };
 
-// HACK: `.git` exists either as a directory (regular repo) or a file
-// (git worktree pointing back to the main .git dir). `fs.existsSync`
-// covers both — no need for a separate `isFile` check.
+const loadConfigFromDirectory = (directory: string): LoadedDbtDoctorConfig | null => {
+  const propsPath = path.join(directory, DBT_DOCTOR_CONFIG_FILENAME);
+  if (!isFile(propsPath)) return null;
+
+  const config = loadPropsConfig(propsPath);
+  if (!config) return null;
+
+  return { config, sourceDirectory: directory };
+};
+
 const isProjectBoundary = (directory: string): boolean =>
   fs.existsSync(path.join(directory, ".git")) || isMonorepoRoot(directory);
 
 const cachedConfigs = new Map<string, LoadedDbtDoctorConfig | null>();
 
-// HACK: expose a way to clear the module-level config cache so programmatic
-// API consumers (watch-mode tools, test runners, agentic CLI flows) can
-// re-detect after the user edits dbt-doctor.config.json or package.json
-// between calls. The cache is keyed by absolute directory; without a
-// cache-clear hook, repeated diagnose() calls would always hit the stale
-// first-resolution result.
 export const clearConfigCache = (): void => {
   cachedConfigs.clear();
 };
@@ -112,3 +75,5 @@ export const loadConfigWithSource = (rootDirectory: string): LoadedDbtDoctorConf
   cachedConfigs.set(rootDirectory, null);
   return null;
 };
+
+export { DBT_DOCTOR_CONFIG_FILENAME } from "./parse-dbt-doctor-props.js";

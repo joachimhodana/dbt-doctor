@@ -91,27 +91,25 @@ Annotations (`--annotations`) and PR comments (`github-token`) are **display-onl
 
 ## Configuration
 
-Add **`dbt-doctor.config.json`** at the project root (or a **`"dbtDoctor"`** key in `package.json`). CLI flags override config.
+Add a **`.dbt-doctor`** props file at the project root (`KEY=value`, `#` comments — like `.env`). CLI flags override config.
 
-**Example:**
+**Example `.dbt-doctor`:**
 
-```json
-{
-  "ignore": {
-    "rules": ["dbt-doctor/no-select-star"],
-    "files": ["models/legacy/**"],
-    "overrides": [
-      {
-        "files": ["models/staging/_legacy_staging.sql"],
-        "rules": ["dbt-doctor/staging-no-join"]
-      }
-    ]
-  },
-  "skipSqlfluff": false,
-  "adoptExistingSqlfluffConfig": true,
-  "offline": false
-}
+```ini
+# Stricter CI gate
+preset=enterprise
+score_mode=files
+fail_on=warning
+
+# Silence noisy rules on legacy paths
+ignore.rules=dbt-doctor/no-select-star
+ignore.files=models/legacy/**
+
+skip_sqlfluff=false
+offline=false
 ```
+
+**CLI overrides:** `--preset enterprise`, `--score-mode files`, `--fail-on warning`.
 
 - **`ignore.rules`** — silence those rules everywhere.
 - **`ignore.files`** — silence **all** rules on matching paths (use sparingly).

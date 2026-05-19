@@ -46,7 +46,7 @@ export class AmbiguousProjectError extends DbtDoctorError {
 
   constructor(directory: string, candidates: readonly string[], options?: ErrorOptions) {
     super(
-      `Multiple dbt projects found under ${directory} (${candidates.length} candidates): ${candidates.join(", ")}. Re-run with one of those subdirectories, or set rootDir in dbt-doctor.config.json.`,
+      `Multiple dbt projects found under ${directory} (${candidates.length} candidates): ${candidates.join(", ")}. Re-run with one of those subdirectories, or set rootDir in .dbt-doctor.`,
       options,
     );
     this.directory = directory;

@@ -108,9 +108,9 @@ export interface DbtDoctorConfig {
    * the redirect is stable no matter where the CLI / `diagnose()` is
    * run from. Absolute paths are used as-is.
    *
-   * Typical use: a monorepo root holds the only `dbt-doctor.config.json`
-   * (so editor tooling and child commands all find it), but the React
-   * app lives in `apps/web`. Setting `"rootDir": "apps/web"` makes
+   * Typical use: a monorepo root holds the only `.dbt-doctor` props file
+   * (so editor tooling and child commands all find it), but the dbt
+   * project lives in `apps/analytics`. Setting `rootDir=apps/analytics` makes
    * every invocation that loads this config scan that subproject
    * without anyone needing to `cd` first or pass an explicit path.
    *

@@ -25,6 +25,8 @@ export * from "./is-rule-listed-in-comment.js";
 export * from "./is-test-file.js";
 export * from "./sql-include-paths.js";
 export * from "./load-config.js";
+export * from "./merge-config-with-cli-flags.js";
+export * from "./parse-dbt-doctor-props.js";
 export * from "./logger.js";
 export * from "./merge-and-filter-diagnostics.js";
 export * from "./neutralize-disable-directives.js";
