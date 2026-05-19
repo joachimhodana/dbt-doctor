@@ -1,0 +1,110 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import {
+  getSkillAgentConfig,
+  installSkillsFromSource,
+  SKILL_MANIFEST_FILE,
+  type SkillAgentType,
+} from "agent-install";
+import { highlighter, logger, SKILL_NAME } from "@dbt-doctor/core";
+import { detectAvailableAgents } from "./detect-agents.js";
+import { prompts } from "./prompts.js";
+import { shouldSkipPrompts } from "./should-skip-prompts.js";
+import { spinner } from "./spinner.js";
+
+interface InstallSkillOptions {
+  yes?: boolean;
+  dryRun?: boolean;
+  // Overrides for tests; production callers leave these unset.
+  sourceDir?: string;
+  projectRoot?: string;
+  detectedAgents?: SkillAgentType[];
+}
+
+const getSkillSourceDirectory = (): string => {
+  const distDirectory = path.dirname(fileURLToPath(import.meta.url));
+  return path.join(distDirectory, "skills", SKILL_NAME);
+};
+
+export const runInstallSkill = async (options: InstallSkillOptions = {}): Promise<void> => {
+  const projectRoot = options.projectRoot ?? process.cwd();
+  const sourceDir = options.sourceDir ?? getSkillSourceDirectory();
+
+  if (!existsSync(path.join(sourceDir, SKILL_MANIFEST_FILE))) {
+    logger.error(`Could not locate the ${SKILL_NAME} skill bundled with this package.`);
+    process.exitCode = 1;
+    return;
+  }
+
+  const detectedAgents = options.detectedAgents ?? (await detectAvailableAgents());
+  if (detectedAgents.length === 0) {
+    logger.error("No supported coding agents detected.");
+    logger.dim(
+      "  Looked for binaries on PATH (claude, codex, cursor, droid, gemini, copilot, opencode, pi)",
+    );
+    logger.dim("  and config dirs in $HOME (~/.claude, ~/.cursor, ~/.codex, ~/.gemini, ...).");
+    process.exitCode = 1;
+    return;
+  }
+
+  const skipPrompts = shouldSkipPrompts({ yes: options.yes });
+
+  const selectedAgents: SkillAgentType[] = skipPrompts
+    ? detectedAgents
+    : ((
+        await prompts({
+          type: "multiselect",
+          name: "agents",
+          message: `Install the ${highlighter.info(SKILL_NAME)} skill for:`,
+          choices: detectedAgents.map((agent) => ({
+            title: getSkillAgentConfig(agent).displayName,
+            value: agent,
+            selected: true,
+          })),
+          instructions: false,
+          min: 1,
+        })
+      ).agents ?? []);
+
+  if (selectedAgents.length === 0) return;
+
+  if (options.dryRun) {
+    logger.log(`Dry run — would install ${SKILL_NAME} skill for:`);
+    for (const agent of selectedAgents) {
+      logger.dim(`  - ${getSkillAgentConfig(agent).displayName}`);
+    }
+    logger.dim(`  Source: ${sourceDir}`);
+    return;
+  }
+
+  const installSpinner = spinner(`Installing ${SKILL_NAME} skill...`).start();
+  try {
+    const installResult = await installSkillsFromSource({
+      source: sourceDir,
+      agents: selectedAgents,
+      cwd: projectRoot,
+      mode: "copy",
+    });
+
+    if (installResult.skills.length === 0) {
+      throw new Error(
+        `Could not parse ${SKILL_MANIFEST_FILE} for ${SKILL_NAME} (missing or invalid frontmatter).`,
+      );
+    }
+    if (installResult.failed.length > 0) {
+      throw new Error(
+        installResult.failed
+          .map((failure) => `${getSkillAgentConfig(failure.agent).displayName}: ${failure.error}`)
+          .join("\n"),
+      );
+    }
+
+    installSpinner.succeed(
+      `${SKILL_NAME} skill installed for ${selectedAgents.map((agent) => getSkillAgentConfig(agent).displayName).join(", ")}.`,
+    );
+  } catch (error) {
+    installSpinner.fail(`Failed to install ${SKILL_NAME} skill.`);
+    throw error;
+  }
+};

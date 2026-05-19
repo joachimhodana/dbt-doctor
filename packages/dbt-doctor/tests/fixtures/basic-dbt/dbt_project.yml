@@ -1,0 +1,12 @@
+name: basic_dbt
+version: "1.0.0"
+profile: default
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+
+models:
+  basic_dbt:
+    +materialized: view

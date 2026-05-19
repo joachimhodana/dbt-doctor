@@ -1,0 +1,71 @@
+{
+  "name": "dbt-doctor",
+  "version": "0.1.0",
+  "description": "Diagnose and fix dbt projects for SQL quality, documentation, naming, and architecture issues",
+  "keywords": [
+    "analytics",
+    "data",
+    "dbt",
+    "diagnostics",
+    "linter",
+    "sql",
+    "sqlfluff",
+    "warehouse"
+  ],
+  "homepage": "https://github.com/joachimhodana/dbt-doctor#readme",
+  "bugs": {
+    "url": "https://github.com/joachimhodana/dbt-doctor/issues"
+  },
+  "license": "MIT",
+  "author": "Joachim Hodana",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joachimhodana/dbt-doctor.git",
+    "directory": "packages/dbt-doctor"
+  },
+  "bin": {
+    "dbt-doctor": "./bin/dbt-doctor.js"
+  },
+  "files": [
+    "bin/**",
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "dist/skills/**"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/cli.d.ts",
+      "default": "./dist/cli.js"
+    },
+    "./api": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "vp pack --watch",
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && NODE_ENV=production vp pack",
+    "typecheck": "tsc --noEmit",
+    "test": "vp test run"
+  },
+  "dependencies": {
+    "agent-install": "0.0.5",
+    "commander": "^14.0.3",
+    "dbt-doctor-rules": "workspace:*",
+    "ora": "^9.4.0",
+    "picocolors": "^1.1.1",
+    "prompts": "^2.4.2",
+    "typescript": ">=5.0.4 <7"
+  },
+  "devDependencies": {
+    "@dbt-doctor/core": "workspace:*",
+    "@dbt-doctor/project-info": "workspace:*",
+    "@dbt-doctor/types": "workspace:*",
+    "@types/prompts": "^2.4.9"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

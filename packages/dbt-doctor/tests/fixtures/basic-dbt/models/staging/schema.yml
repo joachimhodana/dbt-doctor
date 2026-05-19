@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Staged customer records
+    columns:
+      - name: id
+        tests:
+          - not_null
+          - unique
