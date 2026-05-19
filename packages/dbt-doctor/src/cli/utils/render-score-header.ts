@@ -20,7 +20,7 @@ const buildScoreBarSegments = (score: number): ScoreBarSegments => {
   const emptyCount = SCORE_BAR_WIDTH_CHARS - filledCount;
 
   return {
-    filledSegment: colorizeByScore(score)("█".repeat(filledCount)),
+    filledSegment: colorizeByScore("█".repeat(filledCount), score),
     emptySegment: highlighter.dim("░".repeat(emptyCount)),
   };
 };
@@ -39,7 +39,7 @@ export const printScoreHeader = (scoreResult: ScoreResult): void => {
   const { filledSegment, emptySegment } = buildScoreBarSegments(score);
 
   logger.log(`  ${BRANDING_LINE}`);
-  logger.log(`  Score: ${colorizeByScore(score)(`${score}`)} ${highlighter.dim(`(${label})`)}`);
+  logger.log(`  Score: ${colorizeByScore(`${score}`, score)} ${highlighter.dim(`(${label})`)}`);
   logger.log(`  ${filledSegment}${emptySegment}`);
   logger.break();
 };

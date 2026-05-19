@@ -21,6 +21,19 @@ export type {
   JsonReportProjectEntry,
   JsonReportSummary,
 } from "./inspect.js";
-export type { DbtAdapter, PackageJson, ProjectInfo, WorkspacePackage } from "./project-info.js";
+export type {
+  DbtAdapter,
+  DependencyInfo,
+  Framework,
+  PackageJson,
+  PackageJsonWorkspacesConfig,
+  ProjectInfo,
+  WorkspacePackage,
+} from "./project-info.js";
+export {
+  REACT_NATIVE_DEPENDENCY_NAMES,
+  REACT_NATIVE_DEPENDENCY_PREFIXES,
+  isReactNativeDependencyName,
+} from "./react-native-dependency-names.js";
 export type { PromptMultiselectChoiceState, PromptMultiselectContext } from "./prompts.js";
 export type { ScoreResult } from "./score.js";

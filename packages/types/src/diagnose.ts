@@ -6,6 +6,8 @@ export interface DiagnoseOptions {
   lint?: boolean;
   verbose?: boolean;
   includePaths?: string[];
+  /** Per-call override for `DbtDoctorConfig.offline` (local score only). */
+  offline?: boolean;
   /**
    * Per-call override for `DbtDoctorConfig.respectInlineDisables`.
    * See that field's docs for the full contract.
