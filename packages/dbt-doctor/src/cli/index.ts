@@ -12,7 +12,7 @@ process.on("SIGTERM", exitGracefully);
 
 const program = new Command()
   .name("dbt-doctor")
-  .description("Diagnose React codebase health")
+  .description("Diagnose dbt project health (SQL, YAML, Jinja)")
   .version(VERSION, "-v, --version", "display the version number")
   .argument("[directory]", "project directory to scan", ".")
   .option("--lint", "enable linting")
