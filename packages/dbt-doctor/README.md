@@ -8,7 +8,7 @@
 [![downloads](https://img.shields.io/npm/dt/dbt-doctor.svg?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/dbt-doctor)
 
 > [!NOTE]
-> **Credit — upstream.** **dbt-doctor** is a fork of [**React Doctor**](https://github.com/millionco/react-doctor) by [**Million**](https://million.dev). React Doctor is published under the [**MIT License**](https://github.com/millionco/react-doctor/blob/main/LICENSE); this project adapts its ideas (CLI, scoring, agent tooling) for **dbt** and remains **MIT** as well — see the monorepo [**LICENSE**](https://github.com/joachimhodana/dbt-doctor/blob/main/LICENSE). Thank you to the React Doctor maintainers for the original work.
+> **dbt-doctor** is a fork of beautiful [**React Doctor**](https://github.com/millionco/react-doctor) by [**Million**](https://million.dev). React Doctor is published under the [**MIT License**](https://github.com/millionco/react-doctor/blob/main/LICENSE); this project adapts its ideas (CLI, scoring, agent tooling) for **dbt** and remains **MIT** as well — see the monorepo [**LICENSE**](https://github.com/joachimhodana/dbt-doctor/blob/main/LICENSE). Thank you to the React Doctor maintainers for the original work.
 
 **dbt Doctor** scans **dbt** projects: model SQL, YAML, and Jinja. It runs **custom dbt rules** plus optional **[SQLFluff](https://docs.sqlfluff.com/)** (when installed) and prints a **0–100 health score** with actionable diagnostics.
 

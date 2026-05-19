@@ -38,8 +38,7 @@ const computeDemoScore = (diagnostics: RuleDiagnostic[]): number => {
       warningRules.add(diagnostic.ruleKey);
     }
   }
-  const penalty =
-    errorRules.size * ERROR_RULE_PENALTY + warningRules.size * WARNING_RULE_PENALTY;
+  const penalty = errorRules.size * ERROR_RULE_PENALTY + warningRules.size * WARNING_RULE_PENALTY;
   return Math.max(0, Math.round(PERFECT_SCORE - penalty));
 };
 
@@ -47,9 +46,8 @@ const countDemoIssues = (diagnostics: RuleDiagnostic[]): number =>
   diagnostics.reduce((total, diagnostic) => total + diagnostic.count, 0);
 
 const countDemoAffectedFiles = (diagnostics: RuleDiagnostic[]): number =>
-  new Set(
-    diagnostics.map((diagnostic) => diagnostic.location.replace(/:\d+$/, "").split(":")[0]),
-  ).size;
+  new Set(diagnostics.map((diagnostic) => diagnostic.location.replace(/:\d+$/, "").split(":")[0]))
+    .size;
 
 const ANIMATION_COMPLETED_KEY = "dbt-doctor-animation-completed";
 const COMMAND = "npx dbt-doctor@latest";
@@ -238,10 +236,7 @@ const SCORE_RULE_COUNT = new Set(ALL_SCORE_DIAGNOSTICS.map((diagnostic) => diagn
   .size;
 const COLLAPSED_RULE_COUNT = SCORE_RULE_COUNT - VISIBLE_DIAGNOSTICS.length;
 const TOTAL_ISSUE_COUNT = countDemoIssues(ALL_SCORE_DIAGNOSTICS);
-const AFFECTED_FILE_COUNT = Math.max(
-  countDemoAffectedFiles(VISIBLE_DIAGNOSTICS),
-  18,
-);
+const AFFECTED_FILE_COUNT = Math.max(countDemoAffectedFiles(VISIBLE_DIAGNOSTICS), 18);
 
 const easeOutCubic = (progress: number) => 1 - Math.pow(1 - progress, 3);
 
@@ -491,121 +486,143 @@ const Terminal = () => {
           <span className="h-2.5 w-2.5 rounded-full bg-[#4ade80]" />
           <span className="ml-2 tracking-wide text-neutral-600">dbt-doctor terminal</span>
         </div>
-      <div>
-        <span className="text-neutral-500">$ </span>
-        <span>{state.typedCommand}</span>
-        {state.isTyping && <span>▋</span>}
-      </div>
-
-      {state.showVersion && (
-        <FadeIn>
-          <Spacer />
-          <div className="flex items-center gap-2">
-            <img src="/favicon.svg" alt="dbt Doctor" width={24} height={24} />
-            dbt-doctor
-          </div>
-          <div className="text-neutral-500">Your agent writes bad dbt. This catches it.</div>
-          <Spacer />
-          <div className="text-neutral-500">Snowflake, BigQuery, Redshift, Postgres, DuckDB, and more.</div>
-          <Spacer />
-        </FadeIn>
-      )}
-
-      {state.visibleDiagnosticCount > 0 && (
         <div>
-          {VISIBLE_DIAGNOSTICS.slice(0, state.visibleDiagnosticCount).map((diagnostic) => (
-            <FadeIn key={diagnostic.ruleKey}>
-              <DiagnosticItem diagnostic={diagnostic} />
-            </FadeIn>
-          ))}
+          <span className="text-neutral-500">$ </span>
+          <span>{state.typedCommand}</span>
+          {state.isTyping && <span>▋</span>}
         </div>
-      )}
 
-      {state.score !== null && (
-        <FadeIn>
-          {COLLAPSED_RULE_COUNT > 0 && <CollapsedRulesSummary />}
-          <ScoreHeader score={state.score} />
-          <Spacer />
-        </FadeIn>
-      )}
+        {state.showVersion && (
+          <FadeIn>
+            <Spacer />
+            <div className="flex items-center gap-2">
+              <img src="/favicon.svg" alt="dbt Doctor" width={24} height={24} />
+              dbt-doctor
+            </div>
+            <div className="text-neutral-500">Your agent writes bad dbt. This catches it.</div>
+            <Spacer />
+            <div className="text-neutral-500">
+              Snowflake, BigQuery, Redshift, Postgres, DuckDB, and more.
+            </div>
+            <Spacer />
+          </FadeIn>
+        )}
 
-      {state.showCountsSummary && (
-        <FadeIn>
+        {state.visibleDiagnosticCount > 0 && (
           <div>
-            <span className="text-neutral-500">{"  "}</span>
-            <span className="text-red-400">{TOTAL_ISSUE_COUNT} findings</span>
-            <span className="text-neutral-500">
-              {`  (${SCORE_RULE_COUNT} rules)  across ${AFFECTED_FILE_COUNT}/${TOTAL_SOURCE_FILE_COUNT} files  in ${ELAPSED_TIME}`}
-            </span>
+            {VISIBLE_DIAGNOSTICS.slice(0, state.visibleDiagnosticCount).map((diagnostic) => (
+              <FadeIn key={diagnostic.ruleKey}>
+                <DiagnosticItem diagnostic={diagnostic} />
+              </FadeIn>
+            ))}
           </div>
-          <Spacer />
-        </FadeIn>
-      )}
+        )}
 
-      {state.showCta && (
-        <FadeIn>
-          <div className="text-neutral-500">Run it on your dbt project:</div>
-          <Spacer />
-          <div className="flex flex-wrap items-center gap-3">
-            <CopyCommand />
-            <a
-              href="/leaderboard"
-              className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-orange-200/20 bg-[#120e0d] px-3 py-1.5 text-white transition-all hover:bg-[#1b1412] active:scale-[0.98]"
-            >
-              Leaderboard
-            </a>
-            <a
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-[#ff8e72] bg-[#ff694a] px-3 py-1.5 text-[#120d0b] transition-all hover:bg-[#ff7a5f] active:scale-[0.98]"
-            >
-              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                <path fillRule="evenodd" clipRule="evenodd" d={GITHUB_ICON_PATH} />
-              </svg>
-              Star on GitHub
-            </a>
-          </div>
-        </FadeIn>
-      )}
+        {state.score !== null && (
+          <FadeIn>
+            {COLLAPSED_RULE_COUNT > 0 && <CollapsedRulesSummary />}
+            <ScoreHeader score={state.score} />
+            <Spacer />
+          </FadeIn>
+        )}
 
-      {state.showCta && (
-        <div className="mt-8">
-          <div className="mb-3 text-xs text-neutral-600">
-            dbt-doctor is a direct fork and adaptation of{" "}
-            <a
-              href="https://react.doctor"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-neutral-700 underline-offset-2 transition-colors hover:text-neutral-400"
+        {state.showCountsSummary && (
+          <FadeIn>
+            <div>
+              <span className="text-neutral-500">{"  "}</span>
+              <span className="text-red-400">{TOTAL_ISSUE_COUNT} findings</span>
+              <span className="text-neutral-500">
+                {`  (${SCORE_RULE_COUNT} rules)  across ${AFFECTED_FILE_COUNT}/${TOTAL_SOURCE_FILE_COUNT} files  in ${ELAPSED_TIME}`}
+              </span>
+            </div>
+            <Spacer />
+          </FadeIn>
+        )}
+
+        {state.showCta && (
+          <FadeIn>
+            <div className="text-neutral-500">Run it on your dbt project:</div>
+            <Spacer />
+            <div className="flex flex-wrap items-center gap-3">
+              <CopyCommand />
+              <a
+                href="/leaderboard"
+                className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-orange-200/20 bg-[#120e0d] px-3 py-1.5 text-white transition-all hover:bg-[#1b1412] active:scale-[0.98]"
+              >
+                Leaderboard
+              </a>
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-[#ff8e72] bg-[#ff694a] px-3 py-1.5 text-[#120d0b] transition-all hover:bg-[#ff7a5f] active:scale-[0.98]"
+              >
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path fillRule="evenodd" clipRule="evenodd" d={GITHUB_ICON_PATH} />
+                </svg>
+                Star on GitHub
+              </a>
+            </div>
+          </FadeIn>
+        )}
+
+        {state.showCta && (
+          <div className="mt-8">
+            <div className="mb-3 border-l-2 border-neutral-700 pl-3 text-xs leading-relaxed text-neutral-600">
+              <strong className="text-neutral-500">dbt-doctor</strong> is a fork of beautiful{" "}
+              <a
+                href="https://github.com/millionco/react-doctor"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-neutral-500 underline decoration-neutral-700 underline-offset-2 transition-colors hover:text-neutral-400"
+              >
+                React Doctor
+              </a>{" "}
+              by{" "}
+              <a
+                href="https://million.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-neutral-500 underline decoration-neutral-700 underline-offset-2 transition-colors hover:text-neutral-400"
+              >
+                Million
+              </a>
+              . React Doctor is published under the{" "}
+              <a
+                href="https://github.com/millionco/react-doctor/blob/main/LICENSE"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-neutral-500 underline decoration-neutral-700 underline-offset-2 transition-colors hover:text-neutral-400"
+              >
+                MIT License
+              </a>
+              ; this project adapts its ideas (CLI, scoring, agent tooling) for{" "}
+              <strong className="text-neutral-500">dbt</strong> and remains{" "}
+              <strong className="text-neutral-500">MIT</strong> as well — see the monorepo{" "}
+              <a
+                href="https://github.com/joachimhodana/dbt-doctor/blob/main/LICENSE"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-neutral-500 underline decoration-neutral-700 underline-offset-2 transition-colors hover:text-neutral-400"
+              >
+                LICENSE
+              </a>
+              . Thank you to the React Doctor maintainers for the original work.
+            </div>
+            <button
+              onClick={() => {
+                try {
+                  localStorage.removeItem(ANIMATION_COMPLETED_KEY);
+                } catch {}
+                location.reload();
+              }}
+              className="inline-flex items-center gap-1.5 text-xs text-neutral-600 transition-colors hover:text-neutral-400"
             >
-              react.doctor
-            </a>{" "}
-            by{" "}
-            <a
-              href="https://million.dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-neutral-700 underline-offset-2 transition-colors hover:text-neutral-400"
-            >
-              Million
-            </a>
-            , rebuilt for dbt (SQL, YAML, and Jinja).
+              <RotateCcw size={12} />
+              Restart demo
+            </button>
           </div>
-          <button
-            onClick={() => {
-              try {
-                localStorage.removeItem(ANIMATION_COMPLETED_KEY);
-              } catch {}
-              location.reload();
-            }}
-            className="inline-flex items-center gap-1.5 text-xs text-neutral-600 transition-colors hover:text-neutral-400"
-          >
-            <RotateCcw size={12} />
-            Restart demo
-          </button>
-        </div>
-      )}
+        )}
       </div>
     </div>
   );
