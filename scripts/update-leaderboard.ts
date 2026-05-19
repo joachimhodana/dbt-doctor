@@ -1,12 +1,15 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { resolve, dirname } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const LEADERBOARD_URL =
-  "https://raw.githubusercontent.com/joachimhodana/dbt-doctor-benchmarks/main/results/leaderboard.json";
 const LEADERBOARD_TOP_COUNT = 10;
 const MARKER_START = "<!-- LEADERBOARD:START -->";
 const MARKER_END = "<!-- LEADERBOARD:END -->";
+
+const scriptDirectory = dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = resolve(scriptDirectory, "..");
+const LEADERBOARD_PATH = join(REPO_ROOT, "benchmarks", "results", "leaderboard.json");
+const WEBSITE_PUBLIC_PATH = join(REPO_ROOT, "packages", "website", "public", "leaderboard.json");
 
 interface LeaderboardEntry {
   slug: string;
@@ -29,16 +32,20 @@ interface LeaderboardFile {
   entries: LeaderboardEntry[];
 }
 
-const fetchLeaderboard = async (): Promise<LeaderboardFile> => {
-  const response = await fetch(LEADERBOARD_URL, { cache: "no-store" });
-  if (!response.ok) {
-    throw new Error(`Failed to fetch leaderboard: ${response.status} ${response.statusText}`);
+const readLeaderboard = async (): Promise<LeaderboardFile> => {
+  const raw = await readFile(LEADERBOARD_PATH, "utf-8");
+  const leaderboard = JSON.parse(raw) as LeaderboardFile;
+  if (!Array.isArray(leaderboard.entries)) {
+    throw new Error(`Invalid leaderboard file: ${LEADERBOARD_PATH}`);
   }
-  return (await response.json()) as LeaderboardFile;
+  return leaderboard;
 };
 
 const renderLeaderboardTable = (entries: LeaderboardEntry[]): string => {
   const header = ["| #  | Repo | Score |", "| -- | ---- | ----: |"];
+  if (entries.length === 0) {
+    return [...header, "| — | _No entries yet — see `benchmarks/README.md`_ | — |"].join("\n");
+  }
   const rows = entries.slice(0, LEADERBOARD_TOP_COUNT).map((entry, innerIndex) => {
     const rank = String(innerIndex + 1).padEnd(2, " ");
     return `| ${rank} | [${entry.name}](${entry.githubUrl}) | ${entry.score} |`;
@@ -64,30 +71,38 @@ const replaceLeaderboardSection = (markdown: string, replacement: string): strin
   return `${before}${replacement}${after}`;
 };
 
+const syncWebsitePublic = async (leaderboard: LeaderboardFile): Promise<void> => {
+  const formatted = `${JSON.stringify(leaderboard, null, 2)}\n`;
+  await writeFile(WEBSITE_PUBLIC_PATH, formatted, "utf-8");
+};
+
 const main = async (): Promise<void> => {
-  const leaderboard = await fetchLeaderboard();
-  if (!Array.isArray(leaderboard.entries) || leaderboard.entries.length === 0) {
-    throw new Error("Leaderboard contains no entries");
-  }
+  const leaderboard = await readLeaderboard();
   const sortedEntries = leaderboard.entries.toSorted(
     (leftEntry, rightEntry) => rightEntry.score - leftEntry.score,
   );
   const replacement = renderLeaderboardSection(sortedEntries);
 
-  const scriptDirectory = dirname(fileURLToPath(import.meta.url));
-  const readmePath = resolve(scriptDirectory, "..", "packages", "dbt-doctor", "README.md");
+  const readmePath = join(REPO_ROOT, "packages", "dbt-doctor", "README.md");
   const previousMarkdown = await readFile(readmePath, "utf-8");
   const updatedMarkdown = replaceLeaderboardSection(previousMarkdown, replacement);
 
-  if (previousMarkdown === updatedMarkdown) {
-    console.log("Leaderboard already up to date.");
-    return;
+  let didChange = false;
+  if (previousMarkdown !== updatedMarkdown) {
+    await writeFile(readmePath, updatedMarkdown, "utf-8");
+    didChange = true;
+    console.log(
+      `Updated README leaderboard with ${Math.min(LEADERBOARD_TOP_COUNT, sortedEntries.length)} entries.`,
+    );
+  } else {
+    console.log("README leaderboard already up to date.");
   }
 
-  await writeFile(readmePath, updatedMarkdown, "utf-8");
-  console.log(
-    `Updated leaderboard with ${Math.min(LEADERBOARD_TOP_COUNT, sortedEntries.length)} entries.`,
-  );
+  await syncWebsitePublic(leaderboard);
+  console.log(`Synced ${LEADERBOARD_PATH} → ${WEBSITE_PUBLIC_PATH}`);
+  if (!didChange) {
+    console.log("Done.");
+  }
 };
 
 await main();

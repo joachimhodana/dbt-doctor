@@ -8,9 +8,9 @@ import { getScoreColorClass } from "@/utils/get-score-color-class";
 const SCORE_BAR_WIDTH = 20;
 const REVALIDATE_SECONDS = 60 * 60;
 const COMMAND = "npx dbt-doctor@latest";
-const BENCHMARKS_REPO_URL = "https://github.com/joachimhodana/dbt-doctor-benchmarks";
-const LEADERBOARD_URL =
-  "https://raw.githubusercontent.com/joachimhodana/dbt-doctor-benchmarks/main/results/leaderboard.json";
+const BENCHMARKS_DOCS_URL =
+  "https://github.com/joachimhodana/dbt-doctor/blob/main/benchmarks/README.md";
+const LEADERBOARD_JSON_PATH = "/leaderboard.json";
 const BOX_TOP = "\u250C\u2500\u2500\u2500\u2500\u2500\u2510";
 const BOX_BOTTOM = "\u2514\u2500\u2500\u2500\u2500\u2500\u2518";
 
@@ -38,7 +38,7 @@ interface LeaderboardFile {
 export const metadata: Metadata = {
   title: "Leaderboard - dbt Doctor",
   description:
-    "Scores for popular open-source dbt projects, diagnosed by dbt Doctor. Updated automatically from public benchmarks.",
+    "Scores for popular open-source dbt projects, diagnosed by dbt Doctor. Data lives in the dbt-doctor benchmarks folder.",
 };
 
 const formatGeneratedAt = (isoTimestamp: string): string => {
@@ -49,9 +49,11 @@ const formatGeneratedAt = (isoTimestamp: string): string => {
 
 const fetchLeaderboard = async (): Promise<LeaderboardFile | null> => {
   try {
-    const response = await fetch(LEADERBOARD_URL, { next: { revalidate: REVALIDATE_SECONDS } });
+    const response = await fetch(LEADERBOARD_JSON_PATH, { next: { revalidate: REVALIDATE_SECONDS } });
     if (!response.ok) return null;
-    return (await response.json()) as LeaderboardFile;
+    const leaderboard = (await response.json()) as LeaderboardFile;
+    if (!Array.isArray(leaderboard.entries)) return null;
+    return leaderboard;
   } catch {
     return null;
   }
@@ -141,20 +143,24 @@ const LeaderboardPage = async () => {
 
       {leaderboard ? (
         <div className="mb-8">
-          {sortedEntries.map((entry, innerIndex) => (
-            <LeaderboardRow key={entry.slug} entry={entry} rank={innerIndex + 1} />
-          ))}
+          {sortedEntries.length > 0 ? (
+            sortedEntries.map((entry, innerIndex) => (
+              <LeaderboardRow key={entry.slug} entry={entry} rank={innerIndex + 1} />
+            ))
+          ) : (
+            <div className="text-neutral-500">No entries yet.</div>
+          )}
         </div>
       ) : (
         <div className="mb-8 text-red-400">
-          Could not load the leaderboard right now. Check{" "}
+          Could not load the leaderboard right now. See{" "}
           <a
-            href={BENCHMARKS_REPO_URL}
+            href={BENCHMARKS_DOCS_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="underline underline-offset-2 hover:text-red-300"
           >
-            the benchmarks repo
+            benchmarks/README.md
           </a>
           .
         </div>
@@ -173,14 +179,14 @@ const LeaderboardPage = async () => {
       <div className="text-neutral-500">
         {"+ "}
         <a
-          href={BENCHMARKS_REPO_URL}
+          href={BENCHMARKS_DOCS_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="text-green-400 transition-colors hover:text-green-300 hover:underline"
         >
           Add your project
         </a>
-        <span className="text-neutral-600">{" - open a PR on dbt-doctor-benchmarks"}</span>
+        <span className="text-neutral-600">{" - open a PR in benchmarks/"}</span>
       </div>
     </div>
   );

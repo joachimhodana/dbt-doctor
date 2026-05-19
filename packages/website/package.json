@@ -3,6 +3,8 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
+    "predev": "node --experimental-strip-types --no-warnings ../../scripts/sync-leaderboard-public.ts",
+    "prebuild": "node --experimental-strip-types --no-warnings ../../scripts/sync-leaderboard-public.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"

@@ -13,7 +13,7 @@ One command scans your codebase and outputs a **0 to 100 health score** with act
 
 Works with Next.js, Vite, and React Native.
 
-### [See it in action →](https://dbt.doctor)
+### [See it in action →](https://dbt-doctor.joachimhodana.com)
 
 ## Install
 
@@ -383,7 +383,7 @@ The walker stops at function and `Program` boundaries — JSX defined inside a c
 
 The health score formula: `100 - (unique_error_rules x 1.5) - (unique_warning_rules x 0.75)`.
 
-Scoring runs on dbt.doctor's API and is **network-dependent**: without a successful API round-trip (or under `--offline`) the score is omitted and the rest of the report still renders normally. Key details:
+Scoring runs on the dbt-doctor score API and is **network-dependent**: without a successful API round-trip (or under `--offline`) the score is omitted and the rest of the report still renders normally. Key details:
 
 - The score counts **unique rules triggered**, not total instances. Fixing 49 of 50 `no-barrel-import` violations does not change the score; fixing all 50 removes the 0.75 penalty for that rule.
 - Error-severity rules cost 1.5 points each. Warning-severity rules cost 0.75 points each.
@@ -441,30 +441,21 @@ const counts = summarizeDiagnostics(result.diagnostics);
 
 ## Leaderboard
 
-Top React codebases scanned by React Doctor, ranked by score. Updated automatically from [joachimhodana/dbt-doctor-benchmarks](https://github.com/joachimhodana/dbt-doctor-benchmarks).
+Top open-source dbt projects scanned by dbt Doctor, ranked by score. Data lives in [`benchmarks/`](https://github.com/joachimhodana/dbt-doctor/tree/main/benchmarks) in this repo.
 
 <!-- LEADERBOARD:START -->
 <!-- prettier-ignore -->
 | #  | Repo | Score |
 | -- | ---- | ----: |
-| 1  | [executor](https://github.com/RhysSullivan/executor) | 96 |
-| 2  | [nodejs.org](https://github.com/nodejs/nodejs.org) | 86 |
-| 3  | [tldraw](https://github.com/tldraw/tldraw) | 71 |
-| 4  | [t3code](https://github.com/pingdotgg/t3code) | 69 |
-| 5  | [better-auth](https://github.com/better-auth/better-auth) | 64 |
-| 6  | [mastra](https://github.com/mastra-ai/mastra) | 63 |
-| 7  | [excalidraw](https://github.com/excalidraw/excalidraw) | 62 |
-| 8  | [payload](https://github.com/payloadcms/payload) | 60 |
-| 9  | [typebot](https://github.com/baptisteArno/typebot.io) | 57 |
-| 10 | [medusajs/admin](https://github.com/medusajs/medusa) | 56 |
+| — | _No entries yet — see `benchmarks/README.md`_ | — |
 
 <!-- LEADERBOARD:END -->
 
-See the [full leaderboard](https://www.dbt.doctor/leaderboard).
+See the [full leaderboard](https://dbt-doctor.joachimhodana.com/leaderboard).
 
 ## Resources & Contributing Back
 
-Want to try it out? Check out [the demo](https://dbt.doctor).
+Want to try it out? Check out [the demo](https://dbt-doctor.joachimhodana.com).
 
 Looking to contribute back? Clone the repo, install, build, and submit a PR.
 

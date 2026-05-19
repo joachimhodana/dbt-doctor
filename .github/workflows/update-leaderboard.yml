@@ -1,8 +1,10 @@
 name: Update Leaderboard
 
 on:
-  schedule:
-    - cron: "17 7 * * *"
+  push:
+    branches: [main]
+    paths:
+      - benchmarks/**
   workflow_dispatch:
 
 permissions:
@@ -34,12 +36,12 @@ jobs:
 
       - name: Commit and push if changed
         run: |
-          if git diff --quiet -- packages/dbt-doctor/README.md; then
+          if git diff --quiet -- packages/dbt-doctor/README.md packages/website/public/leaderboard.json; then
             echo "No leaderboard changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add packages/dbt-doctor/README.md
-          git commit -m "chore(readme): refresh leaderboard top 10"
+          git add packages/dbt-doctor/README.md packages/website/public/leaderboard.json
+          git commit -m "chore: sync leaderboard from benchmarks/"
           git push
