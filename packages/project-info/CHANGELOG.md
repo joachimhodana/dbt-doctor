@@ -1,5 +1,14 @@
 # @dbt-doctor/project-info
 
+## 0.2.0
+
+### Patch Changes
+
+- Replace JSON config with a `.dbt-doctor` props file, default to stricter files-based scoring with a volume penalty, and add CLI/Action flags for preset, score-mode, and fail-on.
+
+- Updated dependencies []:
+  - @dbt-doctor/types@0.2.0
+
 ## 0.1.0
 
 ### Minor Changes

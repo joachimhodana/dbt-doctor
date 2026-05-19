@@ -1,6 +1,6 @@
 {
   "name": "@dbt-doctor/types",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared TypeScript types for dbt-doctor packages",
   "bugs": {
     "url": "https://github.com/joachimhodana/dbt-doctor/issues"

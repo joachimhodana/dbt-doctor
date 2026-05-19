@@ -1,6 +1,6 @@
 {
   "name": "@dbt-doctor/project-info",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Discover dbt projects from dbt_project.yml and workspace layout",
   "bugs": {
     "url": "https://github.com/joachimhodana/dbt-doctor/issues"
