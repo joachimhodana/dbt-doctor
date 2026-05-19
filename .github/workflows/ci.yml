@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [22, 24]
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install sqlfluff sqlfluff-templater-dbt
+
+      - run: pnpm install
+
+      - run: pnpm build
+
+      - run: pnpm test
+
+      - run: pnpm typecheck
+
+      - run: pnpm lint
+
+      - run: pnpm format:check
+
+      - name: Smoke test built CLI
+        run: |
+          cd packages/dbt-doctor
+          pnpm build
+          BUILT_VERSION=$(node bin/dbt-doctor.js --version)
+          echo "Built CLI reports version: $BUILT_VERSION"
+          if [ -z "$BUILT_VERSION" ] || [ "$BUILT_VERSION" = "0.0.0" ]; then
+            echo "Built CLI version is missing or 0.0.0; build env did not inject VERSION"
+            exit 1
+          fi

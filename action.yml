@@ -1,0 +1,164 @@
+name: "dbt Doctor"
+description: "Scan dbt projects for SQL quality, documentation, naming, and architecture issues"
+branding:
+  icon: "activity"
+  color: "green"
+
+inputs:
+  directory:
+    description: "Project directory to scan"
+    default: "."
+  verbose:
+    description: "Show file details per rule"
+    default: "true"
+  project:
+    description: "Workspace project(s) to scan (comma-separated)"
+    required: false
+  diff:
+    description: "Base branch for diff mode (e.g. main). Only files changed vs this branch are scanned."
+    required: false
+  github-token:
+    description: "GitHub token for posting PR comments. When set on pull_request events, findings are posted as a PR comment."
+    required: false
+  fail-on:
+    description: "Exit non-zero when diagnostics fire (error, warning, none)."
+    default: "error"
+  offline:
+    description: "Use local score calculation only (skip dbt.doctor API)"
+    default: "false"
+  annotations:
+    description: "Emit diagnostics as GitHub Actions annotations"
+    default: "false"
+  setup-sqlfluff:
+    description: "Install sqlfluff and sqlfluff-templater-dbt before scanning"
+    default: "true"
+  node-version:
+    description: "Node.js version to use"
+    default: "22"
+
+outputs:
+  score:
+    description: "Health score (0-100)"
+    value: ${{ steps.score.outputs.score }}
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - if: ${{ inputs.setup-sqlfluff == 'true' }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - if: ${{ inputs.setup-sqlfluff == 'true' }}
+      shell: bash
+      run: pip install sqlfluff sqlfluff-templater-dbt
+
+    - if: ${{ inputs.diff != '' && github.event_name == 'pull_request' }}
+      shell: bash
+      run: |
+        case "$DIFF_BASE" in -* ) echo "::error::diff input cannot start with -"; exit 1 ;; esac
+        case "$HEAD_REF" in -* ) echo "::error::head_ref cannot start with -"; exit 1 ;; esac
+        git fetch origin "$DIFF_BASE" && git branch -f "$DIFF_BASE" FETCH_HEAD 2>/dev/null || true
+        git checkout "$HEAD_REF" 2>/dev/null || true
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        DIFF_BASE: ${{ inputs.diff }}
+        HEAD_REF: ${{ github.head_ref }}
+
+    - shell: bash
+      env:
+        NO_COLOR: "1"
+        INPUT_DIRECTORY: ${{ inputs.directory }}
+        INPUT_VERBOSE: ${{ inputs.verbose }}
+        INPUT_PROJECT: ${{ inputs.project }}
+        INPUT_DIFF: ${{ inputs.diff }}
+        INPUT_GITHUB_TOKEN: ${{ inputs.github-token }}
+        INPUT_FAIL_ON: ${{ inputs.fail-on }}
+        INPUT_OFFLINE: ${{ inputs.offline }}
+        INPUT_ANNOTATIONS: ${{ inputs.annotations }}
+        RUNNER_TEMP: ${{ runner.temp }}
+        GITHUB_RUN_ID: ${{ github.run_id }}
+      run: |
+        FLAGS=("--fail-on" "$INPUT_FAIL_ON")
+        if [ "$INPUT_VERBOSE" = "true" ]; then FLAGS+=("--verbose"); fi
+        if [ -n "$INPUT_PROJECT" ]; then FLAGS+=("--project" "$INPUT_PROJECT"); fi
+        if [ -n "$INPUT_DIFF" ]; then FLAGS+=("--diff" "$INPUT_DIFF"); fi
+        if [ "$INPUT_OFFLINE" = "true" ]; then FLAGS+=("--offline"); fi
+        if [ "$INPUT_ANNOTATIONS" = "true" ]; then FLAGS+=("--annotations"); fi
+
+        OUTPUT_FILE="${RUNNER_TEMP:-/tmp}/dbt-doctor-output-${GITHUB_RUN_ID:-$$}.txt"
+        echo "DBT_DOCTOR_OUTPUT_FILE=$OUTPUT_FILE" >> "$GITHUB_ENV"
+
+        if [ -n "$INPUT_GITHUB_TOKEN" ]; then
+          RAW_FILE="${RUNNER_TEMP:-/tmp}/dbt-doctor-raw-${GITHUB_RUN_ID:-$$}.txt"
+          set +e
+          npx dbt-doctor@latest "$INPUT_DIRECTORY" "${FLAGS[@]}" --pr-comment | tee "$RAW_FILE"
+          PIPELINE_EXIT_CODES=("${PIPESTATUS[@]}")
+          set -e
+          sed -E '/^::(error|warning) /d' "$RAW_FILE" > "$OUTPUT_FILE"
+          if [ "${PIPELINE_EXIT_CODES[1]}" -ne 0 ]; then exit "${PIPELINE_EXIT_CODES[1]}"; fi
+          exit "${PIPELINE_EXIT_CODES[0]}"
+        else
+          npx dbt-doctor@latest "$INPUT_DIRECTORY" "${FLAGS[@]}"
+        fi
+
+    - id: score
+      if: always()
+      shell: bash
+      env:
+        INPUT_DIRECTORY: ${{ inputs.directory }}
+        INPUT_OFFLINE: ${{ inputs.offline }}
+      run: |
+        SCORE_ARGS=("$INPUT_DIRECTORY" "--score" "--fail-on" "none")
+        if [ "$INPUT_OFFLINE" = "true" ]; then SCORE_ARGS+=("--offline"); fi
+        SCORE=$(npx dbt-doctor@latest "${SCORE_ARGS[@]}" 2>/dev/null | tail -1 | tr -d '[:space:]') || true
+        if [[ -n "$SCORE" && "$SCORE" =~ ^[0-9]+$ ]]; then
+          echo "score=$SCORE" >> "$GITHUB_OUTPUT"
+        fi
+
+    - if: ${{ inputs.github-token != '' && github.event_name == 'pull_request' }}
+      uses: actions/github-script@v7
+      env:
+        DBT_DOCTOR_OUTPUT_FILE: ${{ env.DBT_DOCTOR_OUTPUT_FILE }}
+        DBT_DOCTOR_SCORE: ${{ steps.score.outputs.score }}
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          const fs = require("fs");
+          const path = process.env.DBT_DOCTOR_OUTPUT_FILE;
+          if (!path || !fs.existsSync(path)) return;
+          const output = fs.readFileSync(path, "utf8").trim();
+          if (!output) return;
+
+          const score = process.env.DBT_DOCTOR_SCORE;
+          const scoreLine =
+            score && /^[0-9]+$/.test(score)
+              ? `**Score:** \`${score}\` / 100\n\n`
+              : "";
+
+          const marker = "<!-- dbt-doctor -->";
+          const fence = "````";
+          const body = `${marker}\n## dbt Doctor\n\n${scoreLine}${fence}\n${output}\n${fence}`;
+
+          const { data: comments } = await github.rest.issues.listComments({
+            ...context.repo,
+            issue_number: context.issue.number,
+          });
+          const prev = comments.find((c) => c.body?.startsWith(marker));
+          if (prev) {
+            await github.rest.issues.updateComment({
+              ...context.repo,
+              comment_id: prev.id,
+              body,
+            });
+          } else {
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body,
+            });
+          }
