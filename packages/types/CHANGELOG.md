@@ -1,5 +1,11 @@
 # @dbt-doctor/types
 
+## 0.0.2
+
+### Patch Changes
+
+- First public npm release for the **dbt-doctor** CLI, **dbt-doctor-rules**, and scoped runtime packages.
+
 ## 0.2.1
 
 ### Patch Changes

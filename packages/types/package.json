@@ -1,11 +1,26 @@
 {
   "name": "@dbt-doctor/types",
-  "version": "0.2.1",
-  "private": true,
-  "description": "Internal shared types and constants for React Doctor. Not published.",
+  "version": "0.0.2",
+  "description": "Shared TypeScript types for dbt-doctor packages",
   "license": "MIT",
+  "author": "Joachim Hodana",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joachimhodana/dbt-doctor.git",
+    "directory": "packages/types"
+  },
+  "bugs": {
+    "url": "https://github.com/joachimhodana/dbt-doctor/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "sideEffects": false,
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -13,6 +28,7 @@
     }
   },
   "scripts": {
+    "prepublishOnly": "pnpm run build",
     "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && NODE_ENV=production vp pack",
     "typecheck": "tsc --noEmit"
   },

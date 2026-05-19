@@ -1,6 +1,6 @@
 {
   "name": "dbt-doctor-rules",
-  "version": "0.1.0",
+  "version": "0.0.2",
   "description": "Custom lint rules for dbt-doctor",
   "keywords": [
     "data",
@@ -31,7 +31,11 @@
       "default": "./dist/index.js"
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
+    "prepublishOnly": "pnpm run build",
     "dev": "vp pack --watch",
     "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && NODE_ENV=production vp pack",
     "typecheck": "tsc --noEmit"

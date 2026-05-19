@@ -1,5 +1,14 @@
 # dbt-doctor
 
+## 0.0.2
+
+### Patch Changes
+
+- First public npm release for the **dbt-doctor** CLI, **dbt-doctor-rules**, and scoped runtime packages.
+
+- Updated dependencies []:
+  - dbt-doctor-rules@0.0.2
+
 ## 0.2.1
 
 ### Patch Changes
