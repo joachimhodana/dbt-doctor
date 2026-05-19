@@ -17,14 +17,10 @@ const PLATFORM_LOGOS: PlatformLogo[] = [
   { name: "dbt", src: "/logos/dbt.svg", width: 72 },
 ];
 
-const LOGO_CLASS =
-  "block h-auto shrink-0 opacity-90 transition-opacity hover:opacity-100";
+const LOGO_CLASS = "block h-auto shrink-0 opacity-90 transition-opacity hover:opacity-100";
 
 export const PlatformLogos = () => (
-  <div
-    className="flex flex-wrap items-center gap-y-2"
-    aria-label="Supported platforms"
-  >
+  <div className="flex flex-wrap items-center gap-y-2" aria-label="Supported platforms">
     {PLATFORM_LOGOS.map((logo, index) => (
       <Fragment key={logo.name}>
         {index > 0 && (
