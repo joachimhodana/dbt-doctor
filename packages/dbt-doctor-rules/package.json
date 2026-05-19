@@ -1,0 +1,41 @@
+{
+  "name": "dbt-doctor-rules",
+  "version": "0.1.0",
+  "description": "Custom lint rules for dbt-doctor",
+  "keywords": ["dbt", "linter", "sql", "data"],
+  "homepage": "https://github.com/joachimhodana/dbt-doctor#readme",
+  "bugs": {
+    "url": "https://github.com/joachimhodana/dbt-doctor/issues"
+  },
+  "license": "MIT",
+  "author": "Joachim Hodana",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joachimhodana/dbt-doctor.git",
+    "directory": "packages/dbt-doctor-rules"
+  },
+  "files": ["dist/**/*.js", "dist/**/*.d.ts"],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "vp pack --watch",
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && NODE_ENV=production vp pack",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dbt-doctor/project-info": "workspace:*",
+    "@dbt-doctor/types": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
