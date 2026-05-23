@@ -22,3 +22,8 @@ review-*.md
 /scripts/print-batch-input.mjs
 /scripts/rule-prompts/
 /rules.json
+packages/website/docs/rules/.rule-ids.json
+
+content/
+
+.pnpm-store/

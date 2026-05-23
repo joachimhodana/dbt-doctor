@@ -18,7 +18,7 @@
       "persistent": true
     },
     "test": {
-      "dependsOn": ["build"]
+      "dependsOn": ["^build", "build"]
     },
     "typecheck": {
       "dependsOn": ["^build"]
