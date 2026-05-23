@@ -1,7 +1,8 @@
 import { GITHUB_STARS_REVALIDATE_SECONDS } from "@/constants/github";
 import { getGithubStars } from "@/utils/get-github-stars";
 
-export const revalidate = GITHUB_STARS_REVALIDATE_SECONDS;
+// Must be a literal for Next.js static segment config analysis.
+export const revalidate = 3600;
 
 export const GET = async (): Promise<Response> => {
   const stars = await getGithubStars();
