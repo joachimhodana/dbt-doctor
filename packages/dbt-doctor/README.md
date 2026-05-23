@@ -124,7 +124,7 @@ offline=false
 - **`surfaces`** — tune `cli`, `prComment`, `score`, and `ciFailure` independently (include/exclude by tag, category, or `plugin/rule` id).
 - **`rules`** / **`categories`** — severity overrides (`error` / `warn` / `off`) for rule ids and rule categories.
 
-Rule catalog: **[`packages/dbt-doctor-rules/RULES.md`](https://github.com/joachimhodana/dbt-doctor/blob/main/packages/dbt-doctor-rules/RULES.md)**.
+Rule catalog: **[Rules reference](https://dbt-doctor.joachimhodana.com/docs/rules)** (generated from `packages/dbt-doctor-rules/src/rules/`).
 
 ### Inline suppressions (SQL / YAML)
 

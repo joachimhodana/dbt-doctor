@@ -56,7 +56,7 @@ Scores are **capability parity**, not line-for-line clones. We count each upstre
 
 **Weighted average across the six tools: ~62%.** With SQLFluff subprocess enabled, SQL style is 100% for teams that keep Python in CI.
 
-> Methodology and per-item tables live on each tool page. Every **dbt-doctor rule** in the parity tables links to the [Rules reference](/docs/rules). Counts are updated when rules ship; [`RULES.md`](https://github.com/joachimhodana/dbt-doctor/blob/main/packages/dbt-doctor-rules/RULES.md) in the repo is the maintainer catalog.
+> Methodology and per-item tables live on each tool page. Every **dbt-doctor rule** in the parity tables links to the [Rules reference](/docs/rules). Regenerate with `pnpm generate:rules-docs` when rules ship.
 
 ## How dbt-doctor is layered
 
@@ -85,7 +85,7 @@ Layer 4 — Metrics            --coverage, --show-per-model-scores, fail thresho
 
 ## References
 
-- [dbt-doctor rules catalog (repo)](https://github.com/joachimhodana/dbt-doctor/blob/main/packages/dbt-doctor-rules/RULES.md)
+- [Rules reference](/docs/rules)
 - [dbt_project_evaluator rules](https://dbt-labs.github.io/dbt-project-evaluator/latest/rules/)
 - [dbt-checkpoint hooks](https://github.com/dbt-checkpoint/dbt-checkpoint/blob/main/README.md)
 - [dbt-score](https://dbt-score.picnic.tech/)

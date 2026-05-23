@@ -395,7 +395,7 @@ const renderRule = (rule) => {
   lines.push("");
   const description =
     rule.recommendation ||
-    "See [rules catalog in the repo](https://github.com/joachimhodana/dbt-doctor/blob/main/packages/dbt-doctor-rules/RULES.md).";
+    "See the [Rules reference](/docs/rules) for configuration options.";
   lines.push(description);
   lines.push("");
   lines.push(renderConfigSection(rule));

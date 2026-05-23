@@ -416,7 +416,7 @@ rules.macro-snake-case=warn
 
 **warn** · Best Practices · tags: `style`
 
-See [rules catalog in the repo](https://github.com/joachimhodana/dbt-doctor/blob/main/packages/dbt-doctor-rules/RULES.md).
+See the [Rules reference](/docs/rules) for configuration options.
 
 **Configuration**
 
@@ -1050,7 +1050,7 @@ rules.model-has-meta-keys.required=owner,team
 
 **warn** · Governance
 
-See [rules catalog in the repo](https://github.com/joachimhodana/dbt-doctor/blob/main/packages/dbt-doctor-rules/RULES.md).
+See the [Rules reference](/docs/rules) for configuration options.
 
 **Configuration**
 
@@ -1638,7 +1638,7 @@ rules.database-casing-consistency.enabled=true
 
 **error** · SQL Quality
 
-See [rules catalog in the repo](https://github.com/joachimhodana/dbt-doctor/blob/main/packages/dbt-doctor-rules/RULES.md).
+See the [Rules reference](/docs/rules) for configuration options.
 
 **Configuration**
 

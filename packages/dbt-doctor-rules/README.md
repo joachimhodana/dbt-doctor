@@ -6,7 +6,7 @@ Used by the CLI (`runCustomRules`) with native SQL parser rules by default and o
 
 ## Rule catalog
 
-See **[RULES.md](./RULES.md)** for the full rule catalog, tag tiers, and competitive coverage vs [dbt_project_evaluator](https://dbt-labs.github.io/dbt-project-evaluator/latest/), [dbt_meta_testing](https://hub.getdbt.com/tnightengale/dbt_meta_testing/latest/), and SQLFluff.
+See the **[Rules reference](https://dbt-doctor.joachimhodana.com/docs/rules)** and **[Tool parity](https://dbt-doctor.joachimhodana.com/docs/tool-parity)** docs for the full catalog, presets, and coverage vs [dbt_project_evaluator](https://dbt-labs.github.io/dbt-project-evaluator/latest/), [dbt_meta_testing](https://hub.getdbt.com/tnightengale/dbt_meta_testing/latest/), and SQLFluff.
 
 Native SQLFluff parity for layout/style codes is tracked in **[`sqlfluff-parity.json`](./sqlfluff-parity.json)**. Website coverage summaries: [Tool parity](https://dbt-doctor.joachimhodana.com/docs/tool-parity).
 
