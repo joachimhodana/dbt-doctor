@@ -2,13 +2,14 @@
 
 Place a **`.dbt-doctor`** file at your dbt project root (or monorepo root with `rootDir`). The format is INI-style: `KEY=value`, `#` comments, and dotted keys for nested options — similar to a `.env` file.
 
-CLI flags override values in the file. See [Presets](/docs/getting-started/presets) for `default` / `strict` / `enterprise` bundles and [CI](/docs/getting-started/ci) for GitHub Actions inputs.
+CLI flags override values in the file. Not sure which profile to use? See [Presets](/docs/getting-started/presets) (`default` = quieter, no preset = all rules). [CI](/docs/getting-started/ci) covers GitHub Actions.
 
 ## Comprehensive example
 
 ```ini
-# ── Preset & scoring ─────────────────────────────────────────────
-# default | strict | enterprise (see /docs/getting-started/presets)
+# ── Preset (optional) ────────────────────────────────────────────
+# default = core rules only | strict = + docs | enterprise = + governance
+# Omit preset entirely to run all 122 rules
 preset=enterprise
 # files (default) | unique-rules
 score_mode=files
@@ -81,7 +82,7 @@ surfaces.prComment.excludeTags=design
 
 | Key | Description |
 | --- | --- |
-| `preset` | Rule bundle: `default`, `strict`, `enterprise` — see [Presets](/docs/getting-started/presets) |
+| `preset` | Lint profile: `default` (core only), `strict` (+ docs), `enterprise` (+ governance). Omit for all rules. [Guide](/docs/getting-started/presets) |
 | `score_mode` | Local score formula: `files` or `unique-rules` |
 | `fail_on` | Exit code gate: `error`, `warning`, `none` |
 | `fail_project_under` | Minimum project score (inspect) |

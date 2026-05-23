@@ -1,88 +1,171 @@
 # Presets
 
-Presets bundle **which rules run**, **how strict the CI gate is**, and **category severities** — without listing every rule ID. Set one in `.dbt-doctor` or pass `--preset` on the CLI (CLI wins).
+A **preset** is a ready-made lint profile. It answers two questions for you:
+
+1. **How many rules should run?** (a small core set, or almost everything)
+2. **When should CI fail?** (only on hard errors, or on warnings too)
+
+You set it once in `.dbt-doctor` or on the CLI:
 
 ```ini
 preset=strict
 ```
 
-## Comparison
+```bash
+npx dbt-doctor@latest --preset strict
+```
 
-| | **default** | **strict** | **enterprise** |
-| --- | --- | --- | --- |
-| **Best for** | Day-to-day dev, first adoption | PR / CI documentation gates | Platform teams, governance programs |
-| **Rules active** | Core (~65) | Core + `strict` (~75) | Full catalog except SQL style (~91) |
-| **Skipped tags** | `enterprise`, `strict`, `style` | `enterprise`, `style` | `style` (`phase5`) |
-| **`fail_on`** | (from CLI / config) | `error` | `warning` |
-| **`score_mode`** | (default) | (default) | `files` |
-| **Category bumps** | — | Documentation, Configuration, Architecture → `error`; Testing → `warn` | Governance, Architecture, Sources → `error`; Documentation, Performance, Testing → `warn` |
+CLI `--preset` overrides the file if both are set.
 
-Omit `preset` entirely to run **all 122 rules** (every tag). Use that for audits or when you want SQL style and enterprise checks without a named bundle.
+## Which preset should I use?
 
-## Built-in severities
+```
+New to dbt-doctor?
+  └─► preset=default          (fewer rules, less noise)
 
-**16 rules** default to **error** (DAG/layering, hard-coded refs, empty models, config validity, `SELECT *`, incremental/snapshot keys, exposures on private models). The other **106** default to **warn** (documentation, style, performance hints, configurable governance). Override any rule with `rules.<id>=error|warn|off` in `.dbt-doctor`.
+PR checks / “docs must be complete”
+  └─► preset=strict            (adds documentation rules, fails on errors)
 
-## Rule tags
+Platform / data governance team
+  └─► preset=enterprise        (almost all rules, fails on warnings too)
 
-Presets filter rules through `ignore.tags`. A rule is skipped when **any** of its tags appears in the ignore list.
+Want every rule including SQL formatting?
+  └─► omit preset              (no preset line in .dbt-doctor)
+```
 
-| Tag | Rules (approx.) | What it covers |
-| --- | --- | --- |
-| *(none)* | ~65 | Layer flow, naming, core SQL quality, manifest graph, sources |
-| `strict` | ~10 | Documentation contracts, schema YAML beside models, macro/seed docs |
-| `enterprise` | ~17 | Ownership meta, PII hints, incremental/snapshot hygiene, mart tests |
-| `style` / `phase5` | ~28 | Native SQL formatting (keywords, commas, aliases, whitespace) |
-| `bigquery` | ~2 | Adapter-gated warehouse hints (skipped on other adapters) |
+| You want… | Set this |
+| --- | --- |
+| Sensible defaults while adopting dbt-doctor | `preset=default` |
+| Block merges when models lack docs / schema YAML | `preset=strict` |
+| Strong governance (meta, sources, DAG) without 28 SQL style rules | `preset=enterprise` |
+| Full audit including SQL style (`sql-keywords-case`, etc.) | *no* `preset` line |
 
-See the [Rules reference](/docs/rules) for every rule ID and tag.
+## The three presets (plain English)
 
-## Preset details
+Think of rules in **layers**. Each preset turns on more layers.
 
-### `default`
+```text
+                    ┌─────────────────────────────────────┐
+  omit preset       │  All 122 rules (incl. SQL style)    │
+                    └─────────────────────────────────────┘
+                    ┌─────────────────────────────────────┐
+  enterprise        │  + enterprise governance (~17)      │
+                    ├─────────────────────────────────────┤
+  strict            │  + strict documentation (~10)       │
+                    ├─────────────────────────────────────┤
+  default           │  Core rules only (~65)              │
+                    └─────────────────────────────────────┘
+```
 
-Runs the **core** rule set: architecture, naming, structure, core documentation, SQL quality, manifest/DAG checks, and configurable governance hooks — without the `strict` documentation bundle, `enterprise` governance tier, or `style` SQL formatting rules.
+### `default` — start here
+
+**Runs:** Core rules only — layering (`staging` → `marts`), naming, manifest/DAG checks, `SELECT *`, hard-coded refs, etc.
+
+**Skips:** Documentation-contract rules, enterprise governance rules, and SQL formatting rules.
+
+**CI:** Does not change `fail_on` for you. Use your normal `--fail-on error` (default CLI behavior).
 
 ```ini
 preset=default
 ```
 
-### `strict`
+Good for local development and teams onboarding to dbt-doctor.
 
-Everything in **default**, plus all `strict`-tagged rules (undocumented models, per-model `schema.yml`, macro/seed documentation, naming contracts, and related checks). SQL style rules stay off. Documentation and architecture categories are elevated to **error** for CI.
+### `strict` — documentation-focused CI
+
+**Runs:** Everything in `default`, **plus** rules tagged `strict` (e.g. undocumented models, per-model `schema.yml`, macro/seed docs).
+
+**Skips:** Enterprise governance rules and SQL formatting rules.
+
+**CI:** Sets `fail_on=error` and treats Documentation / Configuration / Architecture findings as errors (even if the rule itself defaults to warn).
 
 ```ini
 preset=strict
-fail_on=error
 ```
 
-Typical CI: `npx dbt-doctor@latest --preset strict --diff main --fail-on error`.
+Typical PR command:
 
-### `enterprise`
+```bash
+npx dbt-doctor@latest --preset strict --diff main
+```
 
-Runs **core**, **strict**, and **enterprise** rules — the full catalog except `style` / `phase5` SQL formatting (use SQLFluff or native style rules individually via `rules.<id>` if needed). Uses **files** scoring and fails on **warnings**. Governance, architecture, and sources categories are stricter.
+### `enterprise` — governance without SQL style noise
+
+**Runs:** Core + strict + enterprise rules (~91 rules). Covers meta keys, source hygiene, exposure checks, incremental/snapshot config, etc.
+
+**Skips:** Only SQL **style** rules (commas, keyword case, indentation — 28 rules). Enable those separately if you want them.
+
+**CI:** Sets `fail_on=warning` and `score_mode=files`, so **any warning fails the job** and scoring weights file volume.
 
 ```ini
 preset=enterprise
-score_mode=files
-fail_on=warning
 ```
+
+## Important: `preset=default` is not the same as “no preset”
+
+| Config | Rules that run |
+| --- | --- |
+| No `preset` line | **All 122** rules |
+| `preset=default` | **~65** core rules (quieter) |
+
+If scans feel too noisy, use `preset=default`. If you want the full catalog, remove the `preset` line.
+
+## What “error” vs “warn” means
+
+Each rule has a built-in severity:
+
+- **16 rules** are **error** by default (broken DAG, `SELECT *`, empty model files, missing `unique_key`, etc.)
+- **106 rules** are **warn** by default (docs, style hints, performance nudges)
+
+Presets do **not** change those built-in severities. They mainly control **which rules run at all** (via tag filters).
+
+Presets can also **re-label** findings by category (e.g. `strict` bumps Documentation to error in output and for `--fail-on`).
+
+Override any single rule in `.dbt-doctor`:
+
+```ini
+rules.no-select-star=warn
+rules.undocumented-model=error
+```
+
+See [Rules reference](/docs/rules) for IDs.
+
+## How presets filter rules (tags)
+
+Under the hood, presets set `ignore.tags` — a list of rule **tags** to skip.
+
+| Tag | What kind of rules |
+| --- | --- |
+| *(no tag)* | Core architecture, naming, manifest, most SQL quality |
+| `strict` | Extra documentation / contract checks |
+| `enterprise` | Governance, ownership, PII hints, mart tests |
+| `style` / `phase5` | SQL formatting (keyword case, commas, etc.) |
+
+A rule is skipped if it has **any** ignored tag. Example: `preset=default` ignores `enterprise`, `strict`, and `style`, so only untagged core rules run.
+
+You rarely need to touch tags directly. If you do:
+
+```ini
+preset=enterprise
+# Run SQL style rules too (clears the preset's style ignore list)
+ignore.tags=
+```
+
+Setting `ignore.tags=` **replaces** the preset list entirely — include only tags you still want skipped.
 
 ## Overrides
 
-Preset values merge with the rest of your `.dbt-doctor` file; **your keys win** on conflict.
+Your `.dbt-doctor` values win over the preset. The preset is applied first, then your file is merged on top.
 
 ```ini
-preset=enterprise
-# Still run SQL style rules despite enterprise preset
-ignore.tags=
-rules.sql-keywords-case=warn
+preset=strict
+fail_on=warning
 ```
 
-To add more ignored tags without replacing the preset list, set `ignore.tags` explicitly (it replaces the preset list for that field — include only what you want skipped).
+That keeps strict’s rule set but only fails the job on warnings you configure.
 
 ## Related
 
-- [Configuration](/docs/getting-started/configuration) — full `.dbt-doctor` reference
-- [Rules reference](/docs/rules) — per-rule options
-- [CI](/docs/getting-started/ci) — GitHub Actions and `--preset`
+- [Configuration](/docs/getting-started/configuration) — all `.dbt-doctor` keys
+- [Rules reference](/docs/rules) — every rule ID
+- [CI](/docs/getting-started/ci) — GitHub Actions examples
