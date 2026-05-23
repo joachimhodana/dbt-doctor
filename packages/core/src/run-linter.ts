@@ -14,8 +14,12 @@ export interface RunLinterOptions {
   rootDirectory: string;
   project: ProjectInfo;
   includePaths?: string[];
+  manifestPath?: string;
+  ruleConfig?: Record<string, Record<string, unknown>>;
   ignoredTags: ReadonlySet<string>;
   adoptExistingSqlfluffConfig?: boolean;
+  useSqlfluff?: boolean;
+  /** @deprecated Use useSqlfluff */
   skipSqlfluff?: boolean;
 }
 
@@ -118,16 +122,28 @@ export const isSqlfluffAvailable = (): Promise<boolean> =>
   });
 
 export const runLinter = async (options: RunLinterOptions): Promise<Diagnostic[]> => {
-  const { rootDirectory, project, includePaths, ignoredTags, skipSqlfluff = false } = options;
+  const {
+    rootDirectory,
+    project,
+    includePaths,
+    manifestPath,
+    ruleConfig,
+    ignoredTags,
+    useSqlfluff,
+    skipSqlfluff = false,
+  } = options;
 
   const customDiagnostics = runCustomRules({
     rootDirectory,
     project,
     includePaths,
+    manifestPath,
+    ruleConfig,
     ignoredTags,
   });
 
-  if (skipSqlfluff) {
+  const shouldRunSqlfluff = typeof useSqlfluff === "boolean" ? useSqlfluff : !skipSqlfluff;
+  if (!shouldRunSqlfluff) {
     return dedupeDiagnostics(customDiagnostics);
   }
 

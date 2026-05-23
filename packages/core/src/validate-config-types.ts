@@ -25,9 +25,15 @@ const BOOLEAN_FIELD_NAMES = [
   "respectInlineDisables",
   "adoptExistingLintConfig",
   "offline",
+  "useSqlfluff",
 ] as const satisfies ReadonlyArray<keyof DbtDoctorConfig>;
 
-const STRING_FIELD_NAMES = ["rootDir"] as const satisfies ReadonlyArray<keyof DbtDoctorConfig>;
+const STRING_FIELD_NAMES = ["rootDir", "manifestPath"] as const satisfies ReadonlyArray<
+  keyof DbtDoctorConfig
+>;
+const NUMBER_FIELD_NAMES = ["failProjectUnder", "failAnyItemUnder"] as const satisfies ReadonlyArray<
+  keyof DbtDoctorConfig
+>;
 
 const SURFACE_CONTROL_FIELD_NAMES = [
   "includeTags",
@@ -77,6 +83,18 @@ const validateString = (fieldName: string, value: unknown): string | undefined =
   if (typeof value === "string") return value;
   warnConfigField(
     `config field "${fieldName}" must be a string (got ${typeof value}); ignoring this field.`,
+  );
+  return undefined;
+};
+
+const validateNumber = (fieldName: string, value: unknown): number | undefined => {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string" && value.trim().length > 0) {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  warnConfigField(
+    `config field "${fieldName}" must be a finite number (got ${typeof value}); ignoring this field.`,
   );
   return undefined;
 };
@@ -172,6 +190,32 @@ const validateSeverityMap = (
   return validated;
 };
 
+const validateRuleConfigField = (
+  rawField: unknown,
+): Record<string, Record<string, unknown>> | undefined => {
+  if (!isPlainObject(rawField)) {
+    warnConfigField(
+      `config field "ruleConfig" must be an object (got ${typeof rawField}); ignoring this field.`,
+    );
+    return undefined;
+  }
+  const validated: Record<string, Record<string, unknown>> = {};
+  for (const [ruleId, rawOptions] of Object.entries(rawField)) {
+    if (ruleId.length === 0) {
+      warnConfigField('config field "ruleConfig" has an empty rule id; ignoring the entry.');
+      continue;
+    }
+    if (!isPlainObject(rawOptions)) {
+      warnConfigField(
+        `config field "ruleConfig.${ruleId}" must be an object (got ${typeof rawOptions}); ignoring the entry.`,
+      );
+      continue;
+    }
+    validated[ruleId] = { ...rawOptions };
+  }
+  return validated;
+};
+
 // Applies a validator to one config field: undefined skips, an `undefined`
 // return strips the field, anything else replaces it. Keeps the main
 // loop free of the repeating "if (raw === undefined) continue; result =
@@ -206,6 +250,9 @@ export const validateConfigTypes = (config: DbtDoctorConfig): DbtDoctorConfig =>
   for (const fieldName of STRING_FIELD_NAMES) {
     applyFieldValidator(config, validated, fieldName, (value) => validateString(fieldName, value));
   }
+  for (const fieldName of NUMBER_FIELD_NAMES) {
+    applyFieldValidator(config, validated, fieldName, (value) => validateNumber(fieldName, value));
+  }
   applyFieldValidator(config, validated, "surfaces", validateSurfacesField);
   applyFieldValidator(config, validated, "preset", (value) => {
     if (typeof value === "string" && VALID_PRESETS.includes(value as DbtDoctorPreset)) {
@@ -237,5 +284,6 @@ export const validateConfigTypes = (config: DbtDoctorConfig): DbtDoctorConfig =>
       validateSeverityMap(fieldName, value),
     );
   }
+  applyFieldValidator(config, validated, "ruleConfig", validateRuleConfigField);
   return validated;
 };

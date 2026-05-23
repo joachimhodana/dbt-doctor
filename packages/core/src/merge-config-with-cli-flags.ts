@@ -9,13 +9,20 @@ export interface ConfigCliOverrides {
   preset?: string;
   scoreMode?: string;
   failOn?: string;
+  manifest?: string;
 }
 
 export const mergeConfigWithCliFlags = (
   config: DbtDoctorConfig | null,
   overrides: ConfigCliOverrides,
 ): DbtDoctorConfig | null => {
-  if (!overrides.preset && !overrides.scoreMode && !overrides.failOn && !config) {
+  if (
+    !overrides.preset &&
+    !overrides.scoreMode &&
+    !overrides.failOn &&
+    !overrides.manifest &&
+    !config
+  ) {
     return config;
   }
 
@@ -49,6 +56,10 @@ export const mergeConfigWithCliFlags = (
         `Invalid --fail-on "${overrides.failOn}" (expected: ${VALID_FAIL_ON.join(", ")}); ignoring.`,
       );
     }
+  }
+
+  if (overrides.manifest) {
+    merged.manifestPath = overrides.manifest;
   }
 
   return merged;

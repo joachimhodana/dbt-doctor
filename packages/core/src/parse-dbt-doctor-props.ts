@@ -22,6 +22,20 @@ const splitList = (value: string): string[] =>
     .map((entry) => entry.trim())
     .filter((entry) => entry.length > 0);
 
+const parseRuleConfigValue = (value: string): unknown => {
+  const boolValue = parseBoolean(value);
+  if (boolValue !== undefined) return boolValue;
+
+  if (/^-?\d+$/u.test(value)) {
+    const asNumber = Number(value);
+    if (Number.isSafeInteger(asNumber)) return asNumber;
+  }
+
+  if (value.includes(",")) return splitList(value);
+
+  return value;
+};
+
 const parseBoolean = (value: string): boolean | undefined => {
   const normalized = value.trim().toLowerCase();
   if (BOOLEAN_TRUE.has(normalized)) return true;
@@ -67,6 +81,18 @@ const applyScalar = (config: DbtDoctorConfig, key: string, rawValue: string): vo
       if (VALID_SCORE_MODES.has(scoreMode)) config.scoreMode = scoreMode;
       return;
     }
+    case "failProjectUnder":
+    case "fail_project_under": {
+      const parsed = Number(value);
+      if (Number.isFinite(parsed)) config.failProjectUnder = parsed;
+      return;
+    }
+    case "failAnyItemUnder":
+    case "fail_any_item_under": {
+      const parsed = Number(value);
+      if (Number.isFinite(parsed)) config.failAnyItemUnder = parsed;
+      return;
+    }
     case "failOn":
     case "fail_on": {
       const failOn = value as FailOnLevel;
@@ -76,6 +102,11 @@ const applyScalar = (config: DbtDoctorConfig, key: string, rawValue: string): vo
     case "rootDir":
     case "root_dir":
       config.rootDir = value;
+      return;
+    case "manifestPath":
+    case "manifest_path":
+    case "manifest":
+      config.manifestPath = value;
       return;
     case "baseline": {
       const boolValue = parseBoolean(value);
@@ -90,6 +121,8 @@ const applyScalar = (config: DbtDoctorConfig, key: string, rawValue: string): vo
     case "offline":
     case "skipSqlfluff":
     case "skip_sqlfluff":
+    case "useSqlfluff":
+    case "use_sqlfluff":
     case "respectInlineDisables":
     case "respect_inline_disables":
     case "adoptExistingSqlfluffConfig":
@@ -131,6 +164,16 @@ const applyDottedKey = (config: DbtDoctorConfig, dottedKey: string, rawValue: st
     if (!VALID_SEVERITIES.has(severity)) return;
     config.rules ??= {};
     config.rules[segments[1]!] = severity;
+    return;
+  }
+
+  if (segments[0] === "rules" && segments.length >= 3) {
+    const [_, ruleId, ...optionParts] = segments;
+    const optionKey = optionParts.join(".");
+    if (!ruleId || optionKey.length === 0) return;
+    config.ruleConfig ??= {};
+    config.ruleConfig[ruleId] ??= {};
+    config.ruleConfig[ruleId]![optionKey] = parseRuleConfigValue(value);
     return;
   }
 
