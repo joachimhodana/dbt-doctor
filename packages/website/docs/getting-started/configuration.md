@@ -8,8 +8,8 @@ CLI flags override values in the file. Not sure which profile to use? See [Prese
 
 ```ini
 # ── Preset (optional) ────────────────────────────────────────────
-# default = core rules only | strict = + docs | enterprise = + governance
-# Omit preset entirely to run all 122 rules
+# default = core only | strict = + docs + SQL style | enterprise = all 122 rules
+# Omit preset to run all 122 rules with your own fail_on / score_mode
 preset=enterprise
 # files (default) | unique-rules
 score_mode=files

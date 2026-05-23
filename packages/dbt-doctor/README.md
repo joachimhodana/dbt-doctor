@@ -98,7 +98,7 @@ Add a **`.dbt-doctor`** props file at the project root (`KEY=value`, `#` comment
 **Example `.dbt-doctor`:**
 
 ```ini
-# Stricter CI gate (core + strict + enterprise rules; no SQL style tier)
+# Full catalog + governance (all 122 rules including native SQL style)
 preset=enterprise
 score_mode=files
 fail_on=warning

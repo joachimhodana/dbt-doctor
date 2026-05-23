@@ -22,26 +22,26 @@ const PRESET_OVERRIDES: Record<DbtDoctorPreset, Partial<DbtDoctorConfig>> = {
     },
   },
   /**
-   * CI documentation and contract discipline on top of `default`, still without
-   * enterprise governance or SQL style noise.
+   * CI documentation, native SQL style, and contract discipline on top of `default`,
+   * without enterprise governance rules.
    */
   strict: {
     failOn: "error",
-    ignore: { tags: [...IGNORE_TAGS.enterprise, ...IGNORE_TAGS.style] },
+    ignore: { tags: [...IGNORE_TAGS.enterprise] },
     categories: {
       Documentation: "error",
       Configuration: "error",
       Architecture: "error",
+      "SQL Style": "warn",
       Testing: "warn",
     },
   },
   /**
-   * Full catalog except SQL formatting rules; stricter governance and graph checks.
+   * Full rule catalog (122 rules) with stricter governance and graph checks.
    */
   enterprise: {
     scoreMode: "files",
     failOn: "warning",
-    ignore: { tags: [...IGNORE_TAGS.style] },
     categories: {
       Governance: "error",
       Architecture: "error",
