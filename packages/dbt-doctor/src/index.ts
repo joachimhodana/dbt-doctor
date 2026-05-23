@@ -1,5 +1,6 @@
 import path from "node:path";
 import {
+  applyConfigPreset,
   buildJsonReport,
   buildJsonReportError,
   calculateScore,
@@ -116,8 +117,9 @@ export const diagnose = async (
     throw new ProjectNotFoundError(directoryAfterRedirect);
   }
 
-  const userConfig =
-    initialLoadedConfig?.config ?? loadConfigWithSource(resolvedDirectory)?.config ?? null;
+  const userConfig = applyConfigPreset(
+    initialLoadedConfig?.config ?? loadConfigWithSource(resolvedDirectory)?.config ?? null,
+  );
   const includePaths = options.includePaths ?? [];
   const isDiffMode = includePaths.length > 0;
   const projectInfo = discoverProject(resolvedDirectory);
@@ -138,6 +140,8 @@ export const diagnose = async (
         rootDirectory: resolvedDirectory,
         project: projectInfo,
         includePaths: lintIncludePaths,
+        manifestPath: options.manifestPath ?? userConfig?.manifestPath,
+        ruleConfig: userConfig?.ruleConfig,
         ignoredTags,
         adoptExistingSqlfluffConfig: userConfig?.adoptExistingSqlfluffConfig ?? true,
         skipSqlfluff: userConfig?.skipSqlfluff ?? false,

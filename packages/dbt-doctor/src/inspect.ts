@@ -34,7 +34,9 @@ import {
   printScoreHeader,
 } from "./cli/utils/render-score-header.js";
 import { printSummary } from "./cli/utils/render-summary.js";
+import { printCoverageSummary, printPerModelScores } from "./cli/utils/render-phase4.js";
 import { isSpinnerSilent, setSpinnerSilent, spinner } from "./cli/utils/spinner.js";
+import { computeCoverageMetrics, computePerModelScores } from "./phase4-metrics.js";
 
 interface ResolvedInspectOptions {
   lint: boolean;
@@ -43,14 +45,17 @@ interface ResolvedInspectOptions {
   offline: boolean;
   silent: boolean;
   includePaths: string[];
+  manifestPath?: string;
   customRulesOnly: boolean;
   share: boolean;
   respectInlineDisables: boolean;
   adoptExistingLintConfig: boolean;
-  skipSqlfluff: boolean;
+  useSqlfluff: boolean;
   ignoredTags: ReadonlySet<string>;
   outputSurface: DiagnosticSurface;
   writeBaseline: boolean;
+  coverage: boolean;
+  showPerModelScores: boolean;
 }
 
 const buildIgnoredTags = (userConfig: DbtDoctorConfig | null): ReadonlySet<string> => {
@@ -71,16 +76,22 @@ const mergeInspectOptions = (
   offline: inputOptions.offline ?? false,
   silent: inputOptions.silent ?? false,
   includePaths: inputOptions.includePaths ?? [],
+  manifestPath: inputOptions.manifestPath ?? userConfig?.manifestPath,
   customRulesOnly: userConfig?.customRulesOnly ?? false,
   share: userConfig?.share ?? true,
   respectInlineDisables:
     inputOptions.respectInlineDisables ?? userConfig?.respectInlineDisables ?? true,
   adoptExistingLintConfig:
     userConfig?.adoptExistingSqlfluffConfig ?? userConfig?.adoptExistingLintConfig ?? true,
-  skipSqlfluff: userConfig?.skipSqlfluff ?? false,
+  useSqlfluff:
+    inputOptions.useSqlfluff ??
+    userConfig?.useSqlfluff ??
+    (typeof userConfig?.skipSqlfluff === "boolean" ? !userConfig.skipSqlfluff : false),
   ignoredTags: buildIgnoredTags(userConfig),
   outputSurface: inputOptions.outputSurface ?? "cli",
   writeBaseline: inputOptions.writeBaseline ?? false,
+  coverage: inputOptions.coverage ?? false,
+  showPerModelScores: inputOptions.showPerModelScores ?? false,
 });
 
 export const inspect = async (
@@ -152,8 +163,10 @@ const runInspect = async (
             rootDirectory: directory,
             project: projectInfo,
             includePaths: lintIncludePaths,
+            manifestPath: options.manifestPath,
+            ruleConfig: userConfig?.ruleConfig,
             adoptExistingSqlfluffConfig: options.adoptExistingLintConfig,
-            skipSqlfluff: options.skipSqlfluff || options.customRulesOnly,
+            useSqlfluff: options.useSqlfluff && !options.customRulesOnly,
             ignoredTags: options.ignoredTags,
           });
           lintSpinner?.succeed("Running dbt checks.");
@@ -224,9 +237,20 @@ const runInspect = async (
     skippedCheckReasons["lint:partial"] = lintPartialFailures.join("; ");
   }
 
+  const coverageMetrics = options.coverage ? computeCoverageMetrics(directory, projectInfo) : undefined;
+  const shouldComputePerModelScores =
+    options.showPerModelScores ||
+    typeof userConfig?.failAnyItemUnder === "number" ||
+    typeof userConfig?.failProjectUnder === "number";
+  const perModelScores = shouldComputePerModelScores
+    ? computePerModelScores(diagnostics, directory, projectInfo, userConfig?.scoreMode)
+    : undefined;
+
   const buildResult = (): InspectResult => ({
     diagnostics,
     score: scoreResult,
+    ...(coverageMetrics ? { coverage: coverageMetrics } : {}),
+    ...(perModelScores ? { perModelScores } : {}),
     skippedChecks,
     ...(Object.keys(skippedCheckReasons).length > 0 ? { skippedCheckReasons } : {}),
     project: projectInfo,
@@ -306,6 +330,13 @@ const runInspect = async (
     noScoreMessage,
     !shouldShowShareLink,
   );
+  if (coverageMetrics) {
+    printCoverageSummary(coverageMetrics);
+  }
+  if (options.showPerModelScores && perModelScores) {
+    logger.break();
+    printPerModelScores(perModelScores, directory);
+  }
 
   if (hasSkippedChecks) {
     const skippedLabel = skippedChecks.join(" and ");

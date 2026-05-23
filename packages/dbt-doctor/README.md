@@ -93,10 +93,12 @@ Annotations (`--annotations`) and PR comments (`github-token`) are **display-onl
 
 Add a **`.dbt-doctor`** props file at the project root (`KEY=value`, `#` comments — like `.env`). CLI flags override config.
 
+**Presets** (`default` | `strict` | `enterprise`) control which rule tags run and default CI strictness. Omit `preset` to run all 122 rules. See [presets](https://dbt-doctor.joachimhodana.com/docs/getting-started/presets).
+
 **Example `.dbt-doctor`:**
 
 ```ini
-# Stricter CI gate
+# Stricter CI gate (core + strict + enterprise rules; no SQL style tier)
 preset=enterprise
 score_mode=files
 fail_on=warning
@@ -197,20 +199,6 @@ console.log(result.project); // ProjectInfo: adapter, model paths, etc.
 ```
 
 `diagnose` accepts options such as **`lint`**, **`offline`**, **`includePaths`**, **`respectInlineDisables`**. See [`packages/dbt-doctor/src/api.ts`](https://github.com/joachimhodana/dbt-doctor/blob/main/packages/dbt-doctor/src/api.ts).
-
-## Leaderboard
-
-Open-source dbt projects ranked by score. Source data: **[`benchmarks/`](https://github.com/joachimhodana/dbt-doctor/tree/main/benchmarks)** in this repo.
-
-<!-- LEADERBOARD:START -->
-<!-- prettier-ignore -->
-| #  | Repo | Score |
-| -- | ---- | ----: |
-| — | _No entries yet — see `benchmarks/README.md`_ | — |
-
-<!-- LEADERBOARD:END -->
-
-**[Full leaderboard →](https://dbt-doctor.joachimhodana.com/leaderboard)**
 
 ## Monorepo & contributing
 

@@ -9,8 +9,12 @@ export const resolveCliInspectOptions = (
   lint: flags.lint ?? userConfig?.lint ?? true,
   verbose: flags.verbose ?? userConfig?.verbose ?? false,
   scoreOnly: Boolean(flags.score),
+  coverage: Boolean(flags.coverage),
+  showPerModelScores: Boolean(flags.showPerModelScores),
+  useSqlfluff: Boolean(flags.useSqlfluff) || (userConfig?.useSqlfluff ?? false),
   offline: Boolean(flags.offline) || (userConfig?.offline ?? false) || isCiEnvironment(),
   silent: Boolean(flags.json) || Boolean(flags.sarif),
+  manifestPath: flags.manifest ?? userConfig?.manifestPath,
   respectInlineDisables: flags.respectInlineDisables ?? userConfig?.respectInlineDisables ?? true,
   outputSurface: flags.prComment ? "prComment" : "cli",
 });

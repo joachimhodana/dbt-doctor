@@ -40,6 +40,7 @@ import { resolveFailOnLevel } from "../utils/resolve-fail-on-level.js";
 import { runExplain } from "../utils/run-explain.js";
 import { selectProjects } from "../utils/select-projects.js";
 import { shouldFailForDiagnostics } from "../utils/should-fail-for-diagnostics.js";
+import { shouldFailForPhase4Thresholds } from "../utils/should-fail-for-phase4-thresholds.js";
 import { shouldSkipPrompts } from "../utils/should-skip-prompts.js";
 import { validateModeFlags } from "../utils/validate-mode-flags.js";
 import { VERSION } from "../utils/version.js";
@@ -66,6 +67,7 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
         preset: flags.preset,
         scoreMode: flags.scoreMode,
         failOn: flags.failOn,
+        manifest: flags.manifest,
       }),
     );
     const redirectedDirectory = resolveConfigRootDir(
@@ -177,6 +179,9 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
           !isScoreOnly &&
           shouldFailForDiagnostics(ciFailureDiagnostics, resolveFailOnLevel(flags, userConfig))
         ) {
+          process.exitCode = 1;
+        }
+        if (shouldFailForPhase4Thresholds([scanResult], userConfig)) {
           process.exitCode = 1;
         }
       } finally {
@@ -292,6 +297,9 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
       !isScoreOnly &&
       shouldFailForDiagnostics(ciFailureDiagnostics, resolveFailOnLevel(flags, userConfig))
     ) {
+      process.exitCode = 1;
+    }
+    if (shouldFailForPhase4Thresholds(completedScans.map((scan) => scan.result), userConfig)) {
       process.exitCode = 1;
     }
   } catch (error) {

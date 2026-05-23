@@ -19,11 +19,18 @@ const program = new Command()
   .option("--no-lint", "skip linting")
   .option("--verbose", "show every rule and per-file details (default shows top 3 rules)")
   .option("--score", "output only the score")
+  .option("--coverage", "print model test/docs coverage summary")
+  .option("--show-per-model-scores", "print local score for each model (worst first)")
+  .option("--use-sqlfluff", "opt into SQLFluff subprocess linting")
   .option("--json", "output a single structured JSON report (suppresses other output)")
   .option("--json-compact", "with --json, emit compact JSON (no indentation)")
   .option("-y, --yes", "skip prompts, scan all workspace projects")
   .option("--full", "force a full scan (overrides any `diff` value in config or `--diff`)")
   .option("--project <name>", "select workspace project (comma-separated for multiple)")
+  .option(
+    "--manifest <path>",
+    "path to dbt manifest JSON (default: target/manifest.json); enables manifest graph rules",
+  )
   .option(
     "--diff [base]",
     "scan only files changed vs base branch (pass `false` to disable; overridden by --full)",

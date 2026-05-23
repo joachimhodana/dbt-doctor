@@ -9,11 +9,13 @@ describe("mergeConfigWithCliFlags", () => {
         {
           scoreMode: "files",
           preset: "enterprise",
+          manifest: "target/manifest.json",
         },
       ),
     ).toEqual({
       scoreMode: "files",
       preset: "enterprise",
+      manifestPath: "target/manifest.json",
     });
   });
 
