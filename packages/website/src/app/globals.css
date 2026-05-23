@@ -54,28 +54,30 @@ body {
 
 .docs-prose .docs-rule-heading {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.35rem;
+  line-height: 1.25;
 }
 
 .docs-prose .docs-rule-heading-text {
   min-width: 0;
+  padding-top: 0.05em;
 }
 
 .docs-prose .docs-copy-link {
-  display: inline-flex;
+  display: inline-grid;
   flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  margin: 0;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0.05em 0 0;
   padding: 0;
   border: 0;
   border-radius: 0.25rem;
   background: transparent;
   color: #737373;
   cursor: pointer;
+  vertical-align: baseline;
   opacity: 0;
   transition:
     color 150ms ease,
@@ -99,7 +101,11 @@ body {
 }
 
 .docs-prose .docs-copy-link-icon {
+  grid-area: 1 / 1;
   display: block;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
 }
 
 .docs-prose .docs-copy-link-icon--copied {
