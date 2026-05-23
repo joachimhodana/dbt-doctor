@@ -66,3 +66,48 @@ export const findModelBlock = (
   }
   return null;
 };
+
+const isSeedYamlPath = (filePath: string): boolean => {
+  const relative = filePath.replace(/\\/g, "/");
+  return relative.includes("/seeds/") || relative.startsWith("seeds/") || relative === "seeds";
+};
+
+export const findSeedBlock = (
+  seedName: string,
+  yamlFiles: string[],
+  readFile: (path: string) => string,
+): { file: string; block: string } | null => {
+  for (const file of yamlFiles) {
+    if (!isSeedYamlPath(file)) continue;
+    if (!/\.(yml|yaml)$/i.test(file)) continue;
+    for (const block of splitNamedYamlBlocks(readFile(file), "seeds")) {
+      if (block.name === seedName) return { file, block: block.block };
+    }
+  }
+  return null;
+};
+
+export interface SourceTableBlock {
+  sourceName: string;
+  tableName: string;
+  block: string;
+}
+
+export const splitSourceTableBlocks = (content: string): SourceTableBlock[] => {
+  const tables: SourceTableBlock[] = [];
+
+  for (const source of splitNamedYamlBlocks(content, "sources")) {
+    const tablesIndex = source.block.search(/\n\s*tables:\s*\n/);
+    if (tablesIndex < 0) continue;
+
+    const tablesTail = source.block.slice(tablesIndex);
+    const tableParts = tablesTail.split(/\n\s{4,}-\s+name:\s+/).slice(1);
+    for (const part of tableParts) {
+      const tableName = part.match(/^["']?([\w.-]+)/)?.[1];
+      if (!tableName) continue;
+      tables.push({ sourceName: source.name, tableName, block: part });
+    }
+  }
+
+  return tables;
+};

@@ -64,3 +64,8 @@ export const HARDCODED_ENV_PATTERN =
 export const DEFAULT_MAX_CTE_COUNT = 8;
 
 export const LARGE_MODEL_LINE_COUNT = 80;
+
+export const SOURCE_FANOUT_MAX = 5;
+export const MODEL_FANOUT_MAX = 8;
+export const TOO_MANY_JOINS_COUNT = 8;
+export const CHAINED_VIEWS_DEPTH = 4;

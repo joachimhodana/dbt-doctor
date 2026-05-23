@@ -10,7 +10,7 @@ const REF_CALL_PATTERN = /\{\{-?\s*ref\s*\(/;
  */
 export const directSourceAndRef: Rule = {
   id: "direct-source-and-ref",
-  severity: "warn",
+  severity: "error",
   category: "Architecture",
   recommendation: "Do not mix {{ source() }} and {{ ref() }} in one model — stage sources first",
   run: ({ sqlFiles, readFile }) => {

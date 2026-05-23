@@ -5,7 +5,7 @@ import { report } from "../utils/report.js";
 
 export const noHardcodedEnv: Rule = {
   id: "no-hardcoded-env",
-  severity: "warn",
+  severity: "error",
   category: "Governance",
   tags: ["enterprise"],
   recommendation: "Avoid hardcoded environment or project names in model SQL",
