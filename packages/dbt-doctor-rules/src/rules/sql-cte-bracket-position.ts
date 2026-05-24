@@ -3,7 +3,8 @@ import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 import { offsetToLineColumn, parseSqlWithCst, walkCst } from "../utils/sql-cst.js";
 
-const hasSpace = (parts: unknown): boolean => Array.isArray(parts) && parts.some((part) => (part as { type?: string }).type === "space");
+const hasSpace = (parts: unknown): boolean =>
+  Array.isArray(parts) && parts.some((part) => (part as { type?: string }).type === "space");
 
 export const sqlCteBracketPosition: Rule = {
   id: "sql-cte-bracket-position",

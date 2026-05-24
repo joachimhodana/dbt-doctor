@@ -63,7 +63,10 @@ export const RulesMarkdownContent = ({ markdown }: { markdown: string }) => {
       if (!copied) return;
 
       button.classList.add("docs-copy-link--copied");
-      window.setTimeout(() => button.classList.remove("docs-copy-link--copied"), COPY_FEEDBACK_DURATION_MS);
+      window.setTimeout(
+        () => button.classList.remove("docs-copy-link--copied"),
+        COPY_FEEDBACK_DURATION_MS,
+      );
     };
 
     root.addEventListener("click", onCopyClick);

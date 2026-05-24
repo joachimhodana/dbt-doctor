@@ -2,8 +2,13 @@ import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 import { offsetToLineColumn, parseSqlWithCst, walkCstWithPath } from "../utils/sql-cst.js";
 
-const isFromOrJoinAliasIdentifier = (path: Array<{ type?: string }>, node: { type?: string }): boolean => {
-  const parent = path[path.length - 1] as { type?: string; alias?: unknown; expr?: unknown } | undefined;
+const isFromOrJoinAliasIdentifier = (
+  path: Array<{ type?: string }>,
+  node: { type?: string },
+): boolean => {
+  const parent = path[path.length - 1] as
+    | { type?: string; alias?: unknown; expr?: unknown }
+    | undefined;
   if (parent?.type === "alias" && (parent.alias === node || parent.expr === node)) return true;
   return path.some((ancestor) => ancestor.type === "from_clause" || ancestor.type === "join_expr");
 };
@@ -40,12 +45,13 @@ export const sqlReferencesQualified: Rule = {
         const parent = path[path.length - 1];
         if (parent?.type === "member_expr") return;
 
-        const inRelevantClause = path.some((ancestor) =>
-          ancestor.type === "select_clause" ||
-          ancestor.type === "where_clause" ||
-          ancestor.type === "group_by_clause" ||
-          ancestor.type === "having_clause" ||
-          ancestor.type === "order_by_clause",
+        const inRelevantClause = path.some(
+          (ancestor) =>
+            ancestor.type === "select_clause" ||
+            ancestor.type === "where_clause" ||
+            ancestor.type === "group_by_clause" ||
+            ancestor.type === "having_clause" ||
+            ancestor.type === "order_by_clause",
         );
         if (!inRelevantClause) return;
 

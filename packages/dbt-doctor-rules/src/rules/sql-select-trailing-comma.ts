@@ -25,7 +25,9 @@ export const sqlSelectTrailingComma: Rule = {
       if (!parsed) continue;
 
       walkCst(parsed.cst, {
-        select_clause: (node: { columns?: { items?: Array<{ type?: string; range?: [number, number] }> } }) => {
+        select_clause: (node: {
+          columns?: { items?: Array<{ type?: string; range?: [number, number] }> };
+        }) => {
           const items = node.columns?.items ?? [];
           if (items.length < 2) return;
 

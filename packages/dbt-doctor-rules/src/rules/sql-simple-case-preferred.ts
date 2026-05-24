@@ -11,7 +11,11 @@ interface CaseExprNode {
 }
 
 const extractComparedIdentifier = (condition: unknown): string | null => {
-  const binary = condition as { type?: string; operator?: string; left?: { type?: string; text?: string } };
+  const binary = condition as {
+    type?: string;
+    operator?: string;
+    left?: { type?: string; text?: string };
+  };
   if (binary?.type !== "binary_expr" || binary.operator !== "=") return null;
   if (binary.left?.type !== "identifier" || !binary.left.text) return null;
   return binary.left.text;

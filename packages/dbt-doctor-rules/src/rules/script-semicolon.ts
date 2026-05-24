@@ -15,8 +15,9 @@ export const scriptSemicolon: Rule = {
       const parsed = parseSqlWithCst(file, content, project.adapter);
       if (!parsed) continue;
 
-      const statements = (parsed.cst as { statements?: Array<{ type?: string; range?: [number, number] }> })
-        .statements;
+      const statements = (
+        parsed.cst as { statements?: Array<{ type?: string; range?: [number, number] }> }
+      ).statements;
       if (!statements || statements.length === 0) continue;
 
       const hasTerminalSemicolon = statements[statements.length - 1]?.type === "empty";

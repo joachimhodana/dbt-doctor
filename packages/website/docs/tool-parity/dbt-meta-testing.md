@@ -8,11 +8,11 @@
 
 ## Upstream surface
 
-| Capability | How it works in meta-testing |
-| ---------- | ---------------------------- |
-| `required_tests` | Dict of regex → minimum count per model path; `dbt run-operation required_tests` |
-| `required_docs` | Boolean per path; validates model + column docs via **warehouse** `get_columns_in_relation` |
-| Path-level enforcement | dbt config hierarchy (`dbt_project.yml` overrides per model) |
+| Capability             | How it works in meta-testing                                                                |
+| ---------------------- | ------------------------------------------------------------------------------------------- |
+| `required_tests`       | Dict of regex → minimum count per model path; `dbt run-operation required_tests`            |
+| `required_docs`        | Boolean per path; validates model + column docs via **warehouse** `get_columns_in_relation` |
+| Path-level enforcement | dbt config hierarchy (`dbt_project.yml` overrides per model)                                |
 
 Example from upstream docs:
 
@@ -21,17 +21,17 @@ models:
   my_project:
     marts:
       +meta:
-        required_tests: {"unique.*|not_null": 1}
+        required_tests: { "unique.*|not_null": 1 }
         required_docs: true
 ```
 
 ## Parity map
 
-| meta-testing capability | Status | dbt-doctor rule | Notes |
-| ----------------------- | ------ | --------------- | ----- |
-| `required_tests` (regex → min count) | Covered | [`required-tests-met`](/docs/rules#required-tests-met) | Reads `+required_tests` / `meta.required_tests` from `dbt_project.yml` and schema YAML — **no warehouse** |
-| `required_docs` (model + columns) | Partial | [`required-docs-met`](/docs/rules#required-docs-met) | File-based: model description + column entries in YAML. Does **not** query warehouse for undeclared columns |
-| `required_tags` (community pattern) | Covered | [`required-tags-met`](/docs/rules#required-tags-met) | Extension beyond stock meta-testing; same path-level config style |
+| meta-testing capability              | Status  | dbt-doctor rule                                        | Notes                                                                                                       |
+| ------------------------------------ | ------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `required_tests` (regex → min count) | Covered | [`required-tests-met`](/docs/rules#required-tests-met) | Reads `+required_tests` / `meta.required_tests` from `dbt_project.yml` and schema YAML — **no warehouse**   |
+| `required_docs` (model + columns)    | Partial | [`required-docs-met`](/docs/rules#required-docs-met)   | File-based: model description + column entries in YAML. Does **not** query warehouse for undeclared columns |
+| `required_tags` (community pattern)  | Covered | [`required-tags-met`](/docs/rules#required-tags-met)   | Extension beyond stock meta-testing; same path-level config style                                           |
 
 ## Related rules (overlap, not 1:1)
 
@@ -43,11 +43,11 @@ These approximate common meta-testing defaults but do not read `+required_*` key
 
 ## Not planned (and why)
 
-| Gap | Reason |
-| --- | ------ |
+| Gap                                            | Reason                                                                                                                                     |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Warehouse column discovery for `required_docs` | Conflicts with zero-warehouse CI goal. Use `dbt run-operation required_docs` on nightly jobs, or add optional `catalog.json` support later |
-| `run-operation` as the only interface | dbt-doctor is a standalone CLI / Action, not a dbt package macro |
-| Ephemeral model exclusion via adapter | File-based rules skip ephemeral models where detectable from config |
+| `run-operation` as the only interface          | dbt-doctor is a standalone CLI / Action, not a dbt package macro                                                                           |
+| Ephemeral model exclusion via adapter          | File-based rules skip ephemeral models where detectable from config                                                                        |
 
 ## Migration
 

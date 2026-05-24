@@ -18,7 +18,8 @@ export const modelParentsSchema: Rule = {
   recommendation: "Keep parent models in expected schemas/folders.",
   run: (context) => {
     if (!context.manifest) return [];
-    const expected = typeof context.ruleConfig.equals === "string" ? context.ruleConfig.equals : null;
+    const expected =
+      typeof context.ruleConfig.equals === "string" ? context.ruleConfig.equals : null;
     if (!expected) return [];
 
     const diagnostics = [];

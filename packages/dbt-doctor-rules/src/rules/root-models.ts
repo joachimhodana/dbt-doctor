@@ -1,5 +1,10 @@
 import type { Rule } from "../types.js";
-import { diagnosticPathForNode, isModelNode, isSourceNode, parentNodes } from "../utils/manifest-graph.js";
+import {
+  diagnosticPathForNode,
+  isModelNode,
+  isSourceNode,
+  parentNodes,
+} from "../utils/manifest-graph.js";
 import { report } from "../utils/report.js";
 
 export const rootModels: Rule = {
@@ -17,7 +22,9 @@ export const rootModels: Rule = {
       if (!isModelNode(node)) continue;
 
       const parents = parentNodes(manifest, node);
-      const hasModelOrSourceParent = parents.some((parent) => isModelNode(parent) || isSourceNode(parent));
+      const hasModelOrSourceParent = parents.some(
+        (parent) => isModelNode(parent) || isSourceNode(parent),
+      );
       if (hasModelOrSourceParent) continue;
 
       diagnostics.push(

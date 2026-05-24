@@ -80,24 +80,24 @@ surfaces.prComment.excludeTags=design
 
 ## Key reference
 
-| Key | Description |
-| --- | --- |
-| `preset` | Lint profile: `default` (core only), `strict` (+ docs), `enterprise` (+ governance). Omit for all rules. [Guide](/docs/getting-started/presets) |
-| `score_mode` | Local score formula: `files` or `unique-rules` |
-| `fail_on` | Exit code gate: `error`, `warning`, `none` |
-| `fail_project_under` | Minimum project score (inspect) |
-| `fail_any_item_under` | Minimum per-model score (inspect) |
-| `root_dir` | dbt project directory when config is above it |
-| `manifest_path` | Path to `manifest.json` |
-| `baseline` | `true` or path to baseline JSON |
-| `diff` | `true` or branch name for changed-files-only scans |
-| `ignore.rules` | Comma-separated rule IDs to skip everywhere |
-| `ignore.files` | Glob paths where all rules are skipped |
-| `ignore.tags` | Skip rules with these tags (e.g. `design`) |
-| `rules.<id>` | Severity for one rule |
-| `rules.<id>.<option>` | Per-rule config (see [Rules reference](/docs/rules)) |
-| `categories.<name>` | Severity for an entire category |
-| `surfaces.<surface>.<field>` | Include/exclude tags, categories, or rules per output channel |
+| Key                          | Description                                                                                                                                     |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `preset`                     | Lint profile: `default` (core only), `strict` (+ docs), `enterprise` (+ governance). Omit for all rules. [Guide](/docs/getting-started/presets) |
+| `score_mode`                 | Local score formula: `files` or `unique-rules`                                                                                                  |
+| `fail_on`                    | Exit code gate: `error`, `warning`, `none`                                                                                                      |
+| `fail_project_under`         | Minimum project score (inspect)                                                                                                                 |
+| `fail_any_item_under`        | Minimum per-model score (inspect)                                                                                                               |
+| `root_dir`                   | dbt project directory when config is above it                                                                                                   |
+| `manifest_path`              | Path to `manifest.json`                                                                                                                         |
+| `baseline`                   | `true` or path to baseline JSON                                                                                                                 |
+| `diff`                       | `true` or branch name for changed-files-only scans                                                                                              |
+| `ignore.rules`               | Comma-separated rule IDs to skip everywhere                                                                                                     |
+| `ignore.files`               | Glob paths where all rules are skipped                                                                                                          |
+| `ignore.tags`                | Skip rules with these tags (e.g. `design`)                                                                                                      |
+| `rules.<id>`                 | Severity for one rule                                                                                                                           |
+| `rules.<id>.<option>`        | Per-rule config (see [Rules reference](/docs/rules))                                                                                            |
+| `categories.<name>`          | Severity for an entire category                                                                                                                 |
+| `surfaces.<surface>.<field>` | Include/exclude tags, categories, or rules per output channel                                                                                   |
 
 Rule IDs in `rules.*` and `ignore.rules` use the short form (`no-select-star`) or qualified form (`dbt-doctor/no-select-star`).
 

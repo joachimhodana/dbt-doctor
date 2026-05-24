@@ -53,7 +53,8 @@ export const sqlBooleanNullCase: Rule = {
         },
       });
 
-      const effectivePolicy = configuredPolicy === "consistent" ? (inferredPolicy ?? "upper") : configuredPolicy;
+      const effectivePolicy =
+        configuredPolicy === "consistent" ? (inferredPolicy ?? "upper") : configuredPolicy;
       for (const keyword of keywords) {
         if (matchesSqlCasePolicy(keyword.text, effectivePolicy)) continue;
         const position = offsetToLineColumn(content, keyword.offset);

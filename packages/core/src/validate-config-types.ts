@@ -31,9 +31,10 @@ const BOOLEAN_FIELD_NAMES = [
 const STRING_FIELD_NAMES = ["rootDir", "manifestPath"] as const satisfies ReadonlyArray<
   keyof DbtDoctorConfig
 >;
-const NUMBER_FIELD_NAMES = ["failProjectUnder", "failAnyItemUnder"] as const satisfies ReadonlyArray<
-  keyof DbtDoctorConfig
->;
+const NUMBER_FIELD_NAMES = [
+  "failProjectUnder",
+  "failAnyItemUnder",
+] as const satisfies ReadonlyArray<keyof DbtDoctorConfig>;
 
 const SURFACE_CONTROL_FIELD_NAMES = [
   "includeTags",

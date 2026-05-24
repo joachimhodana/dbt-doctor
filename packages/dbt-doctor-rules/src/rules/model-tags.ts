@@ -20,7 +20,12 @@ export const modelTags: Rule = {
       if (!isModelSqlPath(file)) continue;
 
       const modelName = modelBaseName(file);
-      const modelBlock = findModelBlock(modelName, context.yamlFiles, context.readFile, isUnderModelsYaml);
+      const modelBlock = findModelBlock(
+        modelName,
+        context.yamlFiles,
+        context.readFile,
+        isUnderModelsYaml,
+      );
       if (!modelBlock) {
         diagnostics.push(
           report(

@@ -53,10 +53,7 @@ const PRESET_OVERRIDES: Record<DbtDoctorPreset, Partial<DbtDoctorConfig>> = {
   },
 };
 
-const mergePresetConfig = (
-  preset: DbtDoctorPreset,
-  config: DbtDoctorConfig,
-): DbtDoctorConfig => {
+const mergePresetConfig = (preset: DbtDoctorPreset, config: DbtDoctorConfig): DbtDoctorConfig => {
   const presetDefaults = PRESET_OVERRIDES[preset];
   return {
     ...presetDefaults,

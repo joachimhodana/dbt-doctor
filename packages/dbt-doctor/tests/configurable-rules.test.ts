@@ -178,8 +178,16 @@ describe("phase3 configurable rules", () => {
         "        tests: [not_null, unique]",
       ].join("\n"),
     );
-    writeFile(directory, "tests/orders_singular.sql", "select 1 where exists (select * from {{ ref('orders') }})");
-    writeFile(directory, "tests/users_singular.sql", "select 1 where exists (select * from {{ ref('users') }})");
+    writeFile(
+      directory,
+      "tests/orders_singular.sql",
+      "select 1 where exists (select * from {{ ref('orders') }})",
+    );
+    writeFile(
+      directory,
+      "tests/users_singular.sql",
+      "select 1 where exists (select * from {{ ref('users') }})",
+    );
 
     const diagnostics = runCustomRules({
       rootDirectory: directory,
@@ -255,7 +263,7 @@ describe("phase3 configurable rules", () => {
       directory,
       "dbt_project.yml",
       [
-        'name: configurable_fixture',
+        "name: configurable_fixture",
         'version: "1"',
         "profile: default",
         'model-paths: ["models"]',
@@ -283,16 +291,24 @@ describe("phase3 configurable rules", () => {
     writeFile(
       directory,
       "snapshots/snapshots.yml",
-      ["version: 2", "snapshots:", "  - name: users_snapshot", "    meta:", "      owner: analytics"].join(
-        "\n",
-      ),
+      [
+        "version: 2",
+        "snapshots:",
+        "  - name: users_snapshot",
+        "    meta:",
+        "      owner: analytics",
+      ].join("\n"),
     );
     writeFile(
       directory,
       "models/exposures.yml",
-      ["version: 2", "exposures:", "  - name: dashboard", "    meta:", "      owner: analytics"].join(
-        "\n",
-      ),
+      [
+        "version: 2",
+        "exposures:",
+        "  - name: dashboard",
+        "    meta:",
+        "      owner: analytics",
+      ].join("\n"),
     );
 
     const diagnostics = runCustomRules({
@@ -323,7 +339,7 @@ describe("phase3 configurable rules", () => {
       directory,
       "dbt_project.yml",
       [
-        'name: configurable_fixture',
+        "name: configurable_fixture",
         'version: "1"',
         "profile: default",
         'model-paths: ["models"]',

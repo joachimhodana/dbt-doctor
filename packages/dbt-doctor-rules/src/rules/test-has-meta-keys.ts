@@ -4,9 +4,10 @@ import { report } from "../utils/report.js";
 
 const hasConfigMetaKey = (sql: string, key: string): boolean => {
   const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`\\{\\{\\s*config\\([\\s\\S]*?meta\\s*=\\s*\\{[\\s\\S]*?['\"]${escaped}['\"]\\s*:`, "i").test(
-    sql,
-  );
+  return new RegExp(
+    `\\{\\{\\s*config\\([\\s\\S]*?meta\\s*=\\s*\\{[\\s\\S]*?['\"]${escaped}['\"]\\s*:`,
+    "i",
+  ).test(sql);
 };
 
 export const testHasMetaKeys: Rule = {

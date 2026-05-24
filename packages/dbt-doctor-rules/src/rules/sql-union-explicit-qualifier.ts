@@ -28,13 +28,17 @@ export const sqlUnionExplicitQualifier: Rule = {
 
       walkCst(parsed.cst, {
         compound_select_stmt: (node: {
-          operator?: { type?: string; text?: string; range?: [number, number] } | Array<{ type?: string; text?: string; range?: [number, number] }>;
+          operator?:
+            | { type?: string; text?: string; range?: [number, number] }
+            | Array<{ type?: string; text?: string; range?: [number, number] }>;
         }) => {
           const operator = node.operator;
           const parts = Array.isArray(operator) ? operator : operator ? [operator] : [];
           if (parts.length === 0) return;
 
-          const unionKeyword = parts.find((part) => part.type === "keyword" && part.text?.toLowerCase() === "union");
+          const unionKeyword = parts.find(
+            (part) => part.type === "keyword" && part.text?.toLowerCase() === "union",
+          );
           if (!unionKeyword?.range) return;
 
           const hasQualifier = parts.some((part) => {

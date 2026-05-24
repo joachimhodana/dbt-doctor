@@ -14,7 +14,11 @@ const indexPath = path.join(toolParityDir, "index.md");
 const sqlfluffParityPath = path.join(repoRoot, "packages/dbt-doctor-rules/sqlfluff-parity.json");
 
 const TOOL_PAGES = [
-  { file: "dbt-project-evaluator.md", label: "dbt_project_evaluator", surface: "29 warehouse fact models" },
+  {
+    file: "dbt-project-evaluator.md",
+    label: "dbt_project_evaluator",
+    surface: "29 warehouse fact models",
+  },
   { file: "dbt-meta-testing.md", label: "dbt_meta_testing", surface: "3 config macros" },
   { file: "dbt-checkpoint.md", label: "dbt-checkpoint", surface: "48 lint hooks" },
   { file: "dbt-score.md", label: "dbt-score", surface: "14 generic rules + scoring" },
@@ -53,7 +57,10 @@ const countParityRows = (markdown) => {
   return { covered, partial, notPlanned, total, weightedPercent };
 };
 
-const replaceCoverageHeader = (markdown, { weightedPercent, covered, partial, notPlanned, total }) => {
+const replaceCoverageHeader = (
+  markdown,
+  { weightedPercent, covered, partial, notPlanned, total },
+) => {
   const summary = `**Coverage: ${weightedPercent}%** (${covered} covered, ${partial} partial, ${notPlanned} not planned) of ${total} upstream checks.`;
   return markdown.replace(/\*\*Coverage:[^\n]+\n/, `${summary}\n`);
 };
@@ -144,7 +151,8 @@ toolSummaries.push({
 
 const nativeAverage =
   Math.round(
-    (toolSummaries.reduce((acc, tool) => acc + tool.weightedPercent, 0) / toolSummaries.length) * 10,
+    (toolSummaries.reduce((acc, tool) => acc + tool.weightedPercent, 0) / toolSummaries.length) *
+      10,
   ) / 10;
 
 let indexMd = fs.readFileSync(indexPath, "utf8");

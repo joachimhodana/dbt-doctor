@@ -30,7 +30,8 @@ export const tooManyJoins: Rule = {
       const sql = node.originalFilePath ? readFile(node.originalFilePath) : "";
       const sqlJoinCount = countSqlJoins(sql);
 
-      if (joinParents.length <= TOO_MANY_JOINS_COUNT && sqlJoinCount <= TOO_MANY_JOINS_COUNT) continue;
+      if (joinParents.length <= TOO_MANY_JOINS_COUNT && sqlJoinCount <= TOO_MANY_JOINS_COUNT)
+        continue;
 
       diagnostics.push(
         report(

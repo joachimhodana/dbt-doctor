@@ -18,7 +18,9 @@ export const multipleSourcesJoined: Rule = {
 
       const sourceParents = node.dependsOn
         .map((id) => manifest.nodes[id])
-        .filter((parent): parent is NonNullable<typeof parent> => Boolean(parent && isSourceNode(parent)));
+        .filter((parent): parent is NonNullable<typeof parent> =>
+          Boolean(parent && isSourceNode(parent)),
+        );
 
       if (sourceParents.length < 2) continue;
 

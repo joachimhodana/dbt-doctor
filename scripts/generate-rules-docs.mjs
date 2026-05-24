@@ -159,19 +159,34 @@ rules.model-materialization-by-childs.materialized=table`,
   },
   "model-parents-database": {
     options: [
-      { key: "equals", type: "string", description: "All parents must use this database.", example: "analytics" },
+      {
+        key: "equals",
+        type: "string",
+        description: "All parents must use this database.",
+        example: "analytics",
+      },
     ],
     example: `rules.model-parents-database.equals=analytics`,
   },
   "model-parents-name-prefix": {
     options: [
-      { key: "prefix", type: "string", description: "All parent model names must start with this prefix.", example: "stg_" },
+      {
+        key: "prefix",
+        type: "string",
+        description: "All parent model names must start with this prefix.",
+        example: "stg_",
+      },
     ],
     example: `rules.model-parents-name-prefix.prefix=stg_`,
   },
   "model-parents-schema": {
     options: [
-      { key: "equals", type: "string", description: "All parents must use this schema.", example: "staging" },
+      {
+        key: "equals",
+        type: "string",
+        description: "All parents must use this schema.",
+        example: "staging",
+      },
     ],
     example: `rules.model-parents-schema.equals=staging`,
   },
@@ -210,7 +225,12 @@ rules.model-materialization-by-childs.materialized=table`,
   },
   "sql-leading-commas": {
     options: [
-      { key: "enabled", type: "boolean", description: "Enable leading-comma layout (default: false).", example: "true" },
+      {
+        key: "enabled",
+        type: "boolean",
+        description: "Enable leading-comma layout (default: false).",
+        example: "true",
+      },
     ],
     example: `rules.sql-leading-commas.enabled=true`,
   },
@@ -276,39 +296,102 @@ rules.model-materialization-by-childs.materialized=table`,
     example: `rules.sql-unquoted-identifiers-case.capitalisationPolicy=lower`,
   },
   "exposure-has-meta-keys": {
-    options: [{ key: "required", type: "string[]", description: "Required exposure meta keys.", example: "owner" }],
+    options: [
+      {
+        key: "required",
+        type: "string[]",
+        description: "Required exposure meta keys.",
+        example: "owner",
+      },
+    ],
     example: `rules.exposure-has-meta-keys.required=owner`,
   },
   "seed-has-meta-keys": {
-    options: [{ key: "required", type: "string[]", description: "Required seed meta keys.", example: "owner" }],
+    options: [
+      {
+        key: "required",
+        type: "string[]",
+        description: "Required seed meta keys.",
+        example: "owner",
+      },
+    ],
     example: `rules.seed-has-meta-keys.required=owner`,
   },
   "snapshot-has-meta-keys": {
-    options: [{ key: "required", type: "string[]", description: "Required snapshot meta keys.", example: "owner" }],
+    options: [
+      {
+        key: "required",
+        type: "string[]",
+        description: "Required snapshot meta keys.",
+        example: "owner",
+      },
+    ],
     example: `rules.snapshot-has-meta-keys.required=owner`,
   },
   "source-childs": {
-    options: [{ key: "minChildren", type: "number", description: "Minimum downstream models per source.", example: "1" }],
+    options: [
+      {
+        key: "minChildren",
+        type: "number",
+        description: "Minimum downstream models per source.",
+        example: "1",
+      },
+    ],
     example: `rules.source-childs.minChildren=1`,
   },
   "source-has-labels-keys": {
-    options: [{ key: "required", type: "string[]", description: "Required source labels keys.", example: "tier" }],
+    options: [
+      {
+        key: "required",
+        type: "string[]",
+        description: "Required source labels keys.",
+        example: "tier",
+      },
+    ],
     example: `rules.source-has-labels-keys.required=tier`,
   },
   "source-has-meta-keys": {
-    options: [{ key: "required", type: "string[]", description: "Required source meta keys.", example: "owner" }],
+    options: [
+      {
+        key: "required",
+        type: "string[]",
+        description: "Required source meta keys.",
+        example: "owner",
+      },
+    ],
     example: `rules.source-has-meta-keys.required=owner`,
   },
   "source-tags": {
-    options: [{ key: "allowed", type: "string[]", description: "Allowed source tags.", example: "raw,external" }],
+    options: [
+      {
+        key: "allowed",
+        type: "string[]",
+        description: "Allowed source tags.",
+        example: "raw,external",
+      },
+    ],
     example: `rules.source-tags.allowed=raw,external`,
   },
   "test-has-meta-keys": {
-    options: [{ key: "required", type: "string[]", description: "Required test meta keys.", example: "owner" }],
+    options: [
+      {
+        key: "required",
+        type: "string[]",
+        description: "Required test meta keys.",
+        example: "owner",
+      },
+    ],
     example: `rules.test-has-meta-keys.required=owner`,
   },
   "test-tags": {
-    options: [{ key: "allowed", type: "string[]", description: "Allowed test tags.", example: "critical,data" }],
+    options: [
+      {
+        key: "allowed",
+        type: "string[]",
+        description: "Allowed test tags.",
+        example: "critical,data",
+      },
+    ],
     example: `rules.test-tags.allowed=critical,data`,
   },
 };
@@ -394,8 +477,7 @@ const renderRule = (rule) => {
   }
   lines.push("");
   const description =
-    rule.recommendation ||
-    "See the [Rules reference](/docs/rules) for configuration options.";
+    rule.recommendation || "See the [Rules reference](/docs/rules) for configuration options.";
   lines.push(description);
   lines.push("");
   lines.push(renderConfigSection(rule));
@@ -479,4 +561,11 @@ console.log(`Wrote ${rules.length} rules to ${path.relative(repoRoot, outFile)}`
 
 // Export mapping for tool-parity link script
 const mappingPath = path.join(outDir, ".rule-ids.json");
-fs.writeFileSync(mappingPath, `${JSON.stringify(rules.map((rule) => rule.id), null, 2)}\n`);
+fs.writeFileSync(
+  mappingPath,
+  `${JSON.stringify(
+    rules.map((rule) => rule.id),
+    null,
+    2,
+  )}\n`,
+);

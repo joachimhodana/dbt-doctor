@@ -19,12 +19,16 @@ export const sqlOrderByDirectionConsistency: Rule = {
 
       walkCst(parsed.cst, {
         order_by_clause: (node: {
-          specifications?: { items?: Array<{ type?: string; range?: [number, number]; direction?: unknown }> };
+          specifications?: {
+            items?: Array<{ type?: string; range?: [number, number]; direction?: unknown }>;
+          };
         }) => {
           const items = node.specifications?.items ?? [];
           if (items.length < 2) return;
 
-          const hasExplicit = items.some((item) => item.type === "sort_specification" && item.direction !== undefined);
+          const hasExplicit = items.some(
+            (item) => item.type === "sort_specification" && item.direction !== undefined,
+          );
           if (!hasExplicit) return;
 
           for (const item of items) {

@@ -38,14 +38,21 @@ export const sqlSelectTargetsLayout: Rule = {
       walkCst(parsed.cst, {
         select_clause: (node: {
           selectKw?: { range?: [number, number] };
-          columns?: { items?: Array<{ type?: string; range?: [number, number]; leading?: Array<{ type?: string }> }> };
+          columns?: {
+            items?: Array<{
+              type?: string;
+              range?: [number, number];
+              leading?: Array<{ type?: string }>;
+            }>;
+          };
         }) => {
           const selectRange = node.selectKw?.range;
           const items = (node.columns?.items ?? []).filter((item) => item.type !== "empty");
           if (!selectRange || items.length === 0) return;
 
           const hasWildcard = items.some((item) => item.type === "all_columns");
-          const effectiveItemCount = hasWildcard && wildcardPolicy === "multiple" ? 2 : items.length;
+          const effectiveItemCount =
+            hasWildcard && wildcardPolicy === "multiple" ? 2 : items.length;
           const requireNewLine = effectiveItemCount > 1 || singleTargetPolicy === "new_line";
           if (!requireNewLine) return;
 

@@ -35,7 +35,9 @@ describe("phase5 native sql style rules", () => {
     }).filter((diagnostic) => diagnostic.rule === "sql-keywords-case");
 
     expect(diagnostics.length).toBeGreaterThan(0);
-    expect(diagnostics.some((diagnostic) => diagnostic.message.includes("Keyword \"FROM\""))).toBe(true);
+    expect(diagnostics.some((diagnostic) => diagnostic.message.includes('Keyword "FROM"'))).toBe(
+      true,
+    );
   });
 
   it("flags leading commas by default in trailing-comma mode", () => {
@@ -46,7 +48,11 @@ describe("phase5 native sql style rules", () => {
       "dbt_project.yml",
       'name: sql_style_fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
     );
-    writeFile(directory, "models/staging/stg_orders.sql", "select\n  id\n, order_id\nfrom raw_orders\n");
+    writeFile(
+      directory,
+      "models/staging/stg_orders.sql",
+      "select\n  id\n, order_id\nfrom raw_orders\n",
+    );
 
     const diagnostics = runCustomRules({
       rootDirectory: directory,
@@ -65,7 +71,11 @@ describe("phase5 native sql style rules", () => {
       "dbt_project.yml",
       'name: sql_style_fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
     );
-    writeFile(directory, "models/staging/stg_orders.sql", "select\n  id,\n  order_id\nfrom raw_orders\n");
+    writeFile(
+      directory,
+      "models/staging/stg_orders.sql",
+      "select\n  id,\n  order_id\nfrom raw_orders\n",
+    );
 
     const diagnostics = runCustomRules({
       rootDirectory: directory,
@@ -458,7 +468,11 @@ describe("phase5 native sql style rules", () => {
       "dbt_project.yml",
       'name: sql_style_fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
     );
-    writeFile(directory, "models/staging/stg_orders.sql", "select distinct customer_id from raw_orders group by customer_id;\n");
+    writeFile(
+      directory,
+      "models/staging/stg_orders.sql",
+      "select distinct customer_id from raw_orders group by customer_id;\n",
+    );
 
     const diagnostics = runCustomRules({
       rootDirectory: directory,
@@ -566,11 +580,7 @@ describe("phase5 native sql style rules", () => {
       "dbt_project.yml",
       'name: sql_style_fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
     );
-    writeFile(
-      directory,
-      "models/staging/stg_orders.sql",
-      "select 1 as id union select 2 as id;\n",
-    );
+    writeFile(directory, "models/staging/stg_orders.sql", "select 1 as id union select 2 as id;\n");
 
     const diagnostics = runCustomRules({
       rootDirectory: directory,
@@ -628,7 +638,11 @@ describe("phase5 native sql style rules", () => {
       "dbt_project.yml",
       'name: sql_style_fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
     );
-    writeFile(directory, "models/staging/stg_orders.sql", "select count(*) as cnt from raw_orders;\n");
+    writeFile(
+      directory,
+      "models/staging/stg_orders.sql",
+      "select count(*) as cnt from raw_orders;\n",
+    );
 
     const diagnostics = runCustomRules({
       rootDirectory: directory,
@@ -726,7 +740,11 @@ describe("phase5 native sql style rules", () => {
       "dbt_project.yml",
       'name: sql_style_fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
     );
-    writeFile(directory, "models/staging/stg_orders.sql", "select 1 as id union all select 2 as id;\n");
+    writeFile(
+      directory,
+      "models/staging/stg_orders.sql",
+      "select 1 as id union all select 2 as id;\n",
+    );
 
     const diagnostics = runCustomRules({
       rootDirectory: directory,

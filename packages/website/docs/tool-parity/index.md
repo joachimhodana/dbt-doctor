@@ -34,25 +34,25 @@ Credit and parity mapping for each upstream project:
 
 ## Why consolidate
 
-| Pain today | dbt-doctor direction |
-| ---------- | -------------------- |
-| Python + Node in CI | Node-only default; SQLFluff opt-in via `--use-sqlfluff` |
-| `dbt build` / warehouse for governance | File + manifest checks; warehouse only when you need catalog columns |
-| Five configs (`.sqlfluff`, pre-commit, evaluator, score, coverage) | One `.dbt-doctor` |
-| Scattered diagnostics | One score, one JSON report, GitHub Action annotations |
+| Pain today                                                         | dbt-doctor direction                                                 |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| Python + Node in CI                                                | Node-only default; SQLFluff opt-in via `--use-sqlfluff`              |
+| `dbt build` / warehouse for governance                             | File + manifest checks; warehouse only when you need catalog columns |
+| Five configs (`.sqlfluff`, pre-commit, evaluator, score, coverage) | One `.dbt-doctor`                                                    |
+| Scattered diagnostics                                              | One score, one JSON report, GitHub Action annotations                |
 
 ## Overall coverage (2026-05-23)
 
 Scores are **capability parity**, not line-for-line clones. We count each upstream check or rule family as **Covered** (1.0), **Partial** (0.5), or **Not planned** (0.0), then average.
 
-| Tool | Upstream surface | Coverage | dbt-doctor rules today |
-| ---- | ---------------- | -------: | ---------------------- |
-| [dbt_project_evaluator](/docs/tool-parity/dbt-project-evaluator) | 29 warehouse fact models | **79.31%** | Manifest DAG rules + file-based architecture |
-| [dbt_meta_testing](/docs/tool-parity/dbt-meta-testing) | 3 config macros | **83.33%** | `required-*-met` rules (file-based) |
-| [dbt-checkpoint](/docs/tool-parity/dbt-checkpoint) | 48 lint hooks | **75%** | Configurable meta/tests/contracts |
-| [dbt-score](/docs/tool-parity/dbt-score) | 14 generic rules + scoring | **75%** | Metadata + snapshot/incremental hygiene |
-| [dbt-coverage](/docs/tool-parity/dbt-coverage) | 8 CLI features | **18.75%** | `--coverage` (file-based); catalog compare later |
-| [SQLFluff](/docs/tool-parity/sqlfluff) | 73 rule codes (stable bundle) | **39.73%** native; **100%** with `--use-sqlfluff` | 29 native SQL rules + subprocess fallback |
+| Tool                                                             | Upstream surface              |                                          Coverage | dbt-doctor rules today                           |
+| ---------------------------------------------------------------- | ----------------------------- | ------------------------------------------------: | ------------------------------------------------ |
+| [dbt_project_evaluator](/docs/tool-parity/dbt-project-evaluator) | 29 warehouse fact models      |                                        **79.31%** | Manifest DAG rules + file-based architecture     |
+| [dbt_meta_testing](/docs/tool-parity/dbt-meta-testing)           | 3 config macros               |                                        **83.33%** | `required-*-met` rules (file-based)              |
+| [dbt-checkpoint](/docs/tool-parity/dbt-checkpoint)               | 48 lint hooks                 |                                           **75%** | Configurable meta/tests/contracts                |
+| [dbt-score](/docs/tool-parity/dbt-score)                         | 14 generic rules + scoring    |                                           **75%** | Metadata + snapshot/incremental hygiene          |
+| [dbt-coverage](/docs/tool-parity/dbt-coverage)                   | 8 CLI features                |                                        **18.75%** | `--coverage` (file-based); catalog compare later |
+| [SQLFluff](/docs/tool-parity/sqlfluff)                           | 73 rule codes (stable bundle) | **39.73%** native; **100%** with `--use-sqlfluff` | 29 native SQL rules + subprocess fallback        |
 
 **Weighted average across the six tools: ~62%.** With SQLFluff subprocess enabled, SQL style is 100% for teams that keep Python in CI.
 

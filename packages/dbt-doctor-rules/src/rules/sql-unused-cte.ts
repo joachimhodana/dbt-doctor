@@ -2,10 +2,7 @@ import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 import { offsetToLineColumn, parseSqlWithCst, walkCstWithPath } from "../utils/sql-cst.js";
 
-const isCteDefinitionNode = (
-  path: Array<{ type?: string }>,
-  node: { type?: string },
-): boolean => {
+const isCteDefinitionNode = (path: Array<{ type?: string }>, node: { type?: string }): boolean => {
   const parent = path[path.length - 1] as { type?: string; table?: unknown } | undefined;
   return parent?.type === "common_table_expr" && parent.table === node;
 };

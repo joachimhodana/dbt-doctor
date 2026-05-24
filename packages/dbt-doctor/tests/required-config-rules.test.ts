@@ -27,7 +27,7 @@ describe("required config rules", () => {
       directory,
       "dbt_project.yml",
       [
-        'name: required_fixture',
+        "name: required_fixture",
         'version: "1"',
         "profile: default",
         'model-paths: ["models"]',
@@ -73,7 +73,7 @@ describe("required config rules", () => {
       directory,
       "dbt_project.yml",
       [
-        'name: required_fixture',
+        "name: required_fixture",
         'version: "1"',
         "profile: default",
         'model-paths: ["models"]',
@@ -121,7 +121,7 @@ describe("required config rules", () => {
       directory,
       "dbt_project.yml",
       [
-        'name: required_fixture',
+        "name: required_fixture",
         'version: "1"',
         "profile: default",
         'model-paths: ["models"]',
@@ -168,7 +168,7 @@ describe("required config rules", () => {
       directory,
       "dbt_project.yml",
       [
-        'name: required_fixture',
+        "name: required_fixture",
         'version: "1"',
         "profile: default",
         'model-paths: ["models"]',
@@ -184,13 +184,7 @@ describe("required config rules", () => {
     writeFile(
       directory,
       "seeds/schema.yml",
-      [
-        "version: 2",
-        "seeds:",
-        "  - name: orders",
-        "    columns:",
-        "      - name: id",
-      ].join("\n"),
+      ["version: 2", "seeds:", "  - name: orders", "    columns:", "      - name: id"].join("\n"),
     );
 
     const rules = runCustomRules({
@@ -210,7 +204,7 @@ describe("required config rules", () => {
       directory,
       "dbt_project.yml",
       [
-        'name: required_fixture',
+        "name: required_fixture",
         'version: "1"',
         "profile: default",
         'model-paths: ["models"]',
@@ -224,13 +218,7 @@ describe("required config rules", () => {
     writeFile(
       directory,
       "models/_sources/raw.yml",
-      [
-        "version: 2",
-        "sources:",
-        "  - name: raw",
-        "    tables:",
-        "      - name: orders",
-      ].join("\n"),
+      ["version: 2", "sources:", "  - name: raw", "    tables:", "      - name: orders"].join("\n"),
     );
 
     const rules = runCustomRules({
@@ -250,7 +238,7 @@ describe("required config rules", () => {
       directory,
       "dbt_project.yml",
       [
-        'name: required_fixture',
+        "name: required_fixture",
         'version: "1"',
         "profile: default",
         'model-paths: ["models"]',
@@ -273,35 +261,20 @@ describe("required config rules", () => {
     writeFile(
       directory,
       "models/marts/schema.yml",
-      [
-        "version: 2",
-        "models:",
-        "  - name: fct_orders",
-        "    tags: [daily]",
-      ].join("\n"),
+      ["version: 2", "models:", "  - name: fct_orders", "    tags: [daily]"].join("\n"),
     );
 
     writeFile(directory, "seeds/orders.csv", "id\n1\n");
     writeFile(
       directory,
       "seeds/schema.yml",
-      [
-        "version: 2",
-        "seeds:",
-        "  - name: orders",
-      ].join("\n"),
+      ["version: 2", "seeds:", "  - name: orders"].join("\n"),
     );
 
     writeFile(
       directory,
       "models/_sources/raw.yml",
-      [
-        "version: 2",
-        "sources:",
-        "  - name: raw",
-        "    tables:",
-        "      - name: orders",
-      ].join("\n"),
+      ["version: 2", "sources:", "  - name: raw", "    tables:", "      - name: orders"].join("\n"),
     );
 
     const rules = runCustomRules({
@@ -320,7 +293,7 @@ describe("required config rules", () => {
       directory,
       "dbt_project.yml",
       [
-        'name: required_fixture',
+        "name: required_fixture",
         'version: "1"',
         "profile: default",
         'model-paths: ["models"]',

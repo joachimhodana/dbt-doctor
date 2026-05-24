@@ -57,7 +57,12 @@ export const columnNameContract: Rule = {
     for (const file of context.sqlFiles) {
       if (!isModelSqlPath(file)) continue;
       const modelName = modelBaseName(file);
-      const modelBlock = findModelBlock(modelName, context.yamlFiles, context.readFile, isUnderModelsYaml);
+      const modelBlock = findModelBlock(
+        modelName,
+        context.yamlFiles,
+        context.readFile,
+        isUnderModelsYaml,
+      );
       if (!modelBlock) continue;
 
       for (const column of splitColumnBlocks(modelBlock.block)) {

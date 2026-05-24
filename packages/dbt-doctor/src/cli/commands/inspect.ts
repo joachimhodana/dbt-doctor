@@ -299,7 +299,12 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
     ) {
       process.exitCode = 1;
     }
-    if (shouldFailForPhase4Thresholds(completedScans.map((scan) => scan.result), userConfig)) {
+    if (
+      shouldFailForPhase4Thresholds(
+        completedScans.map((scan) => scan.result),
+        userConfig,
+      )
+    ) {
       process.exitCode = 1;
     }
   } catch (error) {

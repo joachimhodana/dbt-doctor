@@ -54,10 +54,7 @@ describe("manifest rules", () => {
             resource_type: "model",
             original_file_path: "models/staging/stg_orders.sql",
             depends_on: {
-              nodes: [
-                "model.manifest_fixture.stg_users",
-                "source.manifest_fixture.raw.users",
-              ],
+              nodes: ["model.manifest_fixture.stg_users", "source.manifest_fixture.raw.users"],
             },
           },
         },

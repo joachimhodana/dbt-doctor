@@ -33,7 +33,7 @@ export const modelMaterializationByChilds: Rule = {
         report(
           modelMaterializationByChilds,
           diagnosticPathForNode(node),
-          `Model "${node.name}" has ${children.length} downstream models but materialized="${node.materialized ?? 'unknown'}"`,
+          `Model "${node.name}" has ${children.length} downstream models but materialized="${node.materialized ?? "unknown"}"`,
           `Set materialized="${requiredMaterialized}" (or adjust threshold).`,
         ),
       );

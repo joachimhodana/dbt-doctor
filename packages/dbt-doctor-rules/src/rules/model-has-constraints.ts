@@ -15,7 +15,12 @@ export const modelHasConstraints: Rule = {
     for (const file of context.sqlFiles) {
       if (!isModelSqlPath(file)) continue;
       const modelName = modelBaseName(file);
-      const modelBlock = findModelBlock(modelName, context.yamlFiles, context.readFile, isUnderModelsYaml);
+      const modelBlock = findModelBlock(
+        modelName,
+        context.yamlFiles,
+        context.readFile,
+        isUnderModelsYaml,
+      );
       if (!modelBlock) continue;
       if (/\bconstraints:\s*/i.test(modelBlock.block)) continue;
 

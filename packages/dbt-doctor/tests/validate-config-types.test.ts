@@ -10,7 +10,12 @@ describe("validateConfigTypes", () => {
         baseline: true,
         useSqlfluff: true,
       }),
-    ).toMatchObject({ preset: "enterprise", scoreMode: "files", baseline: true, useSqlfluff: true });
+    ).toMatchObject({
+      preset: "enterprise",
+      scoreMode: "files",
+      baseline: true,
+      useSqlfluff: true,
+    });
   });
 
   it("strips invalid tier-4 fields", () => {

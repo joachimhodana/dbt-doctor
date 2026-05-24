@@ -35,7 +35,13 @@ export const sqlSetOperatorNewline: Rule = {
           }
           const firstOperator = operators[0];
           const lastOperator = operators[operators.length - 1];
-          if (!firstOperator?.range || !lastOperator?.range || !node.left?.range || !node.right?.range) return;
+          if (
+            !firstOperator?.range ||
+            !lastOperator?.range ||
+            !node.left?.range ||
+            !node.right?.range
+          )
+            return;
 
           const beforeOperator = content.slice(node.left.range[1], firstOperator.range[0]);
           const afterOperator = content.slice(lastOperator.range[1], node.right.range[0]);

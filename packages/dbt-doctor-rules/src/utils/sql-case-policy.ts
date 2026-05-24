@@ -12,5 +12,7 @@ export const resolveSqlCasePolicy = (
 export const isUpperCase = (value: string): boolean => value === value.toUpperCase();
 export const isLowerCase = (value: string): boolean => value === value.toLowerCase();
 
-export const matchesSqlCasePolicy = (value: string, policy: Exclude<SqlCasePolicy, "consistent">): boolean =>
-  policy === "upper" ? isUpperCase(value) : isLowerCase(value);
+export const matchesSqlCasePolicy = (
+  value: string,
+  policy: Exclude<SqlCasePolicy, "consistent">,
+): boolean => (policy === "upper" ? isUpperCase(value) : isLowerCase(value));

@@ -2,7 +2,15 @@
   "$schema": "https://unpkg.com/@changesets/config@3.1.2/schema.json",
   "changelog": ["@changesets/changelog-github", { "repo": "joachimhodana/dbt-doctor" }],
   "commit": false,
-  "fixed": [["dbt-doctor", "dbt-doctor-rules", "@dbt-doctor/types", "@dbt-doctor/project-info", "@dbt-doctor/manifest"]],
+  "fixed": [
+    [
+      "dbt-doctor",
+      "dbt-doctor-rules",
+      "@dbt-doctor/types",
+      "@dbt-doctor/project-info",
+      "@dbt-doctor/manifest"
+    ]
+  ],
   "linked": [],
   "access": "public",
   "baseBranch": "main",

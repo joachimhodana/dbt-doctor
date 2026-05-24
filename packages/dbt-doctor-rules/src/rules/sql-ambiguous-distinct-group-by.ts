@@ -18,13 +18,21 @@ export const sqlAmbiguousDistinctGroupBy: Rule = {
       if (!parsed) continue;
 
       walkCst(parsed.cst, {
-        select_stmt: (node: { clauses?: Array<{ type?: string; range?: [number, number]; modifiers?: Array<{ type?: string }> }> }) => {
+        select_stmt: (node: {
+          clauses?: Array<{
+            type?: string;
+            range?: [number, number];
+            modifiers?: Array<{ type?: string }>;
+          }>;
+        }) => {
           const clauses = node.clauses ?? [];
           const selectClause = clauses.find((clause) => clause.type === "select_clause") as
             | { range?: [number, number]; modifiers?: Array<{ type?: string }> }
             | undefined;
           const hasGroupBy = clauses.some((clause) => clause.type === "group_by_clause");
-          const hasDistinct = Boolean(selectClause?.modifiers?.some((modifier) => modifier.type === "select_distinct"));
+          const hasDistinct = Boolean(
+            selectClause?.modifiers?.some((modifier) => modifier.type === "select_distinct"),
+          );
 
           if (!hasDistinct || !hasGroupBy || !selectClause?.range) return;
 

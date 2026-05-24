@@ -9,7 +9,8 @@ export const modelHasGenericConstraints: Rule = {
   id: "model-has-generic-constraints",
   severity: "warn",
   category: "Governance",
-  recommendation: "Use generic constraints (not_null, unique, primary_key, foreign_key, check) in YAML.",
+  recommendation:
+    "Use generic constraints (not_null, unique, primary_key, foreign_key, check) in YAML.",
   run: (context) => {
     if (context.ruleConfig.enabled !== true) return [];
     const diagnostics = [];
@@ -17,7 +18,12 @@ export const modelHasGenericConstraints: Rule = {
     for (const file of context.sqlFiles) {
       if (!isModelSqlPath(file)) continue;
       const modelName = modelBaseName(file);
-      const modelBlock = findModelBlock(modelName, context.yamlFiles, context.readFile, isUnderModelsYaml);
+      const modelBlock = findModelBlock(
+        modelName,
+        context.yamlFiles,
+        context.readFile,
+        isUnderModelsYaml,
+      );
       if (!modelBlock) continue;
       if (GENERIC_CONSTRAINT_PATTERN.test(modelBlock.block)) continue;
 

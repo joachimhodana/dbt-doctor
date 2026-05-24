@@ -7,7 +7,8 @@ export const sourceTags: Rule = {
   id: "source-tags",
   severity: "warn",
   category: "Governance",
-  recommendation: "Set `rules.source-tags.allowed` in .dbt-doctor to enforce allowed source table tags.",
+  recommendation:
+    "Set `rules.source-tags.allowed` in .dbt-doctor to enforce allowed source table tags.",
   run: (context) => {
     const allowedTags = parseStringList(context.ruleConfig.allowed);
     if (allowedTags.length === 0) return [];

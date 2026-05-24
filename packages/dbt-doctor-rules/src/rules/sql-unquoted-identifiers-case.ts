@@ -13,7 +13,7 @@ type IdentifierCaseShape = "upper" | "lower" | "mixed";
 
 const isQuotedIdentifier = (rawText: string): boolean => {
   const start = rawText[0];
-  return start === '"' || start === '`' || start === '[';
+  return start === '"' || start === "`" || start === "[";
 };
 
 const detectCase = (text: string): IdentifierCaseShape => {
@@ -62,7 +62,8 @@ export const sqlUnquotedIdentifiersCase: Rule = {
         }
       });
 
-      const effectivePolicy = configuredPolicy === "consistent" ? (inferredPolicy ?? "lower") : configuredPolicy;
+      const effectivePolicy =
+        configuredPolicy === "consistent" ? (inferredPolicy ?? "lower") : configuredPolicy;
       for (const identifier of identifiers) {
         if (matchesSqlCasePolicy(identifier.text, effectivePolicy)) continue;
 

@@ -50,7 +50,8 @@ export const sqlFunctionNameCase: Rule = {
         },
       });
 
-      const effectivePolicy = configuredPolicy === "consistent" ? (inferredPolicy ?? "upper") : configuredPolicy;
+      const effectivePolicy =
+        configuredPolicy === "consistent" ? (inferredPolicy ?? "upper") : configuredPolicy;
       for (const fn of functions) {
         if (matchesSqlCasePolicy(fn.text, effectivePolicy)) continue;
 

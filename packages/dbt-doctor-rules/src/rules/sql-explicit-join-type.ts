@@ -19,7 +19,9 @@ export const sqlExplicitJoinType: Rule = {
 
       walkCst(parsed.cst, {
         join_expr: (node: {
-          operator?: { type?: string; text?: string; range?: [number, number] } | Array<{ type?: string; text?: string; range?: [number, number] }>;
+          operator?:
+            | { type?: string; text?: string; range?: [number, number] }
+            | Array<{ type?: string; text?: string; range?: [number, number] }>;
         }) => {
           const operator = node.operator;
           const first = Array.isArray(operator) ? operator[0] : operator;

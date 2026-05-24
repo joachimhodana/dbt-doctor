@@ -27,7 +27,10 @@ const isUnderModelsYaml = (filePath: string): boolean =>
   /\.(yml|yaml)$/i.test(filePath) && filePath.replace(/\\/g, "/").includes("models/");
 const modelBaseName = (filePath: string): string => path.basename(filePath, path.extname(filePath));
 
-const splitNamedYamlBlocks = (content: string, listKey: string): { name: string; block: string }[] => {
+const splitNamedYamlBlocks = (
+  content: string,
+  listKey: string,
+): { name: string; block: string }[] => {
   const header = content.match(new RegExp(`^\\s*${listKey}:\\s*\\n`, "m"));
   if (!header || header.index === undefined) return [];
   const tail = content.slice(header.index + header[0].length);
@@ -56,7 +59,8 @@ const findModelBlock = (
   return null;
 };
 
-const blockHasDescription = (block: string): boolean => /description:\s*\S/.test(block.split("columns:")[0] ?? block);
+const blockHasDescription = (block: string): boolean =>
+  /description:\s*\S/.test(block.split("columns:")[0] ?? block);
 
 const listTestReferenceNames = (modelBlock: string): string[] => {
   const names: string[] = [];
@@ -85,12 +89,14 @@ const walkFiles = (directory: string, rootDirectory: string, files: string[]): v
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
     const fullPath = path.join(directory, entry.name);
     if (entry.isDirectory()) {
-      if (!entry.name.startsWith(".") && !SKIP_DIRS.has(entry.name)) walkFiles(fullPath, rootDirectory, files);
+      if (!entry.name.startsWith(".") && !SKIP_DIRS.has(entry.name))
+        walkFiles(fullPath, rootDirectory, files);
       continue;
     }
     if (!entry.isFile()) continue;
     const relative = path.relative(rootDirectory, fullPath).replace(/\\/g, "/");
-    if (SOURCE_FILE_PATTERN.test(entry.name) || YAML_SOURCE_PATTERN.test(entry.name)) files.push(relative);
+    if (SOURCE_FILE_PATTERN.test(entry.name) || YAML_SOURCE_PATTERN.test(entry.name))
+      files.push(relative);
   }
 };
 
@@ -112,8 +118,13 @@ const readFile = (rootDirectory: string, relativePath: string): string => {
   }
 };
 
-export const computeCoverageMetrics = (rootDirectory: string, project: ProjectInfo): CoverageMetrics => {
-  const sqlFiles = listProjectFiles(rootDirectory, project.modelPaths).filter((file) => isModelSqlPath(file));
+export const computeCoverageMetrics = (
+  rootDirectory: string,
+  project: ProjectInfo,
+): CoverageMetrics => {
+  const sqlFiles = listProjectFiles(rootDirectory, project.modelPaths).filter((file) =>
+    isModelSqlPath(file),
+  );
   const yamlFiles = listProjectFiles(rootDirectory, [
     ...project.modelPaths,
     ...project.seedPaths,
@@ -138,7 +149,8 @@ export const computeCoverageMetrics = (rootDirectory: string, project: ProjectIn
   }
 
   const totalModels = sqlFiles.length;
-  const asPercent = (value: number): number => (totalModels === 0 ? 100 : Math.round((value / totalModels) * 100));
+  const asPercent = (value: number): number =>
+    totalModels === 0 ? 100 : Math.round((value / totalModels) * 100);
 
   return {
     documentedModels,
@@ -155,7 +167,9 @@ export const computePerModelScores = (
   project: ProjectInfo,
   scoreMode: ScoreMode | undefined,
 ): PerModelScore[] => {
-  const sqlFiles = listProjectFiles(rootDirectory, project.modelPaths).filter((file) => isModelSqlPath(file));
+  const sqlFiles = listProjectFiles(rootDirectory, project.modelPaths).filter((file) =>
+    isModelSqlPath(file),
+  );
 
   const scores: PerModelScore[] = sqlFiles.map((filePath) => {
     const modelDiagnostics = diagnostics.filter((diagnostic) => diagnostic.filePath === filePath);
@@ -174,6 +188,9 @@ export const computePerModelScores = (
   });
 
   return scores.sort(
-    (a, b) => a.score - b.score || b.diagnosticCount - a.diagnosticCount || a.modelName.localeCompare(b.modelName),
+    (a, b) =>
+      a.score - b.score ||
+      b.diagnosticCount - a.diagnosticCount ||
+      a.modelName.localeCompare(b.modelName),
   );
 };

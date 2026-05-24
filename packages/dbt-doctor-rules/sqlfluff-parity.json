@@ -3,10 +3,7 @@
   "updatedAt": "2026-05-23",
   "policy": {
     "minimumCoveragePercent": 100,
-    "requiredStatuses": [
-      "covered-native",
-      "covered-native-with-config"
-    ]
+    "requiredStatuses": ["covered-native", "covered-native-with-config"]
   },
   "rules": [
     {

@@ -11,7 +11,12 @@ const resolveIndentWidth = (ruleConfig: Record<string, unknown>): number => {
 
 const isIgnoredLine = (line: string): boolean => {
   const trimmed = line.trim();
-  return trimmed.length === 0 || trimmed.startsWith("--") || trimmed.startsWith("/*") || trimmed.startsWith("*");
+  return (
+    trimmed.length === 0 ||
+    trimmed.startsWith("--") ||
+    trimmed.startsWith("/*") ||
+    trimmed.startsWith("*")
+  );
 };
 
 export const sqlIndentationConsistency: Rule = {

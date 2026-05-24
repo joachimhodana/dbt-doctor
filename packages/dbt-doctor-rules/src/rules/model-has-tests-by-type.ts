@@ -7,7 +7,11 @@ import { listTestReferenceNames, singularTestMentionsModel } from "../utils/test
 
 const countSchemaTests = (modelBlock: string): number => listTestReferenceNames(modelBlock).length;
 
-const countDataTests = (modelName: string, testSqlFiles: string[], readFile: (path: string) => string): number => {
+const countDataTests = (
+  modelName: string,
+  testSqlFiles: string[],
+  readFile: (path: string) => string,
+): number => {
   let count = 0;
   for (const file of testSqlFiles) {
     const content = readFile(file);
@@ -31,13 +35,19 @@ export const modelHasTestsByType: Rule = {
     for (const file of context.sqlFiles) {
       if (!isModelSqlPath(file)) continue;
       const modelName = modelBaseName(file);
-      const modelBlock = findModelBlock(modelName, context.yamlFiles, context.readFile, isUnderModelsYaml);
+      const modelBlock = findModelBlock(
+        modelName,
+        context.yamlFiles,
+        context.readFile,
+        isUnderModelsYaml,
+      );
 
       const actualSchema = modelBlock ? countSchemaTests(modelBlock.block) : 0;
       const actualData = countDataTests(modelName, context.testSqlFiles, context.readFile);
 
       for (const [testType, minCount] of Object.entries(required)) {
-        const actualCount = testType === "data" ? actualData : testType === "schema" ? actualSchema : -1;
+        const actualCount =
+          testType === "data" ? actualData : testType === "schema" ? actualSchema : -1;
         if (actualCount < 0 || actualCount >= minCount) continue;
 
         diagnostics.push(

@@ -122,7 +122,9 @@ const buildDirectoryNode = async (
   const sorted = [...dirEntries].sort((left, right) => compareByOrder(left.name, right.name));
 
   const indexFile = sorted.find((entry) => entry.isFile() && entry.name === "index.md");
-  const mdFiles = sorted.filter((entry) => entry.isFile() && entry.name.endsWith(".md") && entry.name !== "index.md");
+  const mdFiles = sorted.filter(
+    (entry) => entry.isFile() && entry.name.endsWith(".md") && entry.name !== "index.md",
+  );
   const subdirectories = sorted.filter((entry) => entry.isDirectory());
 
   const children: DocsNode[] = [];
@@ -159,7 +161,10 @@ const buildDirectoryNode = async (
   return [
     {
       id: indexSegments.join("/"),
-      title: await readTitleFromFile(indexAbsolutePath, toTitle(relativeSegments.at(-1) ?? "Documentation")),
+      title: await readTitleFromFile(
+        indexAbsolutePath,
+        toTitle(relativeSegments.at(-1) ?? "Documentation"),
+      ),
       href: slugToHref(indexSegments),
       depth,
       children,

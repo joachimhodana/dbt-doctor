@@ -34,7 +34,13 @@ export const GithubStarButton = ({
 
   return (
     <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className={className}>
-      <svg width={iconSize} height={iconSize} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <svg
+        width={iconSize}
+        height={iconSize}
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
         <path fillRule="evenodd" clipRule="evenodd" d={GITHUB_ICON_PATH} />
       </svg>
       Star on GitHub

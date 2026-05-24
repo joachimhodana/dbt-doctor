@@ -1,5 +1,10 @@
 import type { Rule } from "../types.js";
-import { diagnosticPathForNode, isExposureNode, isModelNode, parentNodes } from "../utils/manifest-graph.js";
+import {
+  diagnosticPathForNode,
+  isExposureNode,
+  isModelNode,
+  parentNodes,
+} from "../utils/manifest-graph.js";
 import { report } from "../utils/report.js";
 
 const isRiskyMaterialization = (materialized: string | null): boolean =>

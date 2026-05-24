@@ -16,7 +16,8 @@ export const modelParentsDatabase: Rule = {
   recommendation: "Parent model dependencies should come from expected database.",
   run: (context) => {
     if (!context.manifest) return [];
-    const expected = typeof context.ruleConfig.equals === "string" ? context.ruleConfig.equals : null;
+    const expected =
+      typeof context.ruleConfig.equals === "string" ? context.ruleConfig.equals : null;
     if (!expected) return [];
 
     const diagnostics = [];

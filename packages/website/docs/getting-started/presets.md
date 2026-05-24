@@ -33,12 +33,12 @@ Same rules as enterprise, but you choose fail_on / score_mode yourself
   └─► omit preset              (no preset line in .dbt-doctor)
 ```
 
-| You want… | Set this |
-| --- | --- |
-| Sensible defaults while adopting dbt-doctor | `preset=default` |
-| Block merges on docs **and** native SQL formatting (`sql-keywords-case`, etc.) | `preset=strict` |
-| Full governance program (meta, sources, DAG, SQL style — everything) | `preset=enterprise` |
-| All rules with your own `fail_on` / `score_mode` | *no* `preset` line |
+| You want…                                                                      | Set this            |
+| ------------------------------------------------------------------------------ | ------------------- |
+| Sensible defaults while adopting dbt-doctor                                    | `preset=default`    |
+| Block merges on docs **and** native SQL formatting (`sql-keywords-case`, etc.) | `preset=strict`     |
+| Full governance program (meta, sources, DAG, SQL style — everything)           | `preset=enterprise` |
+| All rules with your own `fail_on` / `score_mode`                               | _no_ `preset` line  |
 
 ## The three presets (plain English)
 
@@ -100,12 +100,12 @@ preset=enterprise
 
 ## Important: `preset=default` is not the same as “no preset”
 
-| Config | Rules that run |
-| --- | --- |
-| No `preset` line | **All 122** rules (you set `fail_on` yourself) |
-| `preset=default` | **~65** core rules (quieter) |
-| `preset=strict` | **~93** rules (core + docs + SQL style) |
-| `preset=enterprise` | **All 122** rules |
+| Config              | Rules that run                                 |
+| ------------------- | ---------------------------------------------- |
+| No `preset` line    | **All 122** rules (you set `fail_on` yourself) |
+| `preset=default`    | **~65** core rules (quieter)                   |
+| `preset=strict`     | **~93** rules (core + docs + SQL style)        |
+| `preset=enterprise` | **All 122** rules                              |
 
 If scans feel too noisy, use `preset=default`. For SQL formatting in CI without enterprise governance, use `preset=strict`.
 
@@ -133,20 +133,20 @@ See [Rules reference](/docs/rules) for IDs.
 
 Under the hood, presets set `ignore.tags` — a list of rule **tags** to skip.
 
-| Tag | What kind of rules |
-| --- | --- |
-| *(no tag)* | Core architecture, naming, manifest, most SQL quality |
-| `strict` | Extra documentation / contract checks |
-| `enterprise` | Governance, ownership, PII hints, mart tests |
-| `style` / `phase5` | SQL formatting (keyword case, commas, etc.) |
+| Tag                | What kind of rules                                    |
+| ------------------ | ----------------------------------------------------- |
+| _(no tag)_         | Core architecture, naming, manifest, most SQL quality |
+| `strict`           | Extra documentation / contract checks                 |
+| `enterprise`       | Governance, ownership, PII hints, mart tests          |
+| `style` / `phase5` | SQL formatting (keyword case, commas, etc.)           |
 
 A rule is skipped if it has **any** ignored tag.
 
-| Preset | Ignored tags |
-| --- | --- |
-| `default` | `enterprise`, `strict`, `style`, `phase5` |
-| `strict` | `enterprise` only |
-| `enterprise` | *(none)* |
+| Preset       | Ignored tags                              |
+| ------------ | ----------------------------------------- |
+| `default`    | `enterprise`, `strict`, `style`, `phase5` |
+| `strict`     | `enterprise` only                         |
+| `enterprise` | _(none)_                                  |
 
 To skip SQL style again while on `strict` or `enterprise`:
 

@@ -5,7 +5,8 @@ import { offsetToLineColumn, parseSqlWithCst, walkCstWithPath } from "../utils/s
 
 const CHECKED_OPERATORS = new Set(["=", "!=", "<>", ">", "<", ">=", "<=", "+", "-", "*", "/"]);
 
-const hasSpace = (parts: unknown): boolean => Array.isArray(parts) && parts.some((part) => (part as { type?: string }).type === "space");
+const hasSpace = (parts: unknown): boolean =>
+  Array.isArray(parts) && parts.some((part) => (part as { type?: string }).type === "space");
 
 export const sqlOperatorSpacing: Rule = {
   id: "sql-operator-spacing",

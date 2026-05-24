@@ -87,7 +87,10 @@ const buildGraph = (raw: RawManifest): ManifestGraph => {
   return { nodes, edges, childrenByNode };
 };
 
-export const readManifest = (rootDirectory: string, manifestPath?: string): ManifestGraph | null => {
+export const readManifest = (
+  rootDirectory: string,
+  manifestPath?: string,
+): ManifestGraph | null => {
   const relativeManifestPath = manifestPath ?? DEFAULT_MANIFEST_PATH;
   const absoluteManifestPath = path.join(rootDirectory, relativeManifestPath);
 

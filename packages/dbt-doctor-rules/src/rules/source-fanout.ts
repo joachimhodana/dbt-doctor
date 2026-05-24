@@ -1,10 +1,6 @@
 import type { Rule } from "../types.js";
 import { SOURCE_FANOUT_MAX } from "../constants.js";
-import {
-  diagnosticPathForNode,
-  isModelNode,
-  isSourceNode,
-} from "../utils/manifest-graph.js";
+import { diagnosticPathForNode, isModelNode, isSourceNode } from "../utils/manifest-graph.js";
 import { report } from "../utils/report.js";
 
 export const sourceFanout: Rule = {

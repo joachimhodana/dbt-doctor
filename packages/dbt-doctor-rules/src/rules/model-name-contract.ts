@@ -3,7 +3,7 @@ import { isModelSqlPath, modelBaseName } from "../utils/model-paths.js";
 import { report } from "../utils/report.js";
 
 const DEFAULT_MESSAGE =
-  'Configure `rules.model-name-contract.pattern` in .dbt-doctor to enforce a naming regex.';
+  "Configure `rules.model-name-contract.pattern` in .dbt-doctor to enforce a naming regex.";
 
 const resolvePattern = (value: unknown): RegExp | null => {
   if (typeof value !== "string" || value.trim().length === 0) return null;

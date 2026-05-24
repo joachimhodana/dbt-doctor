@@ -32,7 +32,10 @@ const detectKeywordCase = (text: string): KeywordCapitalisationPolicy | null => 
 
 const resolvePolicy = (ruleConfig: Record<string, unknown>): KeywordCapitalisationPolicy => {
   const configured = ruleConfig.capitalisationPolicy;
-  if (typeof configured === "string" && VALID_POLICIES.has(configured as KeywordCapitalisationPolicy)) {
+  if (
+    typeof configured === "string" &&
+    VALID_POLICIES.has(configured as KeywordCapitalisationPolicy)
+  ) {
     return configured as KeywordCapitalisationPolicy;
   }
   return "consistent";
@@ -72,13 +75,18 @@ export const sqlKeywordsCase: Rule = {
           if (!shape) return;
           keywords.push({ text, rangeStart: range[0] });
 
-          if (configuredPolicy === "consistent" && inferredPolicy === null && shape !== "consistent") {
+          if (
+            configuredPolicy === "consistent" &&
+            inferredPolicy === null &&
+            shape !== "consistent"
+          ) {
             inferredPolicy = shape;
           }
         },
       });
 
-      const effectivePolicy = configuredPolicy === "consistent" ? (inferredPolicy ?? "upper") : configuredPolicy;
+      const effectivePolicy =
+        configuredPolicy === "consistent" ? (inferredPolicy ?? "upper") : configuredPolicy;
 
       for (const keyword of keywords) {
         if (matchesPolicy(keyword.text, effectivePolicy)) continue;

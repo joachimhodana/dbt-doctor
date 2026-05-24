@@ -15,10 +15,7 @@ const slugifyHeading = (value: string): string =>
     .replace(/^-+|-+$/g, "");
 
 const parseInlineMarkdown = (line: string): string => {
-  const escaped = line
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  const escaped = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
   return escaped
     .replace(/`([^`]+)`/g, "<code>$1</code>")
@@ -148,9 +145,7 @@ export const markdownToHtml = (markdown: string, options?: MarkdownToHtmlOptions
       if (options?.ruleCopyLinks && level === 3 && headingMatch[3]) {
         chunks.push(renderRuleHeadingHtml(headingId, headingText));
       } else {
-        chunks.push(
-          `<h${level} id="${headingId}">${parseInlineMarkdown(headingText)}</h${level}>`,
-        );
+        chunks.push(`<h${level} id="${headingId}">${parseInlineMarkdown(headingText)}</h${level}>`);
       }
       continue;
     }

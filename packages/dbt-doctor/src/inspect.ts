@@ -237,7 +237,9 @@ const runInspect = async (
     skippedCheckReasons["lint:partial"] = lintPartialFailures.join("; ");
   }
 
-  const coverageMetrics = options.coverage ? computeCoverageMetrics(directory, projectInfo) : undefined;
+  const coverageMetrics = options.coverage
+    ? computeCoverageMetrics(directory, projectInfo)
+    : undefined;
   const shouldComputePerModelScores =
     options.showPerModelScores ||
     typeof userConfig?.failAnyItemUnder === "number" ||

@@ -14,7 +14,8 @@ import {
   splitColumnBlocks,
 } from "../utils/yaml-blocks.js";
 
-const hasColumnDescription = (columnBlock: string): boolean => /description:\s*\S/.test(columnBlock);
+const hasColumnDescription = (columnBlock: string): boolean =>
+  /description:\s*\S/.test(columnBlock);
 const seedNameFromPath = (seedPath: string): string =>
   seedPath.replace(/^.*\//, "").replace(/\.[^.]+$/, "");
 

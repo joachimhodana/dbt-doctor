@@ -47,11 +47,15 @@ describe("shouldFailForPhase4Thresholds", () => {
   });
 
   it("fails when project score is under failProjectUnder", () => {
-    expect(shouldFailForPhase4Thresholds([makeResult(4.2, 9.9)], { failProjectUnder: 5 })).toBe(true);
+    expect(shouldFailForPhase4Thresholds([makeResult(4.2, 9.9)], { failProjectUnder: 5 })).toBe(
+      true,
+    );
   });
 
   it("fails when any item score is under failAnyItemUnder", () => {
-    expect(shouldFailForPhase4Thresholds([makeResult(9.9, 4.2)], { failAnyItemUnder: 5 })).toBe(true);
+    expect(shouldFailForPhase4Thresholds([makeResult(9.9, 4.2)], { failAnyItemUnder: 5 })).toBe(
+      true,
+    );
   });
 
   it("passes when all threshold checks pass", () => {

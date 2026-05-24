@@ -25,7 +25,9 @@ export const rejoiningUpstreamConcepts: Rule = {
 
       const modelParents = node.dependsOn
         .map((id) => manifest.nodes[id])
-        .filter((parent): parent is NonNullable<typeof parent> => Boolean(parent && isModelNode(parent)));
+        .filter((parent): parent is NonNullable<typeof parent> =>
+          Boolean(parent && isModelNode(parent)),
+        );
 
       if (modelParents.length < 2) continue;
 

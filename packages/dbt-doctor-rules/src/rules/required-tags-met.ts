@@ -6,11 +6,7 @@ import {
   resolveSourceRequirements,
 } from "../utils/required-model-config.js";
 import { report } from "../utils/report.js";
-import {
-  findModelBlock,
-  findSeedBlock,
-  splitSourceTableBlocks,
-} from "../utils/yaml-blocks.js";
+import { findModelBlock, findSeedBlock, splitSourceTableBlocks } from "../utils/yaml-blocks.js";
 
 const seedNameFromPath = (seedPath: string): string =>
   seedPath.replace(/^.*\//, "").replace(/\.[^.]+$/, "");
@@ -73,7 +69,10 @@ export const requiredTagsMet: Rule = {
         continue;
       }
 
-      const missingTags = missingRequiredTags(extractTags(modelBlock.block), requirements.requiredTags);
+      const missingTags = missingRequiredTags(
+        extractTags(modelBlock.block),
+        requirements.requiredTags,
+      );
       if (missingTags.length === 0) continue;
 
       diagnostics.push(
@@ -105,7 +104,10 @@ export const requiredTagsMet: Rule = {
         continue;
       }
 
-      const missingTags = missingRequiredTags(extractTags(seedBlock.block), requirements.requiredTags);
+      const missingTags = missingRequiredTags(
+        extractTags(seedBlock.block),
+        requirements.requiredTags,
+      );
       if (missingTags.length === 0) continue;
 
       diagnostics.push(
@@ -127,7 +129,10 @@ export const requiredTagsMet: Rule = {
       if (requirements.requiredTags.length === 0) continue;
 
       for (const table of splitSourceTableBlocks(content)) {
-        const missingTags = missingRequiredTags(extractTags(table.block), requirements.requiredTags);
+        const missingTags = missingRequiredTags(
+          extractTags(table.block),
+          requirements.requiredTags,
+        );
         if (missingTags.length === 0) continue;
 
         diagnostics.push(
