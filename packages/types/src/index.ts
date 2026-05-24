@@ -13,6 +13,7 @@ export type { DiagnoseOptions, DiagnoseResult } from "./diagnose.js";
 export type { CleanedDiagnostic, Diagnostic, OxlintOutput } from "./diagnostic.js";
 export type { HandleErrorOptions } from "./handle-error.js";
 export type {
+  CoverageMetrics,
   DiffInfo,
   InspectOptions,
   InspectResult,
@@ -22,6 +23,7 @@ export type {
   JsonReportMode,
   JsonReportProjectEntry,
   JsonReportSummary,
+  PerModelScore,
 } from "./inspect.js";
 export type {
   DbtAdapter,

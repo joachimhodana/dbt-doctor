@@ -1,3 +1,4 @@
+import type { Diagnostic } from "@dbt-doctor/types";
 import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 import { offsetToLineColumn, parseSqlWithCst, walkCstWithPath } from "../utils/sql-cst.js";
@@ -43,7 +44,7 @@ export const sqlSimpleCasePreferred: Rule = {
   recommendation: "Prefer simple CASE form when all WHEN clauses compare the same expression.",
   tags: ["style", "phase5"],
   run: ({ sqlFiles, readFile, project }) => {
-    const diagnostics = [];
+    const diagnostics: Diagnostic[] = [];
 
     for (const filePath of sqlFiles) {
       const content = readFile(filePath);

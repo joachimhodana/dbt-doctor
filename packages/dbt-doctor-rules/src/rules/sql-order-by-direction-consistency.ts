@@ -1,3 +1,4 @@
+import type { Diagnostic } from "@dbt-doctor/types";
 import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 import { offsetToLineColumn, parseSqlWithCst, walkCst } from "../utils/sql-cst.js";
@@ -9,7 +10,7 @@ export const sqlOrderByDirectionConsistency: Rule = {
   recommendation: "Use consistent explicit ASC/DESC in ORDER BY lists.",
   tags: ["style", "phase5"],
   run: ({ sqlFiles, readFile, project }) => {
-    const diagnostics = [];
+    const diagnostics: Diagnostic[] = [];
 
     for (const filePath of sqlFiles) {
       const content = readFile(filePath);

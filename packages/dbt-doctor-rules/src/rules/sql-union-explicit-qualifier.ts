@@ -1,3 +1,4 @@
+import type { Diagnostic } from "@dbt-doctor/types";
 import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 import { offsetToLineColumn, parseSqlWithCst, walkCst } from "../utils/sql-cst.js";
@@ -18,7 +19,7 @@ export const sqlUnionExplicitQualifier: Rule = {
   run: ({ sqlFiles, readFile, project, ruleConfig }) => {
     if (!requireExplicitQualifier(ruleConfig)) return [];
 
-    const diagnostics = [];
+    const diagnostics: Diagnostic[] = [];
 
     for (const filePath of sqlFiles) {
       const content = readFile(filePath);

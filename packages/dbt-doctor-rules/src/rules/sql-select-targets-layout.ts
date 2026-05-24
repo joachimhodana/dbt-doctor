@@ -1,3 +1,4 @@
+import type { Diagnostic } from "@dbt-doctor/types";
 import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 import { offsetToLineColumn, parseSqlWithCst, walkCst } from "../utils/sql-cst.js";
@@ -25,7 +26,7 @@ export const sqlSelectTargetsLayout: Rule = {
   recommendation: "Format SELECT targets on new lines (SQLFluff layout.select_targets style).",
   tags: ["style", "phase5"],
   run: ({ sqlFiles, readFile, project, ruleConfig }) => {
-    const diagnostics = [];
+    const diagnostics: Diagnostic[] = [];
     const singleTargetPolicy = resolveSingleTargetPolicy(ruleConfig);
     const wildcardPolicy = resolveWildcardPolicy(ruleConfig);
 

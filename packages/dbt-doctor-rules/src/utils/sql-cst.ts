@@ -63,14 +63,20 @@ export const walkCst = (cst: unknown, handlers: Record<string, (node: any) => vo
   walker(cst as never);
 };
 
+export interface CstWalkerNode {
+  type?: string;
+  range?: [number, number];
+  text?: string;
+}
+
 export const walkCstWithPath = (
   node: unknown,
-  visitor: (current: { type?: string; range?: [number, number] }, path: Array<{ type?: string }>) => void,
-  path: Array<{ type?: string }> = [],
+  visitor: (current: CstWalkerNode, path: CstWalkerNode[]) => void,
+  path: CstWalkerNode[] = [],
 ): void => {
   if (!node || typeof node !== "object") return;
 
-  const current = node as { type?: string };
+  const current = node as CstWalkerNode;
   visitor(current, path);
   const nextPath = [...path, current];
 

@@ -1,3 +1,4 @@
+import type { Diagnostic } from "@dbt-doctor/types";
 import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 import { offsetToLineColumn, parseSqlWithCst, walkCst } from "../utils/sql-cst.js";
@@ -14,7 +15,7 @@ export const sqlCteBlankLineAfter: Rule = {
   recommendation: "Insert a blank line between the final CTE and the main SELECT.",
   tags: ["style", "phase5"],
   run: ({ sqlFiles, readFile, project }) => {
-    const diagnostics = [];
+    const diagnostics: Diagnostic[] = [];
 
     for (const filePath of sqlFiles) {
       const content = readFile(filePath);

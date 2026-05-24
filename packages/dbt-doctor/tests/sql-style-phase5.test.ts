@@ -279,7 +279,7 @@ describe("phase5 native sql style rules", () => {
       "dbt_project.yml",
       'name: sql_style_fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
     );
-    fs.writeFileSync(path.join(directory, "models/staging/stg_orders.sql"), "select id from raw_orders");
+    writeFile(directory, "models/staging/stg_orders.sql", "select id from raw_orders");
 
     const diagnostics = runCustomRules({
       rootDirectory: directory,
