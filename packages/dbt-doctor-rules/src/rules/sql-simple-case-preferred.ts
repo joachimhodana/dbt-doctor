@@ -46,7 +46,7 @@ export const sqlSimpleCasePreferred: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Prefer simple CASE form when all WHEN clauses compare the same expression.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

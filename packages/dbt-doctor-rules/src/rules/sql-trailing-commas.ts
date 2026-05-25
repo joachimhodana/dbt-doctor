@@ -15,7 +15,7 @@ export const sqlTrailingCommas: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use trailing comma placement in comma-separated SQL lists.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project, ruleConfig }) => {
     if (!isEnabled(ruleConfig, true)) return [];
 

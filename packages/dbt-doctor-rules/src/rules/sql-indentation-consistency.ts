@@ -24,7 +24,7 @@ export const sqlIndentationConsistency: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use consistent spaces-only indentation.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, ruleConfig }) => {
     const diagnostics = [];
     const indentWidth = resolveIndentWidth(ruleConfig);

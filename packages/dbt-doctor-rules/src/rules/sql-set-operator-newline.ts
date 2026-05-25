@@ -10,7 +10,7 @@ export const sqlSetOperatorNewline: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Place set operators (UNION/INTERSECT/EXCEPT) on their own line boundaries.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

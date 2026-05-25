@@ -8,7 +8,7 @@ export const sqlNoLeadingWhitespace: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Do not start SQL files with leading whitespace.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];
 

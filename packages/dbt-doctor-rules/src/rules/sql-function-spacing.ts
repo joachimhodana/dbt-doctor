@@ -11,7 +11,7 @@ export const sqlFunctionSpacing: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Do not add whitespace between function names and parentheses.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

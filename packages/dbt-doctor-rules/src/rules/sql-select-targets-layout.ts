@@ -24,7 +24,7 @@ export const sqlSelectTargetsLayout: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Format SELECT targets on new lines (SQLFluff layout.select_targets style).",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project, ruleConfig }) => {
     const diagnostics: Diagnostic[] = [];
     const singleTargetPolicy = resolveSingleTargetPolicy(ruleConfig);

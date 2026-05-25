@@ -6,14 +6,21 @@ describe("applyConfigPreset", () => {
     expect(applyConfigPreset(null)).toBeNull();
   });
 
-  it("leaves config unchanged when preset is omitted", () => {
+  it("applies default preset when preset is omitted", () => {
     const config = { failOn: "none" as const };
-    expect(applyConfigPreset(config)).toEqual(config);
+    expect(applyConfigPreset(config)).toEqual({
+      preset: "default",
+      failOn: "none",
+      ignore: { tags: ["enterprise", "strict", "style", "sql-style"] },
+      categories: {},
+      surfaces: {},
+      rules: {},
+    });
   });
 
   it("applies default preset tag filters", () => {
     const config = applyConfigPreset({ preset: "default" });
-    expect(config?.ignore?.tags).toEqual(["enterprise", "strict", "style", "phase5"]);
+    expect(config?.ignore?.tags).toEqual(["enterprise", "strict", "style", "sql-style"]);
   });
 
   it("applies strict preset defaults", () => {

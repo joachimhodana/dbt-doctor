@@ -8,7 +8,7 @@ export const sqlAmbiguousDistinctGroupBy: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Avoid combining DISTINCT with GROUP BY in the same SELECT statement.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

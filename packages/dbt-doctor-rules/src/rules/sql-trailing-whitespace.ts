@@ -6,7 +6,7 @@ export const sqlTrailingWhitespace: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Remove trailing whitespace at end of lines.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];
 

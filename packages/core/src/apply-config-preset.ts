@@ -5,7 +5,7 @@ import type { DbtDoctorConfig, DbtDoctorPreset } from "@dbt-doctor/types";
  * Rules with any ignored tag are not registered for the scan.
  */
 const IGNORE_TAGS = {
-  style: ["style", "phase5"],
+  style: ["style", "sql-style"],
   strict: ["strict"],
   enterprise: ["enterprise"],
 } as const;
@@ -14,7 +14,7 @@ const PRESET_OVERRIDES: Record<DbtDoctorPreset, Partial<DbtDoctorConfig>> = {
   /**
    * Recommended starter: core architecture, naming, SQL quality, and manifest rules
    * without documentation-contract (`strict`), governance (`enterprise`), or
-   * formatting (`style` / `phase5`) tiers.
+   * formatting (`style` / `sql-style`) tiers.
    */
   default: {
     ignore: {
@@ -68,6 +68,6 @@ const mergePresetConfig = (preset: DbtDoctorPreset, config: DbtDoctorConfig): Db
 
 export const applyConfigPreset = (config: DbtDoctorConfig | null): DbtDoctorConfig | null => {
   if (!config) return null;
-  if (!config.preset) return config;
-  return mergePresetConfig(config.preset, config);
+  const preset: DbtDoctorPreset = config.preset ?? "default";
+  return mergePresetConfig(preset, config);
 };

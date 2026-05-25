@@ -12,7 +12,7 @@ export const sqlReferenceConsistency: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use a consistent reference style within a SELECT statement.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics = [];
 

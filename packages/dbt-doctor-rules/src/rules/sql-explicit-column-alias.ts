@@ -8,7 +8,7 @@ export const sqlExplicitColumnAlias: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use explicit AS for select-expression aliases.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

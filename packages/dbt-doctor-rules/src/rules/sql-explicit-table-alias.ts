@@ -8,7 +8,7 @@ export const sqlExplicitTableAlias: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use explicit AS for table/subquery aliases.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

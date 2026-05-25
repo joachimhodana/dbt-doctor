@@ -8,7 +8,7 @@ export const sqlOrderByDirectionConsistency: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use consistent explicit ASC/DESC in ORDER BY lists.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

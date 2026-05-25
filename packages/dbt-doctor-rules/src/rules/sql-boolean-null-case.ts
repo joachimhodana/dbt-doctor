@@ -23,7 +23,7 @@ export const sqlBooleanNullCase: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use consistent capitalization for TRUE/FALSE/NULL literals.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project, ruleConfig }) => {
     const diagnostics = [];
     const configuredPolicy = resolveSqlCasePolicy(ruleConfig, "upper");

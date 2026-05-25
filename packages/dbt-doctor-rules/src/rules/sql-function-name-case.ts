@@ -21,7 +21,7 @@ export const sqlFunctionNameCase: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use consistent capitalization for SQL function names.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project, ruleConfig }) => {
     const diagnostics = [];
     const configuredPolicy = resolveSqlCasePolicy(ruleConfig);

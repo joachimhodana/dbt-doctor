@@ -11,7 +11,7 @@ export const sqlCteBracketPosition: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use one space between AS and opening parenthesis in CTE definitions.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

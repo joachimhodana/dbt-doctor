@@ -23,7 +23,7 @@ export const sqlReferencesQualified: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Qualify references when selecting from multiple relations.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics = [];
 

@@ -8,7 +8,7 @@ export const sqlCaseNesting: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Avoid nested CASE expressions where possible.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

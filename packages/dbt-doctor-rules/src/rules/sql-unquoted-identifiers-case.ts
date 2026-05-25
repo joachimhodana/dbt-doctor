@@ -35,7 +35,7 @@ export const sqlUnquotedIdentifiersCase: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use consistent capitalization for unquoted identifiers.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project, ruleConfig }) => {
     const diagnostics = [];
     const configuredPolicy = resolveSqlCasePolicy(ruleConfig);

@@ -8,7 +8,7 @@ export const sqlExplicitJoinType: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use explicit JOIN type (e.g. INNER JOIN, LEFT JOIN).",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

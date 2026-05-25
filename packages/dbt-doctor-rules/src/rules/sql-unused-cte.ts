@@ -12,7 +12,7 @@ export const sqlUnusedCte: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Remove CTEs that are defined but never referenced.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics = [];
 

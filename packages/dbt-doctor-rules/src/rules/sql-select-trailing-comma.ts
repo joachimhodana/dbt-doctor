@@ -13,7 +13,7 @@ export const sqlSelectTrailingComma: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Disallow trailing commas at end of SELECT lists (SQLFluff CV03 default).",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project, ruleConfig }) => {
     if (!isEnabled(ruleConfig, true)) return [];
 

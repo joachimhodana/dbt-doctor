@@ -13,7 +13,7 @@ export const sqlCteBlankLineAfter: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Insert a blank line between the final CTE and the main SELECT.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

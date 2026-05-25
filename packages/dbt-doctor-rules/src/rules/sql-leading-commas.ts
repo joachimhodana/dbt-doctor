@@ -15,7 +15,7 @@ export const sqlLeadingCommas: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use leading comma placement in comma-separated SQL lists.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project, ruleConfig }) => {
     if (!isEnabled(ruleConfig, false)) return [];
 

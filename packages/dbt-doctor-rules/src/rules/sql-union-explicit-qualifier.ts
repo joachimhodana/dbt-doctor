@@ -15,7 +15,7 @@ export const sqlUnionExplicitQualifier: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use explicit UNION qualifier (UNION DISTINCT or UNION ALL).",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project, ruleConfig }) => {
     if (!requireExplicitQualifier(ruleConfig)) return [];
 

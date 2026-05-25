@@ -53,7 +53,7 @@ export const sqlKeywordsCase: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use consistent keyword capitalization (SQLFluff-style).",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project, ruleConfig }) => {
     const diagnostics = [];
     const configuredPolicy = resolvePolicy(ruleConfig);

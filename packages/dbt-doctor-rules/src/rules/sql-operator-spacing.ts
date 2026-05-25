@@ -13,7 +13,7 @@ export const sqlOperatorSpacing: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Use single spaces around binary operators.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics: Diagnostic[] = [];
 

@@ -6,7 +6,7 @@ export const sqlFileTrailingNewline: Rule = {
   severity: "warn",
   category: "SQL Style",
   recommendation: "Ensure SQL files end with a trailing newline.",
-  tags: ["style", "phase5"],
+  tags: ["style", "sql-style"],
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];
 
