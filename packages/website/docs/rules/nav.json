@@ -7,6 +7,7 @@
         "direct-source-and-ref",
         "hardcoded-database",
         "model-fanout",
+        "model-parents-and-childs",
         "model-parents-database",
         "model-parents-name-prefix",
         "model-parents-schema",
@@ -14,6 +15,8 @@
         "no-run-query-in-model",
         "prefer-ref-over-raw-source",
         "rejoining-upstream-concepts",
+        "script-has-no-table-name",
+        "script-ref-and-source",
         "source-childs",
         "source-fanout",
         "source-in-downstream",
@@ -56,10 +59,15 @@
         "column-description-required",
         "macro-arguments-have-desc",
         "macro-documented",
+        "model-has-example-sql",
         "per-model-schema-yml",
         "required-docs-met",
         "schema-description",
+        "seed-columns-have-description",
         "seed-documented",
+        "source-columns-have-desc",
+        "source-has-description",
+        "source-table-has-description",
         "undocumented-model",
         "undocumented-sources"
       ]
@@ -72,6 +80,8 @@
         "exposure-documented",
         "exposure-has-meta-keys",
         "exposures-on-private-models",
+        "macro-has-meta-keys",
+        "model-columns-have-meta-keys",
         "model-has-all-columns",
         "model-has-constraints",
         "model-has-generic-constraints",
@@ -79,12 +89,14 @@
         "model-has-meta-keys",
         "model-name-contract",
         "model-owner-or-meta",
+        "model-single-pk-column-level",
         "model-tags",
         "no-hardcoded-env",
         "required-tags-met",
         "seed-has-meta-keys",
         "seed-has-owner",
         "snapshot-has-meta-keys",
+        "source-has-all-columns",
         "source-has-labels-keys",
         "source-has-loader",
         "source-has-meta-keys",
@@ -119,7 +131,29 @@
     {
       "id": "sources",
       "title": "Sources",
-      "rules": ["duplicate-sources", "source-freshness", "unused-sources"]
+      "rules": [
+        "duplicate-sources",
+        "source-freshness",
+        "unused-sources"
+      ]
+    },
+    {
+      "id": "sql-convention",
+      "title": "SQL Convention",
+      "rules": [
+        "sql-between-symmetric-style",
+        "sql-boolean-literal-style",
+        "sql-cast-style-consistency",
+        "sql-coalesce-preferred",
+        "sql-count-star-preferred",
+        "sql-join-using-consistency",
+        "sql-null-literal-style",
+        "sql-reference-unnecessary-quoted",
+        "sql-tsql-bare-temp-table",
+        "sql-tsql-sp-prefix",
+        "sql-tsql-sys-schema-qualified",
+        "sql-zero-length-string-style"
+      ]
     },
     {
       "id": "sql-quality",
@@ -127,8 +161,27 @@
       "rules": [
         "database-casing-consistency",
         "empty-model-file",
+        "jinja-syntax-valid",
         "no-select-star",
         "script-semicolon",
+        "sql-ambiguous-order-by-target",
+        "sql-boolean-comparison-simplify",
+        "sql-constant-expression",
+        "sql-distinct-with-order-by-non-selected",
+        "sql-join-condition-required",
+        "sql-no-comma-join",
+        "sql-no-subquery-in-join",
+        "sql-null-comparison-operator",
+        "sql-order-by-distinct-compatibility",
+        "sql-order-by-ordinal-unambiguous",
+        "sql-prefer-bang-equals",
+        "sql-reference-object-in-from",
+        "sql-reference-target-exists",
+        "sql-set-operator-column-count-match",
+        "sql-single-statement-model",
+        "sql-union-distinct-redundant",
+        "sql-unique-column-aliases",
+        "sql-unused-join-alias",
         "too-many-joins"
       ]
     },
@@ -136,32 +189,52 @@
       "id": "sql-style",
       "title": "SQL Style",
       "rules": [
+        "jinja-tag-padding",
+        "sql-alias-length-min",
+        "sql-alias-not-keyword",
         "sql-ambiguous-distinct-group-by",
+        "sql-ambiguous-join-type",
         "sql-boolean-null-case",
         "sql-case-nesting",
+        "sql-clause-newline-consistency",
         "sql-cte-blank-line-after",
         "sql-cte-bracket-position",
+        "sql-data-type-case",
+        "sql-derived-table-alias-required",
+        "sql-distinct-parentheses",
         "sql-explicit-column-alias",
         "sql-explicit-join-type",
         "sql-explicit-table-alias",
+        "sql-expression-alias-required",
         "sql-file-trailing-newline",
         "sql-function-name-case",
         "sql-function-spacing",
         "sql-indentation-consistency",
+        "sql-join-condition-in-on-clause",
         "sql-keywords-case",
         "sql-leading-commas",
+        "sql-max-consecutive-blank-lines",
+        "sql-no-consecutive-semicolons",
+        "sql-no-else-null-case",
         "sql-no-leading-whitespace",
+        "sql-no-positional-group-order",
+        "sql-no-self-alias",
         "sql-operator-spacing",
         "sql-order-by-direction-consistency",
+        "sql-quoted-literal-style",
         "sql-reference-consistency",
+        "sql-reference-keyword-quoted",
+        "sql-reference-special-chars-quoted",
         "sql-references-qualified",
         "sql-select-targets-layout",
         "sql-select-trailing-comma",
+        "sql-self-join-alias-distinct",
         "sql-set-operator-newline",
         "sql-simple-case-preferred",
         "sql-trailing-commas",
         "sql-trailing-whitespace",
         "sql-union-explicit-qualifier",
+        "sql-unique-table-aliases",
         "sql-unquoted-identifiers-case",
         "sql-unused-cte"
       ]
@@ -169,7 +242,11 @@
     {
       "id": "structure",
       "title": "Structure",
-      "rules": ["model-outside-layer-folder", "non-canonical-layer-folder", "root-models"]
+      "rules": [
+        "model-outside-layer-folder",
+        "non-canonical-layer-folder",
+        "root-models"
+      ]
     },
     {
       "id": "testing",
@@ -181,9 +258,15 @@
         "model-has-tests-by-group",
         "model-has-tests-by-name",
         "model-has-tests-by-type",
+        "model-has-uniqueness-test",
+        "model-single-column-uniqueness",
         "not-null-on-required-keys",
         "relationship-test-on-fk",
-        "required-tests-met"
+        "required-tests-met",
+        "source-has-tests",
+        "source-has-tests-by-group",
+        "source-has-tests-by-name",
+        "source-has-tests-by-type"
       ]
     }
   ]

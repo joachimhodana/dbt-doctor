@@ -368,6 +368,16 @@ const CopyCommand = () => {
   );
 };
 
+const DocsButton = () => (
+  <a
+    href="/docs"
+    className="inline-flex items-center gap-1.5 rounded-md border border-orange-200/20 bg-[#120e0d] px-3 py-1.5 text-white transition-colors hover:bg-[#1b1412]"
+  >
+    Docs
+    <ChevronRight size={14} className="text-white/70" />
+  </a>
+);
+
 interface AnimationState {
   typedCommand: string;
   isTyping: boolean;
@@ -541,6 +551,7 @@ const Terminal = () => {
             <Spacer />
             <div className="flex flex-wrap items-center gap-3">
               <CopyCommand />
+              <DocsButton />
               <GithubStarButton />
             </div>
           </FadeIn>

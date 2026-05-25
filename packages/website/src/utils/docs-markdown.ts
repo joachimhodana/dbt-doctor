@@ -50,7 +50,7 @@ const escapeHtmlAttribute = (value: string): string =>
 const renderRuleHeadingHtml = (headingId: string, headingText: string): string => {
   const copyUrl = `/docs/rules#${headingId}`;
   const ariaLabel = escapeHtmlAttribute(`Copy link to ${headingId}`);
-  return `<h3 id="${headingId}" class="docs-rule-heading"><button type="button" class="docs-copy-link" data-copy-url="${copyUrl}" aria-label="${ariaLabel}">${COPY_LINK_ICON_SVG}${CHECK_LINK_ICON_SVG}</button><span class="docs-rule-heading-text">${parseInlineMarkdown(headingText)}</span></h3>`;
+  return `<h3 id="${headingId}" class="docs-rule-heading" data-copy-url="${copyUrl}"><button type="button" class="docs-copy-link" data-copy-url="${copyUrl}" aria-label="${ariaLabel}">${COPY_LINK_ICON_SVG}${CHECK_LINK_ICON_SVG}</button><span class="docs-rule-heading-text" data-copy-url="${copyUrl}">${parseInlineMarkdown(headingText)}</span></h3>`;
 };
 
 export const markdownToHtml = (markdown: string, options?: MarkdownToHtmlOptions): string => {

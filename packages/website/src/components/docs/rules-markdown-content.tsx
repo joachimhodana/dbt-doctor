@@ -49,18 +49,24 @@ export const RulesMarkdownContent = ({ markdown }: { markdown: string }) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
 
-      const button = target.closest<HTMLButtonElement>("button[data-copy-url]");
-      if (!button || !root.contains(button)) return;
+      const copyTarget = target.closest<HTMLElement>("[data-copy-url]");
+      if (!copyTarget || !root.contains(copyTarget)) return;
 
       event.preventDefault();
       event.stopPropagation();
 
-      const relativeUrl = button.getAttribute("data-copy-url");
+      const relativeUrl = copyTarget.getAttribute("data-copy-url");
       if (!relativeUrl) return;
 
       const fullUrl = new URL(relativeUrl, window.location.href).href;
       const copied = await copyTextToClipboard(fullUrl);
       if (!copied) return;
+
+      const button =
+        copyTarget.closest<HTMLElement>(".docs-rule-heading")?.querySelector<HTMLButtonElement>(
+          ".docs-copy-link",
+        ) ?? null;
+      if (!button) return;
 
       button.classList.add("docs-copy-link--copied");
       window.setTimeout(
