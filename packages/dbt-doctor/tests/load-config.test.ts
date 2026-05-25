@@ -72,7 +72,7 @@ diff=main
       expect(loadConfig(boolDiffDirectory)?.diff).toBe(true);
     });
 
-    it("loads preset, scoreMode, and baseline", () => {
+    it("loads preset and scoreMode", () => {
       const tier4Directory = path.join(tempRootDirectory, "tier-4-config");
       fs.mkdirSync(tier4Directory, { recursive: true });
       fs.writeFileSync(
@@ -80,14 +80,12 @@ diff=main
         `
 preset=enterprise
 score_mode=files
-baseline=baselines/known.json
 `,
       );
       clearConfigCache();
       expect(loadConfig(tier4Directory)).toEqual({
         preset: "enterprise",
         scoreMode: "files",
-        baseline: "baselines/known.json",
       });
     });
   });

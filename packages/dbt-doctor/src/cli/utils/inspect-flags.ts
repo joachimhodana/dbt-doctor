@@ -27,5 +27,4 @@ export interface InspectFlags {
   preset?: string;
   scoreMode?: string;
   sarif?: boolean;
-  writeBaseline?: boolean;
 }

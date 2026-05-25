@@ -62,11 +62,4 @@ surfaces.score.excludeTags=design
       surfaces: { score: { excludeTags: ["design"] } },
     });
   });
-
-  it("parses baseline as boolean or path", () => {
-    expect(parseDbtDoctorProps("baseline=true")).toEqual({ baseline: true });
-    expect(parseDbtDoctorProps("baseline=.dbt-doctor-baseline.json")).toEqual({
-      baseline: ".dbt-doctor-baseline.json",
-    });
-  });
 });

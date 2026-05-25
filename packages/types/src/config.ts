@@ -96,7 +96,6 @@ export interface DbtDoctorConfig {
   failProjectUnder?: number;
   /** Fail the scan if any model score drops below this value. */
   failAnyItemUnder?: number;
-  baseline?: boolean | string;
   ignore?: DbtDoctorIgnoreConfig;
   lint?: boolean;
   verbose?: boolean;

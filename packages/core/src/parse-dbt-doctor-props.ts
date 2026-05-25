@@ -108,11 +108,6 @@ const applyScalar = (config: DbtDoctorConfig, key: string, rawValue: string): vo
     case "manifest":
       config.manifestPath = value;
       return;
-    case "baseline": {
-      const boolValue = parseBoolean(value);
-      config.baseline = boolValue ?? value;
-      return;
-    }
     case "lint":
     case "verbose":
     case "customRulesOnly":

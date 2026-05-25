@@ -273,13 +273,6 @@ export const validateConfigTypes = (config: DbtDoctorConfig): DbtDoctorConfig =>
     );
     return undefined;
   });
-  applyFieldValidator(config, validated, "baseline", (value) => {
-    if (typeof value === "boolean" || typeof value === "string") return value;
-    warnConfigField(
-      `config field "baseline" must be a boolean or string path (got ${typeof value}); ignoring.`,
-    );
-    return undefined;
-  });
   for (const fieldName of SEVERITY_FIELD_NAMES) {
     applyFieldValidator(config, validated, fieldName, (value) =>
       validateSeverityMap(fieldName, value),

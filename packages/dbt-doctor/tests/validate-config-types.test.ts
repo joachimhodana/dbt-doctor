@@ -2,18 +2,16 @@ import { describe, expect, it, vi } from "vite-plus/test";
 import { validateConfigTypes } from "@dbt-doctor/core";
 
 describe("validateConfigTypes", () => {
-  it("keeps preset, scoreMode, and baseline", () => {
+  it("keeps preset and scoreMode", () => {
     expect(
       validateConfigTypes({
         preset: "enterprise",
         scoreMode: "files",
-        baseline: true,
         useSqlfluff: true,
       }),
     ).toMatchObject({
       preset: "enterprise",
       scoreMode: "files",
-      baseline: true,
       useSqlfluff: true,
     });
   });
@@ -23,11 +21,9 @@ describe("validateConfigTypes", () => {
     const config = validateConfigTypes({
       preset: "x" as "enterprise",
       scoreMode: "x" as "files",
-      baseline: 1 as unknown as boolean,
     });
     expect(config.preset).toBeUndefined();
     expect(config.scoreMode).toBeUndefined();
-    expect(config.baseline).toBeUndefined();
     stderr.mockRestore();
   });
 
@@ -51,7 +47,7 @@ describe("validateConfigTypes", () => {
     stderr.mockRestore();
   });
 
-  it("keeps numeric phase4 thresholds and strips invalid values", () => {
+  it("keeps numeric score thresholds and strips invalid values", () => {
     const stderr = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
     const config = validateConfigTypes({
       failProjectUnder: 6.5,

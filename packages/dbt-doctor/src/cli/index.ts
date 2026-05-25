@@ -49,10 +49,6 @@ const program = new Command()
   .option("--annotations", "output diagnostics as GitHub Actions annotations")
   .option("--sarif", "output diagnostics as SARIF 2.1 JSON (for GitHub Code Scanning and similar)")
   .option(
-    "--write-baseline",
-    "write current findings to .dbt-doctor-baseline.json (or path from config.baseline)",
-  )
-  .option(
     "--pr-comment",
     "tune CLI output for sticky PR comments (drops weak-signal rule families like `design` from the printed list and the fail-on gate; configure via config.surfaces)",
   )
