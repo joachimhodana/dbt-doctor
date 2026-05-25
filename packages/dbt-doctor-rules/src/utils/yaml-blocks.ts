@@ -101,11 +101,22 @@ export const splitSourceTableBlocks = (content: string): SourceTableBlock[] => {
     if (tablesIndex < 0) continue;
 
     const tablesTail = source.block.slice(tablesIndex);
-    const tableParts = tablesTail.split(/\n\s{4,}-\s+name:\s+/).slice(1);
-    for (const part of tableParts) {
-      const tableName = part.match(/^["']?([\w.-]+)/)?.[1];
-      if (!tableName) continue;
-      tables.push({ sourceName: source.name, tableName, block: part });
+    const tableRegex = /^\s{6}-\s+name:\s+["']?([\w.-]+)/gm;
+    const indices: { tableName: string; index: number }[] = [];
+    for (const match of tablesTail.matchAll(tableRegex)) {
+      if (match.index === undefined) continue;
+      indices.push({ tableName: match[1], index: match.index });
+    }
+
+    for (let index = 0; index < indices.length; index += 1) {
+      const start = indices[index]!.index;
+      const end = index + 1 < indices.length ? indices[index + 1]!.index : tablesTail.length;
+      const block = tablesTail.slice(start, end);
+      tables.push({
+        sourceName: source.name,
+        tableName: indices[index]!.tableName,
+        block,
+      });
     }
   }
 

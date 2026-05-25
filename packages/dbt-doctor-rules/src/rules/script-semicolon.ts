@@ -6,7 +6,7 @@ export const scriptSemicolon: Rule = {
   id: "script-semicolon",
   severity: "warn",
   category: "SQL Quality",
-  recommendation: "Terminate SQL scripts with a semicolon.",
+  recommendation: "Avoid a trailing semicolon at end of dbt model SQL.",
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics = [];
 
@@ -21,7 +21,7 @@ export const scriptSemicolon: Rule = {
       if (!statements || statements.length === 0) continue;
 
       const hasTerminalSemicolon = statements[statements.length - 1]?.type === "empty";
-      if (hasTerminalSemicolon) continue;
+      if (!hasTerminalSemicolon) continue;
 
       const lastStatement = statements[statements.length - 1];
       const offset = lastStatement?.range?.[1] ?? content.length;
@@ -31,8 +31,8 @@ export const scriptSemicolon: Rule = {
         report(
           scriptSemicolon,
           file,
-          "SQL model does not end with a semicolon",
-          "Add a trailing semicolon at the end of the statement (SQLFluff convention.terminator style).",
+          "SQL model ends with a trailing semicolon",
+          "Remove the semicolon at end-of-file for dbt model compatibility.",
           position.line,
           position.column,
         ),

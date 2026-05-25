@@ -55,3 +55,16 @@ export const singularTestMentionsModel = (sql: string, modelName: string): boole
   const escaped = modelName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return new RegExp(`\\bref\\(\\s*['\"]${escaped}['\"]\\s*\\)`, "i").test(sql);
 };
+
+export const singularTestMentionsSource = (
+  sql: string,
+  sourceName: string,
+  tableName: string,
+): boolean => {
+  const escapedSource = sourceName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const escapedTable = tableName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(
+    `\\bsource\\(\\s*['\"]${escapedSource}['\"]\\s*,\\s*['\"]${escapedTable}['\"]\\s*\\)`,
+    "i",
+  ).test(sql);
+};

@@ -113,3 +113,4 @@ export const readManifest = (
 };
 
 export type { ManifestEdge, ManifestGraph, ManifestNode } from "./types.js";
+export { warnOnce } from "./warn-once.js";
