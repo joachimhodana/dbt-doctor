@@ -11,7 +11,7 @@ const writeFile = (rootDir: string, relativePath: string, body: string): void =>
   fs.writeFileSync(filePath, body);
 };
 
-describe("phase3 configurable rules", () => {
+describe("configurable rules", () => {
   let directory: string;
 
   afterEach(() => {

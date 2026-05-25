@@ -11,7 +11,7 @@ const writeFile = (rootDir: string, relativePath: string, body: string): void =>
   fs.writeFileSync(filePath, body);
 };
 
-describe("phase5 native sql style rules", () => {
+describe("core sql style rules", () => {
   let directory: string;
 
   afterEach(() => {
@@ -178,7 +178,7 @@ describe("phase5 native sql style rules", () => {
     expect(diagnostics.length).toBeGreaterThan(0);
   });
 
-  it("uses parser semantics for script-semicolon (missing terminator)", () => {
+  it("uses parser semantics for script-semicolon (no trailing EOF semicolon)", () => {
     directory = fs.mkdtempSync(path.join(os.tmpdir(), "dbt-doctor-sql-style-"));
 
     writeFile(
@@ -194,10 +194,10 @@ describe("phase5 native sql style rules", () => {
       ignoredTags: new Set(),
     }).filter((diagnostic) => diagnostic.rule === "script-semicolon");
 
-    expect(diagnostics.length).toBeGreaterThan(0);
+    expect(diagnostics).toHaveLength(0);
   });
 
-  it("uses parser semantics for script-semicolon (has terminator)", () => {
+  it("uses parser semantics for script-semicolon (has trailing EOF semicolon)", () => {
     directory = fs.mkdtempSync(path.join(os.tmpdir(), "dbt-doctor-sql-style-"));
 
     writeFile(
@@ -213,7 +213,7 @@ describe("phase5 native sql style rules", () => {
       ignoredTags: new Set(),
     }).filter((diagnostic) => diagnostic.rule === "script-semicolon");
 
-    expect(diagnostics).toHaveLength(0);
+    expect(diagnostics.length).toBeGreaterThan(0);
   });
 
   it("flags single-line multi-target SELECT (layout.select_targets style)", () => {
