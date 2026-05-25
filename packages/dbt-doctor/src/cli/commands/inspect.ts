@@ -40,7 +40,7 @@ import { resolveFailOnLevel } from "../utils/resolve-fail-on-level.js";
 import { runExplain } from "../utils/run-explain.js";
 import { selectProjects } from "../utils/select-projects.js";
 import { shouldFailForDiagnostics } from "../utils/should-fail-for-diagnostics.js";
-import { shouldFailForPhase4Thresholds } from "../utils/should-fail-for-phase4-thresholds.js";
+import { shouldFailForScoreThresholds } from "../utils/should-fail-for-score-thresholds.js";
 import { shouldSkipPrompts } from "../utils/should-skip-prompts.js";
 import { validateModeFlags } from "../utils/validate-mode-flags.js";
 import { VERSION } from "../utils/version.js";
@@ -181,7 +181,7 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
         ) {
           process.exitCode = 1;
         }
-        if (shouldFailForPhase4Thresholds([scanResult], userConfig)) {
+        if (shouldFailForScoreThresholds([scanResult], userConfig)) {
           process.exitCode = 1;
         }
       } finally {
@@ -257,7 +257,6 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
         ...scanOptions,
         includePaths,
         configOverride: userConfig,
-        writeBaseline: flags.writeBaseline,
       });
       allDiagnostics.push(...scanResult.diagnostics);
       completedScans.push({ directory: projectDirectory, result: scanResult });
@@ -300,7 +299,7 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
       process.exitCode = 1;
     }
     if (
-      shouldFailForPhase4Thresholds(
+      shouldFailForScoreThresholds(
         completedScans.map((scan) => scan.result),
         userConfig,
       )

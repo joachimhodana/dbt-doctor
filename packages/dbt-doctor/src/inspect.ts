@@ -4,19 +4,16 @@ import {
   calculateScore,
   combineDiagnostics,
   computeSqlIncludePaths,
-  filterBaselineDiagnostics,
   filterDiagnosticsForSurface,
   formatErrorChain,
   highlighter,
   isLoggerSilent,
   loadConfigWithSource,
   logger,
-  resolveBaselinePath,
   resolveConfigRootDir,
   resolveLintIncludePaths,
   runLinter,
   setLoggerSilent,
-  writeBaselineFile,
 } from "@dbt-doctor/core";
 import { discoverProject } from "@dbt-doctor/project-info";
 import type {
@@ -34,9 +31,9 @@ import {
   printScoreHeader,
 } from "./cli/utils/render-score-header.js";
 import { printSummary } from "./cli/utils/render-summary.js";
-import { printCoverageSummary, printPerModelScores } from "./cli/utils/render-phase4.js";
+import { printCoverageSummary, printPerModelScores } from "./cli/utils/render-coverage-metrics.js";
 import { isSpinnerSilent, setSpinnerSilent, spinner } from "./cli/utils/spinner.js";
-import { computeCoverageMetrics, computePerModelScores } from "./phase4-metrics.js";
+import { computeCoverageMetrics, computePerModelScores } from "./coverage-metrics.js";
 
 interface ResolvedInspectOptions {
   lint: boolean;
@@ -53,7 +50,6 @@ interface ResolvedInspectOptions {
   useSqlfluff: boolean;
   ignoredTags: ReadonlySet<string>;
   outputSurface: DiagnosticSurface;
-  writeBaseline: boolean;
   coverage: boolean;
   showPerModelScores: boolean;
 }
@@ -61,7 +57,12 @@ interface ResolvedInspectOptions {
 const buildIgnoredTags = (userConfig: DbtDoctorConfig | null): ReadonlySet<string> => {
   const tags = new Set<string>();
   if (userConfig?.ignore?.tags) {
-    for (const tag of userConfig.ignore.tags) tags.add(tag);
+    for (const tag of userConfig.ignore.tags) {
+      tags.add(tag);
+      // Backward compatibility for historical tag naming.
+      if (tag === "phase5") tags.add("sql-style");
+      if (tag === "sql-style") tags.add("phase5");
+    }
   }
   return tags;
 };
@@ -89,7 +90,6 @@ const mergeInspectOptions = (
     (typeof userConfig?.skipSqlfluff === "boolean" ? !userConfig.skipSqlfluff : false),
   ignoredTags: buildIgnoredTags(userConfig),
   outputSurface: inputOptions.outputSurface ?? "cli",
-  writeBaseline: inputOptions.writeBaseline ?? false,
   coverage: inputOptions.coverage ?? false,
   showPerModelScores: inputOptions.showPerModelScores ?? false,
 });
@@ -192,11 +192,7 @@ const runInspect = async (
     userConfig,
     respectInlineDisables: options.respectInlineDisables,
   });
-  const baselinePath = resolveBaselinePath(directory, userConfig?.baseline);
-  if (options.writeBaseline && baselinePath) {
-    writeBaselineFile(baselinePath, combinedDiagnostics);
-  }
-  const diagnostics = filterBaselineDiagnostics(combinedDiagnostics, baselinePath);
+  const diagnostics = combinedDiagnostics;
 
   const elapsedMilliseconds = performance.now() - startTime;
 

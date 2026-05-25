@@ -19,7 +19,7 @@ const hasAnyItemThresholdFailure = (
   return perModelScores.some((entry) => entry.score < failAnyItemUnder);
 };
 
-export const shouldFailForPhase4Thresholds = (
+export const shouldFailForScoreThresholds = (
   results: InspectResult[],
   userConfig: DbtDoctorConfig | null,
 ): boolean => {

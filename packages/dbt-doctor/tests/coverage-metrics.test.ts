@@ -3,11 +3,11 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vite-plus/test";
 import type { Diagnostic } from "@dbt-doctor/types";
 import { discoverProject } from "@dbt-doctor/project-info";
-import { computeCoverageMetrics, computePerModelScores } from "../src/phase4-metrics.js";
+import { computeCoverageMetrics, computePerModelScores } from "../src/coverage-metrics.js";
 
 const fixture = path.join(path.dirname(fileURLToPath(import.meta.url)), "fixtures/basic-dbt");
 
-describe("phase4 metrics", () => {
+describe("coverage metrics", () => {
   it("computes docs/test coverage from model SQL + YAML metadata", async () => {
     const project = await discoverProject(fixture);
     const coverage = computeCoverageMetrics(fixture, project);

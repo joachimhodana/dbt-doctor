@@ -49,8 +49,6 @@ export interface InspectOptions {
   useSqlfluff?: boolean;
   configOverride?: DbtDoctorConfig | null;
   respectInlineDisables?: boolean;
-  /** Write findings to the baseline file before filtering (see `config.baseline`). */
-  writeBaseline?: boolean;
   /** Print model documentation/test coverage summary. */
   coverage?: boolean;
   /** Print per-model local scores sorted worst-first. */
