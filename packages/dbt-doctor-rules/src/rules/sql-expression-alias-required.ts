@@ -45,7 +45,8 @@ export const sqlExpressionAliasRequired: Rule = {
   id: "sql-expression-alias-required",
   severity: "warn",
   category: "SQL Style",
-  recommendation: "Alias expression targets in SELECT lists for readability and stable downstream references.",
+  recommendation:
+    "Alias expression targets in SELECT lists for readability and stable downstream references.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];
 

@@ -65,7 +65,9 @@ export const sourceHasAllColumns: Rule = {
 
     const catalogSources = loadCatalogSources(rootDirectory, catalogPath);
     if (!catalogSources) {
-      warnOnce(`[dbt-doctor] Catalog not found at ${catalogPath}; skipping source-has-all-columns.`);
+      warnOnce(
+        `[dbt-doctor] Catalog not found at ${catalogPath}; skipping source-has-all-columns.`,
+      );
       return [];
     }
 

@@ -28,11 +28,9 @@ describe("sql reference scope", () => {
     writeFile(
       directory,
       "models/marts/fct_orders.sql",
-      [
-        "select x.id, o.status",
-        "from orders o",
-        "join customers c on o.customer_id = c.id",
-      ].join("\n"),
+      ["select x.id, o.status", "from orders o", "join customers c on o.customer_id = c.id"].join(
+        "\n",
+      ),
     );
 
     const diagnostics = runCustomRules({
@@ -55,11 +53,9 @@ describe("sql reference scope", () => {
     writeFile(
       directory,
       "models/marts/fct_orders.sql",
-      [
-        "select o.id, c.status",
-        "from orders o",
-        "join customers c on o.customer_id = c.id",
-      ].join("\n"),
+      ["select o.id, c.status", "from orders o", "join customers c on o.customer_id = c.id"].join(
+        "\n",
+      ),
     );
 
     const diagnostics = runCustomRules({

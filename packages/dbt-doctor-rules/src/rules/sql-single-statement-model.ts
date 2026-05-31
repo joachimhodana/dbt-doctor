@@ -13,7 +13,9 @@ export const sqlSingleStatementModel: Rule = {
       const content = readFile(file);
       const parsed = parseSqlWithCst(file, content, project.adapter);
       if (!parsed) continue;
-      const statements = (parsed.cst as { statements?: Array<{ type?: string; range?: [number, number] }> }).statements ?? [];
+      const statements =
+        (parsed.cst as { statements?: Array<{ type?: string; range?: [number, number] }> })
+          .statements ?? [];
       const nonEmpty = statements.filter((s) => s.type !== "empty");
       if (nonEmpty.length <= 1) continue;
       const second = nonEmpty[1];

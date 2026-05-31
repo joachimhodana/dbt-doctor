@@ -47,11 +47,7 @@ describe("sql clause layout style", () => {
       "dbt_project.yml",
       'name: fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
     );
-    writeFile(
-      directory,
-      "models/marts/fct_orders.sql",
-      "select id\n\n\nfrom orders\n",
-    );
+    writeFile(directory, "models/marts/fct_orders.sql", "select id\n\n\nfrom orders\n");
 
     const diagnostics = runCustomRules({
       rootDirectory: directory,

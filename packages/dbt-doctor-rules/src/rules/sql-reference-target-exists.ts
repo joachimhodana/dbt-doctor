@@ -3,7 +3,8 @@ import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 
 const REF_PATTERN = /\{\{-?\s*ref\s*\(\s*["']([^"']+)["']\s*\)\s*\}\}/g;
-const SOURCE_PATTERN = /\{\{-?\s*source\s*\(\s*["']([^"']+)["']\s*,\s*["']([^"']+)["']\s*\)\s*\}\}/g;
+const SOURCE_PATTERN =
+  /\{\{-?\s*source\s*\(\s*["']([^"']+)["']\s*,\s*["']([^"']+)["']\s*\)\s*\}\}/g;
 
 const isModelNode = (node: ManifestNode): boolean => node.resourceType === "model";
 const isSourceNode = (node: ManifestNode): boolean => node.resourceType === "source";

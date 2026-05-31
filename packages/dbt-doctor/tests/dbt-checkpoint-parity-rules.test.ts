@@ -140,11 +140,7 @@ describe("dbt-checkpoint parity rules", () => {
       "dbt_project.yml",
       'name: fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
     );
-    writeFile(
-      directory,
-      "models/staging/stg_orders.sql",
-      "select * from analytics.raw_orders\n",
-    );
+    writeFile(directory, "models/staging/stg_orders.sql", "select * from analytics.raw_orders\n");
 
     const diagnostics = runCustomRules({
       rootDirectory: directory,
@@ -152,10 +148,12 @@ describe("dbt-checkpoint parity rules", () => {
       ignoredTags: new Set(),
     });
 
-    expect(diagnostics.some((diagnostic) => diagnostic.rule === "script-ref-and-source")).toBe(true);
-    expect(
-      diagnostics.some((diagnostic) => diagnostic.rule === "script-has-no-table-name"),
-    ).toBe(true);
+    expect(diagnostics.some((diagnostic) => diagnostic.rule === "script-ref-and-source")).toBe(
+      true,
+    );
+    expect(diagnostics.some((diagnostic) => diagnostic.rule === "script-has-no-table-name")).toBe(
+      true,
+    );
   });
 
   it("flags invalid ref/source targets and unknown macro calls", () => {
@@ -235,7 +233,9 @@ describe("dbt-checkpoint parity rules", () => {
       ignoredTags: new Set(),
     });
 
-    expect(diagnostics.some((diagnostic) => diagnostic.rule === "source-has-description")).toBe(true);
+    expect(diagnostics.some((diagnostic) => diagnostic.rule === "source-has-description")).toBe(
+      true,
+    );
     expect(
       diagnostics.some((diagnostic) => diagnostic.rule === "source-table-has-description"),
     ).toBe(true);
@@ -332,9 +332,9 @@ describe("dbt-checkpoint parity rules", () => {
     expect(diagnostics.some((diagnostic) => diagnostic.rule === "source-has-tests-by-type")).toBe(
       true,
     );
-    expect(
-      diagnostics.some((diagnostic) => diagnostic.rule === "source-has-tests-by-group"),
-    ).toBe(true);
+    expect(diagnostics.some((diagnostic) => diagnostic.rule === "source-has-tests-by-group")).toBe(
+      true,
+    );
   });
 
   it("enforces macro-has-meta-keys when configured", () => {

@@ -28,11 +28,7 @@ describe("sql table alias style", () => {
     writeFile(
       directory,
       "models/marts/fct_orders.sql",
-      [
-        "select o.id",
-        "from orders o",
-        "join customers o on o.id = o.id",
-      ].join("\n"),
+      ["select o.id", "from orders o", "join customers o on o.id = o.id"].join("\n"),
     );
 
     const diagnostics = runCustomRules({
@@ -54,11 +50,7 @@ describe("sql table alias style", () => {
     writeFile(
       directory,
       "models/marts/fct_orders.sql",
-      [
-        "select o.id, c.id",
-        "from orders o",
-        "join customers c on o.customer_id = c.id",
-      ].join("\n"),
+      ["select o.id, c.id", "from orders o", "join customers c on o.customer_id = c.id"].join("\n"),
     );
 
     const diagnostics = runCustomRules({

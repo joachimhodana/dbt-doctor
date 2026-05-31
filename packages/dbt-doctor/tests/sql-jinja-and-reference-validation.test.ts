@@ -25,7 +25,11 @@ describe("sqlfluff parity next", () => {
       "dbt_project.yml",
       'name: fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
     );
-    writeFile(directory, "models/staging/stg_orders.sql", "select {{ ref('orders') from raw_orders\n");
+    writeFile(
+      directory,
+      "models/staging/stg_orders.sql",
+      "select {{ ref('orders') from raw_orders\n",
+    );
 
     const diagnostics = runCustomRules({
       rootDirectory: directory,
@@ -83,11 +87,13 @@ describe("sqlfluff parity next", () => {
       ignoredTags: new Set(),
     }).filter((diagnostic) => diagnostic.rule === "sql-reference-target-exists");
 
-    expect(diagnostics.some((diagnostic) => diagnostic.message.includes('ref("missing_model")'))).toBe(
-      true,
-    );
     expect(
-      diagnostics.some((diagnostic) => diagnostic.message.includes('source("raw", "missing_table")')),
+      diagnostics.some((diagnostic) => diagnostic.message.includes('ref("missing_model")')),
+    ).toBe(true);
+    expect(
+      diagnostics.some((diagnostic) =>
+        diagnostic.message.includes('source("raw", "missing_table")'),
+      ),
     ).toBe(true);
   });
 });

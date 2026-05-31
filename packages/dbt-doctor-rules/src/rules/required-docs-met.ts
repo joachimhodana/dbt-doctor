@@ -72,7 +72,10 @@ const loadCatalogColumns = (
       if (columns.size === 0) continue;
       const dotted = uniqueId.split(".");
       if (dotted.length >= 4) {
-        sourceColumnsByName.set(`${dotted[dotted.length - 2]}.${dotted[dotted.length - 1]}`.toLowerCase(), columns);
+        sourceColumnsByName.set(
+          `${dotted[dotted.length - 2]}.${dotted[dotted.length - 1]}`.toLowerCase(),
+          columns,
+        );
       }
     }
 
@@ -96,12 +99,15 @@ export const requiredDocsMet: Rule = {
   run: (context) => {
     const diagnostics = [];
     const catalogPath =
-      typeof context.ruleConfig.catalogPath === "string" && context.ruleConfig.catalogPath.trim().length > 0
+      typeof context.ruleConfig.catalogPath === "string" &&
+      context.ruleConfig.catalogPath.trim().length > 0
         ? context.ruleConfig.catalogPath.trim()
         : DEFAULT_CATALOG_PATH;
     const catalogColumns = loadCatalogColumns(context.rootDirectory, catalogPath);
     if (!catalogColumns) {
-      warnOnce(`[dbt-doctor] Catalog not found at ${catalogPath}; required-docs-met will run file-based checks only.`);
+      warnOnce(
+        `[dbt-doctor] Catalog not found at ${catalogPath}; required-docs-met will run file-based checks only.`,
+      );
     }
 
     for (const file of context.sqlFiles) {
@@ -153,7 +159,9 @@ export const requiredDocsMet: Rule = {
         );
       }
 
-      const discoveredModelColumns = catalogColumns?.modelColumnsByName.get(modelName.toLowerCase());
+      const discoveredModelColumns = catalogColumns?.modelColumnsByName.get(
+        modelName.toLowerCase(),
+      );
       if (discoveredModelColumns && discoveredModelColumns.size > 0) {
         const yamlColumns = new Set(
           splitColumnBlocks(modelBlock.block).map((column) => column.name.toLowerCase()),

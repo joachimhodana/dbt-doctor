@@ -1,7 +1,8 @@
 import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 
-const CREATE_PROC_SP_PATTERN = /\bcreate\s+(?:or\s+alter\s+)?proc(?:edure)?\s+(\[?sp_[a-zA-Z_][\w$]*\]?)/gi;
+const CREATE_PROC_SP_PATTERN =
+  /\bcreate\s+(?:or\s+alter\s+)?proc(?:edure)?\s+(\[?sp_[a-zA-Z_][\w$]*\]?)/gi;
 
 export const sqlTsqlSpPrefix: Rule = {
   id: "sql-tsql-sp-prefix",

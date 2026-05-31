@@ -33,7 +33,12 @@ export const sourceHasTestsByType: Rule = {
       if (!/^\s*sources:\s*$/m.test(content)) continue;
       for (const table of splitSourceTableBlocks(content)) {
         const actualSchema = listTestReferenceNames(table.block).length;
-        const actualData = countDataTests(table.sourceName, table.tableName, testSqlFiles, readFile);
+        const actualData = countDataTests(
+          table.sourceName,
+          table.tableName,
+          testSqlFiles,
+          readFile,
+        );
         for (const [type, minCount] of Object.entries(required)) {
           const actual = type === "schema" ? actualSchema : type === "data" ? actualData : -1;
           if (actual < 0 || actual >= minCount) continue;

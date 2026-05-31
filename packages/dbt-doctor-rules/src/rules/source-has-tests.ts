@@ -3,7 +3,8 @@ import { report } from "../utils/report.js";
 import { listTestReferenceNames, singularTestMentionsSource } from "../utils/test-references.js";
 import { splitSourceTableBlocks } from "../utils/yaml-blocks.js";
 
-const hasSchemaTests = (tableBlock: string): boolean => listTestReferenceNames(tableBlock).length > 0;
+const hasSchemaTests = (tableBlock: string): boolean =>
+  listTestReferenceNames(tableBlock).length > 0;
 
 const hasDataTests = (
   sourceName: string,

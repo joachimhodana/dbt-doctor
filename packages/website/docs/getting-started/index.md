@@ -3,9 +3,9 @@
 > **dbt Doctor** is the Swiss-army toolkit for dbt linting.  
 > One command to replace fragmented checks across SQL style, dbt graph quality, metadata governance, and CI policy.
 
-| No Python | No warehouse credentials | Works with dbt Core + dbt Fusion |
-| --- | --- | --- |
-| Fast local checks | Safe in CI | Manifest-aware when available |
+| No Python         | No warehouse credentials | Works with dbt Core + dbt Fusion |
+| ----------------- | ------------------------ | -------------------------------- |
+| Fast local checks | Safe in CI               | Manifest-aware when available    |
 
 ## Quick start
 

@@ -18,7 +18,8 @@ const BUILTIN_MACROS = new Set([
 const REF_PATTERN = /\{\{\s*-?\s*ref\s*\(\s*["']([^"']+)["']/gi;
 const SOURCE_PATTERN = /\{\{\s*-?\s*source\s*\(\s*["']([^"']+)["']\s*,\s*["']([^"']+)["']/gi;
 const JINJA_CALL_PATTERN = /\{\{\s*-?\s*([a-zA-Z_][\w$]*)\s*\(/gi;
-const HARD_RELATION_PATTERN = /\b(from|join)\s+([`"\[]?[a-zA-Z_][\w$]*[`"\]]?\.){1,2}[`"\[]?[a-zA-Z_][\w$]*[`"\]]?/i;
+const HARD_RELATION_PATTERN =
+  /\b(from|join)\s+([`"\[]?[a-zA-Z_][\w$]*[`"\]]?\.){1,2}[`"\[]?[a-zA-Z_][\w$]*[`"\]]?/i;
 const MACRO_DEF_PATTERN = /\{%\s*macro\s+([a-zA-Z_][\w$]*)\s*\(/gi;
 
 const collectKnownMacros = (

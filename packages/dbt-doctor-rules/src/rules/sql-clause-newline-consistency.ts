@@ -3,7 +3,8 @@ import { report } from "../utils/report.js";
 
 const CLAUSE_PATTERN = /\b(from|where|group\s+by|having|order\s+by|limit)\b/gi;
 
-const hasContentBeforeIndex = (line: string, index: number): boolean => line.slice(0, index).trim().length > 0;
+const hasContentBeforeIndex = (line: string, index: number): boolean =>
+  line.slice(0, index).trim().length > 0;
 
 export const sqlClauseNewlineConsistency: Rule = {
   id: "sql-clause-newline-consistency",

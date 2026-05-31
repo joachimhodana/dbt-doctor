@@ -1,7 +1,8 @@
 import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 
-const TABLE_ALIAS_PATTERN = /\b(?:from|join)\s+[a-zA-Z_][\w$]*(?:\.[a-zA-Z_][\w$]*){0,2}\s+(?:as\s+)?([a-zA-Z_][\w$]*)\b/gi;
+const TABLE_ALIAS_PATTERN =
+  /\b(?:from|join)\s+[a-zA-Z_][\w$]*(?:\.[a-zA-Z_][\w$]*){0,2}\s+(?:as\s+)?([a-zA-Z_][\w$]*)\b/gi;
 
 const MIN_ALIAS_LENGTH = 2;
 

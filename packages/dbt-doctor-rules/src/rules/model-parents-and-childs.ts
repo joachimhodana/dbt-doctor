@@ -24,7 +24,12 @@ export const modelParentsAndChilds: Rule = {
     const maxParents = parseLimit(ruleConfig.maxParents);
     const minChildren = parseLimit(ruleConfig.minChildren);
     const maxChildren = parseLimit(ruleConfig.maxChildren);
-    if (minParents === null && maxParents === null && minChildren === null && maxChildren === null) {
+    if (
+      minParents === null &&
+      maxParents === null &&
+      minChildren === null &&
+      maxChildren === null
+    ) {
       return [];
     }
 

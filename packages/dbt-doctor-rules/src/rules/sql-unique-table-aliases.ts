@@ -2,7 +2,8 @@ import type { Rule } from "../types.js";
 import { offsetToLineColumn } from "../utils/sql-cst.js";
 import { report } from "../utils/report.js";
 
-const FROM_JOIN_ALIAS_PATTERN = /\b(?:from|join)\s+(?!\()(?:(?:\{\{[\s\S]*?\}\})|(?:[`"\[]?[a-zA-Z_][\w$]*[`"\]]?(?:\.[`"\[]?[a-zA-Z_][\w$]*[`"\]]?){0,2}))\s+(?:as\s+)?([a-zA-Z_][\w$]*)/gi;
+const FROM_JOIN_ALIAS_PATTERN =
+  /\b(?:from|join)\s+(?!\()(?:(?:\{\{[\s\S]*?\}\})|(?:[`"\[]?[a-zA-Z_][\w$]*[`"\]]?(?:\.[`"\[]?[a-zA-Z_][\w$]*[`"\]]?){0,2}))\s+(?:as\s+)?([a-zA-Z_][\w$]*)/gi;
 
 export const sqlUniqueTableAliases: Rule = {
   id: "sql-unique-table-aliases",

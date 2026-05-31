@@ -57,7 +57,9 @@ const replaceCoverageHeader = (markdown, counts) => {
 
 const patchIndexRowCoverage = (markdown, label, percent) =>
   markdown.replace(
-    new RegExp(`(\\| \\[${label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\]\\([^\\n]+\\| \\*\\*)([^*]+)(\\*\\*[^\\n]*\\|)`),
+    new RegExp(
+      `(\\| \\[${label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\]\\([^\\n]+\\| \\*\\*)([^*]+)(\\*\\*[^\\n]*\\|)`,
+    ),
     `$1${percent}%$3`,
   );
 

@@ -1,7 +1,8 @@
 import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 
-const BARE_JOIN_PATTERN = /\b(?:inner|left|right|full|cross)?\s*join\s+[\s\S]*?(?=\b(?:inner|left|right|full|cross)?\s*join\b|$)/gi;
+const BARE_JOIN_PATTERN =
+  /\b(?:inner|left|right|full|cross)?\s*join\s+[\s\S]*?(?=\b(?:inner|left|right|full|cross)?\s*join\b|$)/gi;
 
 export const sqlJoinConditionRequired: Rule = {
   id: "sql-join-condition-required",

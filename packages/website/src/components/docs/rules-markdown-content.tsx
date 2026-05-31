@@ -63,9 +63,9 @@ export const RulesMarkdownContent = ({ markdown }: { markdown: string }) => {
       if (!copied) return;
 
       const button =
-        copyTarget.closest<HTMLElement>(".docs-rule-heading")?.querySelector<HTMLButtonElement>(
-          ".docs-copy-link",
-        ) ?? null;
+        copyTarget
+          .closest<HTMLElement>(".docs-rule-heading")
+          ?.querySelector<HTMLButtonElement>(".docs-copy-link") ?? null;
       if (!button) return;
 
       button.classList.add("docs-copy-link--copied");

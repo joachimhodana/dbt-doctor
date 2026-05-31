@@ -28,11 +28,7 @@ describe("sql null comparison style", () => {
     writeFile(
       directory,
       "models/marts/fct_orders.sql",
-      [
-        "select *",
-        "from orders",
-        "where deleted_at = null or archived_at <> null",
-      ].join("\n"),
+      ["select *", "from orders", "where deleted_at = null or archived_at <> null"].join("\n"),
     );
 
     const diagnostics = runCustomRules({
@@ -54,11 +50,7 @@ describe("sql null comparison style", () => {
     writeFile(
       directory,
       "models/marts/fct_orders.sql",
-      [
-        "select *",
-        "from orders",
-        "where deleted_at is null or archived_at is not null",
-      ].join("\n"),
+      ["select *", "from orders", "where deleted_at is null or archived_at is not null"].join("\n"),
     );
 
     const diagnostics = runCustomRules({

@@ -28,11 +28,7 @@ describe("sql reference and join conventions", () => {
     writeFile(
       directory,
       "models/marts/fct_orders.sql",
-      [
-        'select "id" from select',
-        "join raw-order on 1=1",
-        "order by 1",
-      ].join("\n"),
+      ['select "id" from select', "join raw-order on 1=1", "order by 1"].join("\n"),
     );
 
     const diagnostics = runCustomRules({

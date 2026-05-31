@@ -5,7 +5,8 @@ const DEFAULT_MAX_CONSECUTIVE_BLANK_LINES = 1;
 
 const readLimit = (value: unknown): number => {
   if (typeof value === "number" && Number.isFinite(value)) return Math.max(0, Math.floor(value));
-  if (typeof value === "string" && /^\d+$/.test(value.trim())) return Number.parseInt(value.trim(), 10);
+  if (typeof value === "string" && /^\d+$/.test(value.trim()))
+    return Number.parseInt(value.trim(), 10);
   return DEFAULT_MAX_CONSECUTIVE_BLANK_LINES;
 };
 

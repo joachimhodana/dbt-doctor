@@ -58,7 +58,9 @@ describe("manifest graph rules", () => {
           name: "stg_a",
           resource_type: "model",
           original_file_path: "models/staging/stg_a.sql",
-          depends_on: { nodes: ["model.manifest_fixture.stg_b", "model.manifest_fixture.int_sales"] },
+          depends_on: {
+            nodes: ["model.manifest_fixture.stg_b", "model.manifest_fixture.int_sales"],
+          },
         },
         "model.manifest_fixture.stg_b": {
           unique_id: "model.manifest_fixture.stg_b",

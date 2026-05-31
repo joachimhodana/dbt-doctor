@@ -8,8 +8,8 @@
 
 ## Parity map
 
-| Upstream check | Status | dbt-doctor rule |
-| --- | --- | --- |
-| `required_tests` | Covered | [`required-tests-met`](/docs/rules#required-tests-met) |
-| `required_docs` | Covered | [`required-docs-met`](/docs/rules#required-docs-met) |
-| `required_tags` pattern | Covered | [`required-tags-met`](/docs/rules#required-tags-met) |
+| Upstream check          | Status  | dbt-doctor rule                                        |
+| ----------------------- | ------- | ------------------------------------------------------ |
+| `required_tests`        | Covered | [`required-tests-met`](/docs/rules#required-tests-met) |
+| `required_docs`         | Covered | [`required-docs-met`](/docs/rules#required-docs-met)   |
+| `required_tags` pattern | Covered | [`required-tags-met`](/docs/rules#required-tags-met)   |

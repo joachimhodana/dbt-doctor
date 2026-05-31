@@ -12,13 +12,13 @@ dbt-doctor aims to be the **single linter** for dbt projects: one `npx dbt-docto
 
 ## Overall coverage
 
-| Tool | Upstream surface | Coverage | dbt-doctor rules today |
-| ---- | ---------------- | -------: | ---------------------- |
-| [dbt_meta_testing](/docs/tool-parity/dbt-meta-testing) | 3 config macros | **100%** | `required-*-met` rules (file-based) |
-| [dbt-checkpoint](/docs/tool-parity/dbt-checkpoint) | 48 lint hooks | **100%** | Configurable meta/tests/contracts |
-| [dbt-score](/docs/tool-parity/dbt-score) | 14 generic rules + scoring | **100%** | Metadata + snapshot/incremental hygiene |
-| [dbt-coverage](/docs/tool-parity/dbt-coverage) | 8 CLI features | **50%** | `--coverage` (file-based); catalog compare later |
-| [SQLFluff](/docs/tool-parity/sqlfluff) | 74 rule codes (stable bundle) | **100%** native; **100%** with `--use-sqlfluff` | Native SQL/Jinja parity map + subprocess fallback |
+| Tool                                                   | Upstream surface              |                                        Coverage | dbt-doctor rules today                            |
+| ------------------------------------------------------ | ----------------------------- | ----------------------------------------------: | ------------------------------------------------- |
+| [dbt_meta_testing](/docs/tool-parity/dbt-meta-testing) | 3 config macros               |                                        **100%** | `required-*-met` rules (file-based)               |
+| [dbt-checkpoint](/docs/tool-parity/dbt-checkpoint)     | 48 lint hooks                 |                                        **100%** | Configurable meta/tests/contracts                 |
+| [dbt-score](/docs/tool-parity/dbt-score)               | 14 generic rules + scoring    |                                        **100%** | Metadata + snapshot/incremental hygiene           |
+| [dbt-coverage](/docs/tool-parity/dbt-coverage)         | 8 CLI features                |                                         **50%** | `--coverage` (file-based); catalog compare later  |
+| [SQLFluff](/docs/tool-parity/sqlfluff)                 | 74 rule codes (stable bundle) | **100%** native; **100%** with `--use-sqlfluff` | Native SQL/Jinja parity map + subprocess fallback |
 
 > Coverage was last updated on May 25, 2026.
 >

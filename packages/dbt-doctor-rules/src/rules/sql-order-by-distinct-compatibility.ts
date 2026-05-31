@@ -1,7 +1,8 @@
 import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
 
-const DISTINCT_QUERY_PATTERN = /\bselect\s+distinct\s+([\s\S]*?)\bfrom\b[\s\S]*?\border\s+by\s+([^;\n]+)/gi;
+const DISTINCT_QUERY_PATTERN =
+  /\bselect\s+distinct\s+([\s\S]*?)\bfrom\b[\s\S]*?\border\s+by\s+([^;\n]+)/gi;
 
 const normalizeExpr = (expr: string): string => expr.replace(/\s+/g, " ").trim().toLowerCase();
 

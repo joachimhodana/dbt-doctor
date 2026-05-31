@@ -1,6 +1,10 @@
 import type { Rule } from "../types.js";
 import { report } from "../utils/report.js";
-import { blockHasDescription, splitColumnBlocks, splitSourceTableBlocks } from "../utils/yaml-blocks.js";
+import {
+  blockHasDescription,
+  splitColumnBlocks,
+  splitSourceTableBlocks,
+} from "../utils/yaml-blocks.js";
 
 export const sourceColumnsHaveDesc: Rule = {
   id: "source-columns-have-desc",

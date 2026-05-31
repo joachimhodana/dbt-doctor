@@ -72,12 +72,7 @@ describe("sql alias set and semicolon style", () => {
     writeFile(
       directory,
       "models/marts/fct_orders.sql",
-      [
-        "select *",
-        "from orders o",
-        "join customers c",
-        "where o.customer_id = c.id",
-      ].join("\n"),
+      ["select *", "from orders o", "join customers c", "where o.customer_id = c.id"].join("\n"),
     );
 
     const diagnostics = runCustomRules({

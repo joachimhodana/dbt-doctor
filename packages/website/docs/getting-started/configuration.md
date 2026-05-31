@@ -58,18 +58,18 @@ adopt_existing_sqlfluff_config=true
 
 ## Most-used keys
 
-| Key | Values | Purpose |
-| --- | --- | --- |
-| `preset` | `default`, `strict`, `enterprise` | Rule bundle |
-| `fail_on` | `error`, `warning`, `none` | CI exit behavior |
-| `diff` | `true` or branch name | Changed-files scan |
-| `manifest_path` | file path | Enable manifest-aware checks |
-| `score_mode` | `files`, `unique-rules` | Score formula |
-| `ignore.rules` | comma list | Skip specific rules |
-| `ignore.files` | glob list | Skip all rules on files |
-| `ignore.tags` | comma list | Skip rule families |
-| `rules.<id>` | `error`, `warn`, `off` | Override one rule severity |
-| `rules.<id>.<option>` | string/number/bool/list | Per-rule options |
+| Key                   | Values                            | Purpose                      |
+| --------------------- | --------------------------------- | ---------------------------- |
+| `preset`              | `default`, `strict`, `enterprise` | Rule bundle                  |
+| `fail_on`             | `error`, `warning`, `none`        | CI exit behavior             |
+| `diff`                | `true` or branch name             | Changed-files scan           |
+| `manifest_path`       | file path                         | Enable manifest-aware checks |
+| `score_mode`          | `files`, `unique-rules`           | Score formula                |
+| `ignore.rules`        | comma list                        | Skip specific rules          |
+| `ignore.files`        | glob list                         | Skip all rules on files      |
+| `ignore.tags`         | comma list                        | Skip rule families           |
+| `rules.<id>`          | `error`, `warn`, `off`            | Override one rule severity   |
+| `rules.<id>.<option>` | string/number/bool/list           | Per-rule options             |
 
 ## Preset behavior
 

@@ -63,8 +63,8 @@ Do not mix {{ source() }} and {{ ref() }} in one model — stage sources first
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -81,8 +81,8 @@ Use {{ ref() }} and {{ source() }} instead of schema.table literals
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -101,8 +101,8 @@ Very high model fanout can create brittle DAG bottlenecks.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -121,8 +121,8 @@ Set min/max parent and child thresholds to enforce model graph shape (dbt-checkp
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -141,10 +141,10 @@ Parent model dependencies should come from expected database.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `equals` | string | All parents must use this database. |
+| `equals`   | string                     | All parents must use this database. |
 
 Example `.dbt-doctor`:
 
@@ -163,10 +163,10 @@ Parent model names should match an expected prefix.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `prefix` | string | All parent model names must start with this prefix. |
+| Option     | Type                       | Description                                         |
+| ---------- | -------------------------- | --------------------------------------------------- |
+| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).                 |
+| `prefix`   | string                     | All parent model names must start with this prefix. |
 
 Example `.dbt-doctor`:
 
@@ -185,10 +185,10 @@ Keep parent models in expected schemas/folders.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `equals` | string | All parents must use this schema. |
+| `equals`   | string                     | All parents must use this schema.   |
 
 Example `.dbt-doctor`:
 
@@ -207,8 +207,8 @@ Joining multiple raw sources directly often belongs in intermediate models.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -225,8 +225,8 @@ Use refs and macros instead of run_query in models
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -243,8 +243,8 @@ Use {{ ref() }} for model dependencies
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -263,8 +263,8 @@ Avoid rejoining upstream concepts already combined earlier in the DAG.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -281,8 +281,8 @@ Avoid hardcoded relation names in model SQL.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -299,8 +299,8 @@ Reference relations with valid {{ ref() }} / {{ source() }} and call only existi
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -319,10 +319,10 @@ Sources should have at least a minimum number of downstream models.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `minChildren` | number | Minimum downstream models per source. |
+| Option        | Type                       | Description                           |
+| ------------- | -------------------------- | ------------------------------------- |
+| `severity`    | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).   |
+| `minChildren` | number                     | Minimum downstream models per source. |
 
 Example `.dbt-doctor`:
 
@@ -341,8 +341,8 @@ High source fanout often indicates repeated transformations across many models.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -359,8 +359,8 @@ Reference raw data only in staging via {{ source() }}; downstream layers use {{ 
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -379,8 +379,8 @@ Staging models should depend on sources, not intermediate or marts models.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -399,8 +399,8 @@ Staging models should depend on sources only. Move transformations to intermedia
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -417,8 +417,8 @@ Avoid joins in staging; combine entities in intermediate or marts
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -444,8 +444,8 @@ Split models with many CTEs into intermediate models
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -462,8 +462,8 @@ Macro names should use snake_case (lowercase letters, digits, underscores)
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -480,8 +480,8 @@ See the [Rules reference](/docs/rules) for configuration options.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -498,8 +498,8 @@ Use full words in model names instead of abbreviations (e.g. architecture not ar
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -516,8 +516,8 @@ Remove is_incremental() from models that are not materialized as incremental
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -534,8 +534,8 @@ Add dbt_utils, dbt_date, and dbt_expectations (or successors) via packages.yml f
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -563,8 +563,8 @@ Set name in dbt_project.yml
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -581,8 +581,8 @@ Incremental models must declare unique_key
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -599,8 +599,8 @@ Put model config in a config() block at the top of the file
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -617,8 +617,8 @@ Set explicit materialization for large models
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -635,8 +635,8 @@ Enable model contracts with contract.enforced: true in schema YAML
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -653,8 +653,8 @@ Snapshots need strategy and updated_at or check_cols
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -671,8 +671,8 @@ Snapshots must set unique_key for deduplication
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -689,8 +689,8 @@ Prefer view (or ephemeral) materialization for staging models
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -725,10 +725,10 @@ Set `rules.column-desc-are-same.columns=col1,col2` to enforce consistent descrip
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `columns` | string[] | Column names that must share the same description across models. |
+| Option     | Type                       | Description                                                      |
+| ---------- | -------------------------- | ---------------------------------------------------------------- |
+| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).                              |
+| `columns`  | string[]                   | Column names that must share the same description across models. |
 
 Example `.dbt-doctor`:
 
@@ -745,8 +745,8 @@ Document every column in schema YAML
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -763,10 +763,10 @@ Every macro argument should include a description in macros YAML.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `enabled` | boolean | Opt-in rule. |
+| `enabled`  | boolean                    | Opt-in rule.                        |
 
 Example `.dbt-doctor`:
 
@@ -779,12 +779,12 @@ rules.macro-arguments-have-desc.enabled=true
 
 **warn** · Documentation · tags: `strict`
 
-Document every macro in macros/*.yml with a description
+Document every macro in macros/\*.yml with a description
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -801,8 +801,8 @@ Model metadata should include an example_sql snippet.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -819,8 +819,8 @@ Add a schema YAML file named after each model (e.g. stg_orders.yml for stg_order
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -837,8 +837,8 @@ Satisfy +required_docs from dbt_project.yml by documenting model and column desc
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -855,8 +855,8 @@ Add descriptions to models and columns in schema.yml
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -873,8 +873,8 @@ Seed columns should include descriptions.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -891,8 +891,8 @@ Document every seed in YAML with a description
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -909,8 +909,8 @@ Describe every column on every source table.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -927,8 +927,8 @@ Document each source definition with a non-empty description.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -945,8 +945,8 @@ Document every source table with a non-empty description.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -963,8 +963,8 @@ Declare every model in a schema YAML file with name and description
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -983,8 +983,8 @@ Document every source table for lineage clarity and governance.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1032,10 +1032,10 @@ Set `rules.column-name-contract.pattern.<matcher>=<regex>` in .dbt-doctor to enf
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `pattern.<matcher>` | string (regex) | Matcher is a column name or `re:<regex>`. Value is the pattern the column name must match. |
+| Option              | Type                       | Description                                                                                |
+| ------------------- | -------------------------- | ------------------------------------------------------------------------------------------ |
+| `severity`          | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).                                                        |
+| `pattern.<matcher>` | string (regex)             | Matcher is a column name or `re:<regex>`. Value is the pattern the column name must match. |
 
 Example `.dbt-doctor`:
 
@@ -1053,8 +1053,8 @@ Document exposures with description and owner
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1071,10 +1071,10 @@ Set `rules.exposure-has-meta-keys.required` in .dbt-doctor to enforce required m
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `required` | string[] | Required exposure meta keys. |
+| `required` | string[]                   | Required exposure meta keys.        |
 
 Example `.dbt-doctor`:
 
@@ -1093,8 +1093,8 @@ Public exposures should not directly depend on private models.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1111,8 +1111,8 @@ Set `rules.macro-has-meta-keys.required` to enforce required macro-level meta ke
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1129,8 +1129,8 @@ Set `rules.model-columns-have-meta-keys.required` to enforce required column-lev
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1149,10 +1149,10 @@ Set `rules.model-has-all-columns.required=[...]` (JSON config) to enforce requir
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `required` | string[] | Columns that must appear in the model schema YAML. |
+| Option     | Type                       | Description                                        |
+| ---------- | -------------------------- | -------------------------------------------------- |
+| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).                |
+| `required` | string[]                   | Columns that must appear in the model schema YAML. |
 
 Example `.dbt-doctor`:
 
@@ -1169,10 +1169,10 @@ Set constraints on models/columns in schema YAML.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `enabled` | boolean | Opt-in rule. |
+| `enabled`  | boolean                    | Opt-in rule.                        |
 
 Example `.dbt-doctor`:
 
@@ -1189,10 +1189,10 @@ Use generic constraints (not_null, unique, primary_key, foreign_key, check) in Y
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `enabled` | boolean | Opt-in rule. |
+| `enabled`  | boolean                    | Opt-in rule.                        |
 
 Example `.dbt-doctor`:
 
@@ -1209,10 +1209,10 @@ Set `rules.model-has-labels-keys.required` in .dbt-doctor to enforce required la
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `required` | string[] | Required keys under `labels:` on each model. |
+| Option     | Type                       | Description                                  |
+| ---------- | -------------------------- | -------------------------------------------- |
+| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).          |
+| `required` | string[]                   | Required keys under `labels:` on each model. |
 
 Example `.dbt-doctor`:
 
@@ -1229,10 +1229,10 @@ Set `rules.model-has-meta-keys.required` in .dbt-doctor to enforce required mode
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `required` | string[] | Required keys under `meta:` on each model. |
+| Option     | Type                       | Description                                |
+| ---------- | -------------------------- | ------------------------------------------ |
+| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).        |
+| `required` | string[]                   | Required keys under `meta:` on each model. |
 
 Example `.dbt-doctor`:
 
@@ -1249,10 +1249,10 @@ See the [Rules reference](/docs/rules) for configuration options.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `pattern` | string (regex) | Model name must match this pattern. |
+| `pattern`  | string (regex)             | Model name must match this pattern. |
 
 Example `.dbt-doctor`:
 
@@ -1269,8 +1269,8 @@ Set meta.owner (or owner) on mart models for accountability
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1287,8 +1287,8 @@ Define exactly one primary key at column level when PK is required.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1305,10 +1305,10 @@ Set `rules.model-tags.allowed` in .dbt-doctor to enforce allowed model tags.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `allowed` | string[] | Models must have at least one of these tags. |
+| Option     | Type                       | Description                                  |
+| ---------- | -------------------------- | -------------------------------------------- |
+| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).          |
+| `allowed`  | string[]                   | Models must have at least one of these tags. |
 
 Example `.dbt-doctor`:
 
@@ -1325,8 +1325,8 @@ Avoid hardcoded environment or project names in model SQL
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1343,8 +1343,8 @@ Satisfy +required_tags from dbt_project.yml by declaring all required tags on mo
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1361,10 +1361,10 @@ Set `rules.seed-has-meta-keys.required` in .dbt-doctor to enforce required meta 
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `required` | string[] | Required seed meta keys. |
+| `required` | string[]                   | Required seed meta keys.            |
 
 Example `.dbt-doctor`:
 
@@ -1381,8 +1381,8 @@ Set meta.owner (or owner) on every documented seed for accountability
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1399,10 +1399,10 @@ Set `rules.snapshot-has-meta-keys.required` in .dbt-doctor to enforce required m
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `required` | string[] | Required snapshot meta keys. |
+| `required` | string[]                   | Required snapshot meta keys.        |
 
 Example `.dbt-doctor`:
 
@@ -1419,8 +1419,8 @@ Keep source YAML columns aligned with the discovered catalog columns (target/cat
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1437,10 +1437,10 @@ Set `rules.source-has-labels-keys.required` in .dbt-doctor to enforce required l
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `required` | string[] | Required source labels keys. |
+| `required` | string[]                   | Required source labels keys.        |
 
 Example `.dbt-doctor`:
 
@@ -1457,8 +1457,8 @@ Declare `loader:` for each source in source YAML.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1475,10 +1475,10 @@ Set `rules.source-has-meta-keys.required` in .dbt-doctor to enforce required met
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `required` | string[] | Required source meta keys. |
+| `required` | string[]                   | Required source meta keys.          |
 
 Example `.dbt-doctor`:
 
@@ -1495,8 +1495,8 @@ Tag PII columns with meta (pii, sensitive) for governance
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1513,10 +1513,10 @@ Set `rules.source-tags.allowed` in .dbt-doctor to enforce allowed source table t
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `allowed` | string[] | Allowed source tags. |
+| `allowed`  | string[]                   | Allowed source tags.                |
 
 Example `.dbt-doctor`:
 
@@ -1533,10 +1533,10 @@ Set `rules.test-has-meta-keys.required` in .dbt-doctor to enforce required meta 
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `required` | string[] | Required test meta keys. |
+| `required` | string[]                   | Required test meta keys.            |
 
 Example `.dbt-doctor`:
 
@@ -1553,10 +1553,10 @@ Set `rules.test-tags.allowed` in .dbt-doctor to enforce allowed tags on singular
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `allowed` | string[] | Allowed test tags. |
+| `allowed`  | string[]                   | Allowed test tags.                  |
 
 Example `.dbt-doctor`:
 
@@ -1577,12 +1577,12 @@ rules.test-tags.allowed=critical,data
 
 **warn** · Naming
 
-Use int_ prefix for intermediate models
+Use int\_ prefix for intermediate models
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1595,12 +1595,12 @@ rules.intermediate-prefix=warn
 
 **warn** · Naming
 
-Use fct_ or dim_ prefix for mart models
+Use fct* or dim* prefix for mart models
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1613,12 +1613,12 @@ rules.marts-prefix=warn
 
 **warn** · Naming · tags: `enterprise`
 
-Model name prefix should match its layer folder (stg_, int_, fct_/dim_)
+Model name prefix should match its layer folder (stg*, int*, fct*/dim*)
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1631,12 +1631,12 @@ rules.model-path-layer-mismatch=warn
 
 **warn** · Naming
 
-Name staging models stg_<source>__<entity> (double underscore)
+Name staging models stg\_<source>\_\_<entity> (double underscore)
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1649,12 +1649,12 @@ rules.staging-naming-convention=warn
 
 **warn** · Naming
 
-Use stg_ prefix for staging models
+Use stg\_ prefix for staging models
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1674,14 +1674,15 @@ rules.staging-prefix=warn
 ### bigquery-partition-filter {#bigquery-partition-filter}
 
 **warn** · Performance · tags: `bigquery`
+
 - Adapter: `bigquery`
 
 Filter on partition columns in BigQuery models
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1700,8 +1701,8 @@ Long chains of views can increase query latency and failure blast radius.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1713,14 +1714,15 @@ rules.chained-views=warn
 ### cluster-by-hint {#cluster-by-hint}
 
 **warn** · Performance · tags: `enterprise`, `bigquery`
+
 - Adapter: `bigquery`
 
 Large BigQuery models benefit from cluster_by in config
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1739,8 +1741,8 @@ Exposures should avoid depending on fragile view/ephemeral parent models.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1759,11 +1761,11 @@ Heavily reused parent models should use durable materializations.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `minChildren` | number | Child count threshold. |
-| `materialized` | string | Expected materialization when threshold is met. |
+| Option         | Type                       | Description                                     |
+| -------------- | -------------------------- | ----------------------------------------------- |
+| `severity`     | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).             |
+| `minChildren`  | number                     | Child count threshold.                          |
+| `materialized` | string                     | Expected materialization when threshold is met. |
 
 Example `.dbt-doctor`:
 
@@ -1789,8 +1791,8 @@ Duplicate source definitions can fragment lineage and governance.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1807,8 +1809,8 @@ Configure freshness on production sources
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1827,8 +1829,8 @@ Remove unused sources or connect them to downstream models.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1860,8 +1862,8 @@ Avoid BETWEEN SYMMETRIC for broader dialect portability.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1878,8 +1880,8 @@ Use uppercase boolean literals.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1896,8 +1898,8 @@ Use one cast style consistently within a file.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1914,8 +1916,8 @@ Prefer COALESCE over dialect-specific null-handling helpers.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1928,12 +1930,12 @@ rules.sql-coalesce-preferred=warn
 
 **warn** · SQL Convention
 
-Prefer COUNT(*) over COUNT(1) or COUNT(constant).
+Prefer COUNT(\*) over COUNT(1) or COUNT(constant).
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1950,8 +1952,8 @@ Prefer ON clauses over USING for explicit join semantics.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1964,12 +1966,12 @@ rules.sql-join-using-consistency=warn
 
 **warn** · SQL Convention
 
-Use NULL keyword, not quoted 
+Use NULL keyword, not quoted
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -1986,8 +1988,8 @@ Avoid unnecessary quoted identifiers when plain identifiers are safe.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2004,8 +2006,8 @@ Avoid bare temporary-table references in reusable dbt SQL.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2022,8 +2024,8 @@ In T-SQL, avoid `sp_` prefix for user-defined procedures.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2040,8 +2042,8 @@ System catalogs should be schema-qualified in T-SQL.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2058,8 +2060,8 @@ Handle zero-length strings explicitly and consistently.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2103,10 +2105,10 @@ Use consistent casing for database identifiers in three-part table names.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `enabled` | boolean | Opt-in rule. Requires manifest.json and catalog.json. |
+| Option     | Type                       | Description                                           |
+| ---------- | -------------------------- | ----------------------------------------------------- |
+| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).                   |
+| `enabled`  | boolean                    | Opt-in rule. Requires manifest.json and catalog.json. |
 
 Example `.dbt-doctor`:
 
@@ -2123,8 +2125,8 @@ See the [Rules reference](/docs/rules) for configuration options.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2141,8 +2143,8 @@ Ensure all Jinja tags in SQL have matching closing delimiters.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2155,12 +2157,12 @@ rules.jinja-syntax-valid=warn
 
 **error** · SQL Quality
 
-List columns explicitly instead of SELECT *
+List columns explicitly instead of SELECT \*
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2177,8 +2179,8 @@ Avoid a trailing semicolon at end of dbt model SQL.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2195,8 +2197,8 @@ Avoid ambiguous ORDER BY targets that can resolve to multiple expressions.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2213,8 +2215,8 @@ Avoid explicit boolean equality comparisons where predicate forms are clearer.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2231,8 +2233,8 @@ Avoid constant or always-true expressions in predicates.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2249,8 +2251,8 @@ Avoid DISTINCT + ORDER BY columns that are not clearly part of selected outputs.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2267,8 +2269,8 @@ JOIN clauses should include ON/USING conditions unless cross join is explicit.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2285,8 +2287,8 @@ Use explicit JOIN syntax instead of comma joins in FROM clauses.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2303,8 +2305,8 @@ Avoid subqueries inside JOIN clauses; prefer CTEs for readability and reuse.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2321,8 +2323,8 @@ Use IS NULL / IS NOT NULL instead of equality operators with NULL.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2339,8 +2341,8 @@ In DISTINCT queries, ORDER BY expressions should be selected or positional.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2357,8 +2359,8 @@ Avoid ordinal ORDER BY references in complex queries.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2375,8 +2377,8 @@ Use != instead of <> for inequality to keep operator style consistent.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2393,8 +2395,8 @@ Qualified references should use aliases/relations declared in FROM or JOIN claus
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2413,8 +2415,8 @@ Ensure every ref() and source() target exists in manifest metadata.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2431,8 +2433,8 @@ SELECT statements in set operators should project the same number of columns.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2449,8 +2451,8 @@ Keep dbt model SQL to a single SELECT statement.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2467,8 +2469,8 @@ Use UNION (default distinct) or UNION ALL; avoid redundant UNION DISTINCT.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2485,8 +2487,8 @@ Column aliases should be unique within a SELECT clause.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2503,8 +2505,8 @@ Joined table aliases should be referenced or removed.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2523,8 +2525,8 @@ Models with too many joins are harder to maintain and can degrade performance.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2592,8 +2594,8 @@ Use a single space around content inside Jinja tags on single-line expressions.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2610,8 +2612,8 @@ Avoid overly short table aliases.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2628,8 +2630,8 @@ Avoid SQL reserved words as aliases.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2646,8 +2648,8 @@ Avoid combining DISTINCT with GROUP BY in the same SELECT statement.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2664,8 +2666,8 @@ Make JOIN type explicit (INNER/LEFT/RIGHT/FULL/CROSS).
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2682,8 +2684,8 @@ Use consistent capitalization for TRUE/FALSE/NULL literals.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2700,8 +2702,8 @@ Avoid nested CASE expressions where possible.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2718,8 +2720,8 @@ Place major clauses on their own lines for consistent query layout.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2736,8 +2738,8 @@ Insert a blank line between the final CTE and the main SELECT.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2754,8 +2756,8 @@ Use one space between AS and opening parenthesis in CTE definitions.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2772,8 +2774,8 @@ Use uppercase data types in CAST expressions.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2790,8 +2792,8 @@ Derived tables should always be aliased.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2808,8 +2810,8 @@ Avoid DISTINCT wrapped in parentheses.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2826,8 +2828,8 @@ Use explicit AS for select-expression aliases.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2844,8 +2846,8 @@ Use explicit JOIN type (e.g. INNER JOIN, LEFT JOIN).
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2862,8 +2864,8 @@ Use explicit AS for table/subquery aliases.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2880,8 +2882,8 @@ Alias expression targets in SELECT lists for readability and stable downstream r
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2898,8 +2900,8 @@ Ensure SQL files end with a trailing newline.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2916,10 +2918,10 @@ Use consistent capitalization for SQL function names.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `capitalisationPolicy` | upper | lower | consistent | Function name casing policy. |
+| Option                 | Type                       | Description                         |
+| ---------------------- | -------------------------- | ----------------------------------- | ---------- | ---------------------------- |
+| `severity`             | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
+| `capitalisationPolicy` | upper                      | lower                               | consistent | Function name casing policy. |
 
 Example `.dbt-doctor`:
 
@@ -2936,8 +2938,8 @@ Do not add whitespace between function names and parentheses.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2954,8 +2956,8 @@ Use consistent spaces-only indentation.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2972,8 +2974,8 @@ Put join predicates in ON clauses rather than WHERE clauses.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -2990,10 +2992,10 @@ Use consistent keyword capitalization (SQLFluff-style).
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `capitalisationPolicy` | upper | lower | consistent | SQL keyword casing policy (default: consistent). |
+| Option                 | Type                       | Description                         |
+| ---------------------- | -------------------------- | ----------------------------------- | ---------- | ------------------------------------------------ |
+| `severity`             | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
+| `capitalisationPolicy` | upper                      | lower                               | consistent | SQL keyword casing policy (default: consistent). |
 
 Example `.dbt-doctor`:
 
@@ -3010,10 +3012,10 @@ Use leading comma placement in comma-separated SQL lists.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `enabled` | boolean | Enable leading-comma layout (default: false). |
+| Option     | Type                       | Description                                   |
+| ---------- | -------------------------- | --------------------------------------------- |
+| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).           |
+| `enabled`  | boolean                    | Enable leading-comma layout (default: false). |
 
 Example `.dbt-doctor`:
 
@@ -3030,8 +3032,8 @@ Limit consecutive blank lines in SQL files.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3048,8 +3050,8 @@ Avoid consecutive empty statement separators.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3066,8 +3068,8 @@ Avoid redundant ELSE NULL in CASE expressions.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3084,8 +3086,8 @@ Do not start SQL files with leading whitespace.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3102,8 +3104,8 @@ Use explicit column names instead of positional GROUP BY / ORDER BY references.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3120,8 +3122,8 @@ Avoid redundant self-aliasing like `col AS col`.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3138,8 +3140,8 @@ Use single spaces around binary operators.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3156,8 +3158,8 @@ Use consistent explicit ASC/DESC in ORDER BY lists.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3174,8 +3176,8 @@ Use single quotes for string literals.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3192,8 +3194,8 @@ Use a consistent reference style within a SELECT statement.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3210,8 +3212,8 @@ If reserved words are used as identifiers, quote them explicitly.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3228,8 +3230,8 @@ Identifiers containing special characters should be quoted.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3246,8 +3248,8 @@ Qualify references when selecting from multiple relations.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3264,11 +3266,11 @@ Format SELECT targets on new lines (SQLFluff layout.select_targets style).
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `singleTargetPolicy` | string | Layout policy for single select targets. |
-| `wildcardPolicy` | string | Layout policy for wildcard selects. |
+| Option               | Type                       | Description                              |
+| -------------------- | -------------------------- | ---------------------------------------- |
+| `severity`           | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).      |
+| `singleTargetPolicy` | string                     | Layout policy for single select targets. |
+| `wildcardPolicy`     | string                     | Layout policy for wildcard selects.      |
 
 Example `.dbt-doctor`:
 
@@ -3285,10 +3287,10 @@ Disallow trailing commas at end of SELECT lists (SQLFluff CV03 default).
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `enabled` | boolean | Disallow trailing commas in SELECT lists (default: true). |
+| Option     | Type                       | Description                                               |
+| ---------- | -------------------------- | --------------------------------------------------------- |
+| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).                       |
+| `enabled`  | boolean                    | Disallow trailing commas in SELECT lists (default: true). |
 
 Example `.dbt-doctor`:
 
@@ -3305,8 +3307,8 @@ Self-joins should use distinct aliases per relation instance.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3323,8 +3325,8 @@ Place set operators (UNION/INTERSECT/EXCEPT) on their own line boundaries.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3341,8 +3343,8 @@ Prefer simple CASE form when all WHEN clauses compare the same expression.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3359,10 +3361,10 @@ Use trailing comma placement in comma-separated SQL lists.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `enabled` | boolean | Enforce trailing commas (default: true). |
+| Option     | Type                       | Description                              |
+| ---------- | -------------------------- | ---------------------------------------- |
+| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).      |
+| `enabled`  | boolean                    | Enforce trailing commas (default: true). |
 
 Example `.dbt-doctor`:
 
@@ -3379,8 +3381,8 @@ Remove trailing whitespace at end of lines.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3397,10 +3399,10 @@ Use explicit UNION qualifier (UNION DISTINCT or UNION ALL).
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `requireExplicitQualifier` | boolean | Require UNION ALL or UNION DISTINCT (default: true). |
+| Option                     | Type                       | Description                                          |
+| -------------------------- | -------------------------- | ---------------------------------------------------- |
+| `severity`                 | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).                  |
+| `requireExplicitQualifier` | boolean                    | Require UNION ALL or UNION DISTINCT (default: true). |
 
 Example `.dbt-doctor`:
 
@@ -3417,8 +3419,8 @@ Use unique table aliases within a query block.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3435,10 +3437,10 @@ Use consistent capitalization for unquoted identifiers.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `capitalisationPolicy` | upper | lower | consistent | Unquoted identifier casing policy. |
+| Option                 | Type                       | Description                         |
+| ---------------------- | -------------------------- | ----------------------------------- | ---------- | ---------------------------------- |
+| `severity`             | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
+| `capitalisationPolicy` | upper                      | lower                               | consistent | Unquoted identifier casing policy. |
 
 Example `.dbt-doctor`:
 
@@ -3455,8 +3457,8 @@ Remove CTEs that are defined but never referenced.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3479,8 +3481,8 @@ Place models under staging/, intermediate/, or marts/ subfolders
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3497,8 +3499,8 @@ Use standard layer folders (staging, intermediate, marts, utilities)
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3517,8 +3519,8 @@ Root models with no sources or model parents are usually accidental DAG roots.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3553,8 +3555,8 @@ Use dbt_expectations for volume, freshness, and distribution tests on marts
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3571,8 +3573,8 @@ Add not_null or unique tests on primary keys
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3589,8 +3591,8 @@ Mart models should declare at least one test in YAML
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3607,10 +3609,10 @@ Set `rules.model-has-tests-by-group.<group>=<n>` (groups: uniqueness, nullness, 
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `uniqueness | nullness | relationships | accepted_values` | number | Minimum tests in each group (see rule source for group membership). |
+| Option      | Type                       | Description                         |
+| ----------- | -------------------------- | ----------------------------------- | ---------------- | ------ | ------------------------------------------------------------------- |
+| `severity`  | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
+| `uniqueness | nullness                   | relationships                       | accepted_values` | number | Minimum tests in each group (see rule source for group membership). |
 
 Example `.dbt-doctor`:
 
@@ -3628,10 +3630,10 @@ Set `rules.model-has-tests-by-name.<test_name>=<count>` in .dbt-doctor to enforc
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
-| `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `<test_name>` | number | Minimum count per test name (e.g. unique, not_null, custom tests). |
+| Option        | Type                       | Description                                                        |
+| ------------- | -------------------------- | ------------------------------------------------------------------ |
+| `severity`    | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested).                                |
+| `<test_name>` | number                     | Minimum count per test name (e.g. unique, not_null, custom tests). |
 
 Example `.dbt-doctor`:
 
@@ -3649,11 +3651,11 @@ Set `rules.model-has-tests-by-type.schema=<n>` and/or `rules.model-has-tests-by-
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
-| `schema` | number | Minimum schema tests. |
-| `data` | number | Minimum data tests. |
+| `schema`   | number                     | Minimum schema tests.               |
+| `data`     | number                     | Minimum data tests.                 |
 
 Example `.dbt-doctor`:
 
@@ -3671,8 +3673,8 @@ Models should include a uniqueness test for key columns.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3689,8 +3691,8 @@ At least one uniqueness test should exist at column level.
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3707,8 +3709,8 @@ Primary and foreign key columns should have not_null tests
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3725,8 +3727,8 @@ Add relationships tests on foreign-key-style columns
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3743,8 +3745,8 @@ Satisfy +required_tests from dbt_project.yml by meeting minimum test counts per 
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3761,8 +3763,8 @@ Sources should declare at least one test (schema or data).
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3779,8 +3781,8 @@ Set `rules.source-has-tests-by-group.<group>=<n>` (groups: uniqueness, nullness,
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3797,8 +3799,8 @@ Set `rules.source-has-tests-by-name.<test_name>=<count>` in .dbt-doctor to enfor
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3815,8 +3817,8 @@ Set `rules.source-has-tests-by-type.schema=<n>` and/or `rules.source-has-tests-b
 
 **Configuration**
 
-| Option | Type | Description |
-| ------ | ---- | ----------- |
+| Option     | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
 | `severity` | `error` \| `warn` \| `off` | Set via `rules.<id>=` (not nested). |
 
 Example `.dbt-doctor`:
@@ -3824,4 +3826,3 @@ Example `.dbt-doctor`:
 ```ini
 rules.source-has-tests-by-type=warn
 ```
-

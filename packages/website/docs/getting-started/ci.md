@@ -96,6 +96,7 @@ If manifest is missing, dbt-doctor still runs file-based rules.
 To use it within CI without commiting your artifacts, you should generate the manifest ad hoc.
 
 Example:
+
 ```yaml
 name: dbt-doctor
 

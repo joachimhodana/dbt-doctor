@@ -43,6 +43,7 @@ Platform / data governance
 ## Overriding
 
 Your `.dbt-doctor` values take precedence over the preset.
+
 ```ini
 preset=strict
 fail_on=warning

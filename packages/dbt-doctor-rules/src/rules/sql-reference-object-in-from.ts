@@ -2,7 +2,8 @@ import type { Rule } from "../types.js";
 import { offsetToLineColumn } from "../utils/sql-cst.js";
 import { report } from "../utils/report.js";
 
-const FROM_JOIN_ALIAS_PATTERN = /\b(?:from|join)\s+(?!\()(?:(?:\{\{[\s\S]*?\}\})|(?:[`"\[]?[a-zA-Z_][\w$]*[`"\]]?(?:\.[`"\[]?[a-zA-Z_][\w$]*[`"\]]?){0,2}))\s+(?:as\s+)?([a-zA-Z_][\w$]*)/gi;
+const FROM_JOIN_ALIAS_PATTERN =
+  /\b(?:from|join)\s+(?!\()(?:(?:\{\{[\s\S]*?\}\})|(?:[`"\[]?[a-zA-Z_][\w$]*[`"\]]?(?:\.[`"\[]?[a-zA-Z_][\w$]*[`"\]]?){0,2}))\s+(?:as\s+)?([a-zA-Z_][\w$]*)/gi;
 const QUALIFIED_REFERENCE_PATTERN = /\b([a-zA-Z_][\w$]*)\.([a-zA-Z_][\w$]*)\b/g;
 
 const SQL_KEYWORDS = new Set([
@@ -35,7 +36,8 @@ export const sqlReferenceObjectInFrom: Rule = {
   id: "sql-reference-object-in-from",
   severity: "warn",
   category: "SQL Quality",
-  recommendation: "Qualified references should use aliases/relations declared in FROM or JOIN clauses.",
+  recommendation:
+    "Qualified references should use aliases/relations declared in FROM or JOIN clauses.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];
 

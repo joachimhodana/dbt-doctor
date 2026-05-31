@@ -131,11 +131,7 @@
     {
       "id": "sources",
       "title": "Sources",
-      "rules": [
-        "duplicate-sources",
-        "source-freshness",
-        "unused-sources"
-      ]
+      "rules": ["duplicate-sources", "source-freshness", "unused-sources"]
     },
     {
       "id": "sql-convention",
@@ -242,11 +238,7 @@
     {
       "id": "structure",
       "title": "Structure",
-      "rules": [
-        "model-outside-layer-folder",
-        "non-canonical-layer-folder",
-        "root-models"
-      ]
+      "rules": ["model-outside-layer-folder", "non-canonical-layer-folder", "root-models"]
     },
     {
       "id": "testing",
