@@ -1,8 +1,7 @@
 import type { Rule } from "../types.js";
 import { isStagingModelPath } from "../utils/path-layer.js";
 import { report } from "../utils/report.js";
-
-const JOIN_PATTERN = /\b(cross\s+join|inner\s+join|left\s+join|right\s+join|full\s+join|join)\b/i;
+import { offsetToLineColumn, parseSqlWithCst, walkCstWithPath } from "../utils/sql-cst.js";
 
 /**
  * Staging should rename/recast only — joins belong in intermediate/marts.
@@ -13,18 +12,31 @@ export const stagingNoJoin: Rule = {
   severity: "warn",
   category: "Architecture",
   recommendation: "Avoid joins in staging; combine entities in intermediate or marts",
-  run: ({ sqlFiles, readFile }) => {
+  run: ({ sqlFiles, readFile, project }) => {
     const diagnostics = [];
     for (const file of sqlFiles) {
       if (!isStagingModelPath(file)) continue;
       const content = readFile(file);
-      if (!JOIN_PATTERN.test(content)) continue;
+      const parsed = parseSqlWithCst(file, content, project.adapter);
+      if (!parsed) continue;
+
+      let joinOffset: number | null = null;
+      walkCstWithPath(parsed.cst, (node) => {
+        if (joinOffset !== null) return;
+        if (node.type !== "join_expr" || !node.range) return;
+        joinOffset = node.range[0];
+      });
+      if (joinOffset === null) continue;
+
+      const position = offsetToLineColumn(content, joinOffset);
       diagnostics.push(
         report(
           stagingNoJoin,
           file,
           "Staging model contains a JOIN — prefer one staging model per source entity",
           "Move joins to an int_ model, then build marts from refs.",
+          position.line,
+          position.column,
         ),
       );
     }

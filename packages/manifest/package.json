@@ -1,0 +1,41 @@
+{
+  "name": "@dbt-doctor/manifest",
+  "version": "0.1.0",
+  "description": "Manifest graph loader for dbt-doctor",
+  "bugs": {
+    "url": "https://github.com/joachimhodana/dbt-doctor/issues"
+  },
+  "license": "MIT",
+  "author": "Joachim Hodana",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joachimhodana/dbt-doctor.git",
+    "directory": "packages/manifest"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublishOnly": "pnpm run build",
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && NODE_ENV=production vp pack",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

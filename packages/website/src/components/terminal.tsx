@@ -7,6 +7,7 @@ import { SITE_HOST } from "@/constants/site";
 import { getDoctorFace } from "@/utils/get-doctor-face";
 import { getScoreColorClass } from "@/utils/get-score-color-class";
 import { getScoreLabel } from "@/utils/get-score-label";
+import { GithubStarButton } from "./github-star-button";
 import { PlatformLogos } from "./platform-logos";
 
 const COPIED_RESET_DELAY_MS = 2000;
@@ -52,9 +53,6 @@ const countDemoAffectedFiles = (diagnostics: RuleDiagnostic[]): number =>
 
 const ANIMATION_COMPLETED_KEY = "dbt-doctor-animation-completed";
 const COMMAND = "npx dbt-doctor@latest";
-const GITHUB_URL = "https://github.com/joachimhodana/dbt-doctor";
-const GITHUB_ICON_PATH =
-  "M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z";
 
 interface RuleDiagnostic {
   ruleKey: string;
@@ -370,6 +368,16 @@ const CopyCommand = () => {
   );
 };
 
+const DocsButton = () => (
+  <a
+    href="/docs"
+    className="inline-flex items-center gap-1.5 rounded-md border border-orange-200/20 bg-[#120e0d] px-3 py-1.5 text-white transition-colors hover:bg-[#1b1412]"
+  >
+    Docs
+    <ChevronRight size={14} className="text-white/70" />
+  </a>
+);
+
 interface AnimationState {
   typedCommand: string;
   isTyping: boolean;
@@ -485,7 +493,6 @@ const Terminal = () => {
           <span className="h-2.5 w-2.5 rounded-full bg-[#ff6b4a]" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#ffb86a]" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#4ade80]" />
-          <span className="ml-2 tracking-wide text-neutral-600">dbt-doctor terminal</span>
         </div>
         <div>
           <span className="text-neutral-500">$ </span>
@@ -500,7 +507,7 @@ const Terminal = () => {
               <img src="/favicon.svg" alt="dbt Doctor" width={24} height={24} />
               dbt-doctor
             </div>
-            <div className="text-neutral-500">Your agent writes bad dbt. This catches it.</div>
+            <div className="text-neutral-500">The swiss-army toolkit for dbt linting.</div>
             <Spacer />
             <PlatformLogos />
             <Spacer />
@@ -544,23 +551,8 @@ const Terminal = () => {
             <Spacer />
             <div className="flex flex-wrap items-center gap-3">
               <CopyCommand />
-              <a
-                href="/leaderboard"
-                className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-orange-200/20 bg-[#120e0d] px-3 py-1.5 text-white transition-all hover:bg-[#1b1412] active:scale-[0.98]"
-              >
-                Leaderboard
-              </a>
-              <a
-                href={GITHUB_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-[#ff8e72] bg-[#ff694a] px-3 py-1.5 text-[#120d0b] transition-all hover:bg-[#ff7a5f] active:scale-[0.98]"
-              >
-                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                  <path fillRule="evenodd" clipRule="evenodd" d={GITHUB_ICON_PATH} />
-                </svg>
-                Star on GitHub
-              </a>
+              <DocsButton />
+              <GithubStarButton />
             </div>
           </FadeIn>
         )}

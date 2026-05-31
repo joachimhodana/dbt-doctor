@@ -1,6 +1,5 @@
 export * from "./apply-config-preset.js";
 export * from "./apply-ignore-overrides.js";
-export * from "./baseline-diagnostics.js";
 export * from "./build-sarif-report.js";
 export * from "./apply-severity-controls.js";
 export * from "./build-rule-severity-controls.js";

@@ -6,25 +6,48 @@ describe("applyConfigPreset", () => {
     expect(applyConfigPreset(null)).toBeNull();
   });
 
-  it("leaves default preset unchanged", () => {
-    const config = { preset: "default" as const, failOn: "none" as const };
-    expect(applyConfigPreset(config)).toEqual(config);
+  it("applies default preset when preset is omitted", () => {
+    const config = { failOn: "none" as const };
+    expect(applyConfigPreset(config)).toEqual({
+      preset: "default",
+      failOn: "none",
+      ignore: { tags: ["enterprise", "strict", "style", "sql-style"] },
+      categories: {},
+      surfaces: {},
+      rules: {},
+    });
+  });
+
+  it("applies default preset tag filters", () => {
+    const config = applyConfigPreset({ preset: "default" });
+    expect(config?.ignore?.tags).toEqual(["enterprise", "strict", "style", "sql-style"]);
   });
 
   it("applies strict preset defaults", () => {
     const config = applyConfigPreset({ preset: "strict" });
     expect(config?.failOn).toBe("error");
-    expect(config?.ignore?.tags).toEqual([]);
+    expect(config?.ignore?.tags).toEqual(["enterprise"]);
+    expect(config?.categories).toEqual({
+      Documentation: "error",
+      Configuration: "error",
+      Architecture: "error",
+      "SQL Style": "warn",
+      Testing: "warn",
+    });
   });
 
   it("applies enterprise preset defaults", () => {
     const config = applyConfigPreset({ preset: "enterprise" });
     expect(config?.scoreMode).toBe("files");
     expect(config?.failOn).toBe("warning");
-    expect(config?.ignore?.tags).toEqual(["style"]);
+    expect(config?.ignore?.tags).toBeUndefined();
     expect(config?.categories).toEqual({
       Governance: "error",
       Architecture: "error",
+      Sources: "error",
+      Documentation: "warn",
+      Performance: "warn",
+      Testing: "warn",
     });
   });
 

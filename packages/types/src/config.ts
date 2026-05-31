@@ -92,7 +92,10 @@ export interface SurfaceControls {
 export interface DbtDoctorConfig {
   preset?: DbtDoctorPreset;
   scoreMode?: ScoreMode;
-  baseline?: boolean | string;
+  /** Fail the scan if overall score drops below this value. */
+  failProjectUnder?: number;
+  /** Fail the scan if any model score drops below this value. */
+  failAnyItemUnder?: number;
   ignore?: DbtDoctorIgnoreConfig;
   lint?: boolean;
   verbose?: boolean;
@@ -193,8 +196,12 @@ export interface DbtDoctorConfig {
   /** @deprecated Use adoptExistingSqlfluffConfig */
   adoptExistingLintConfig?: boolean;
   adoptExistingSqlfluffConfig?: boolean;
+  /** Opt into SQLFluff subprocess linting (Phase 5: native SQL checks are default). */
+  useSqlfluff?: boolean;
   /** Skip sqlfluff; run only dbt-doctor custom rules (no Python required). */
   skipSqlfluff?: boolean;
+  /** Override manifest path (default: target/manifest.json). */
+  manifestPath?: string;
   /**
    * Per-surface include/exclude controls. Each `DiagnosticSurface` is
    * resolved independently against rule tags, category, and id so a
@@ -236,6 +243,17 @@ export interface DbtDoctorConfig {
    * ```
    */
   rules?: Record<string, RuleSeverityOverride>;
+  /**
+   * Per-rule configuration payloads keyed by rule id. Populated from
+   * `.dbt-doctor` dotted keys in the form:
+   *
+   * `rules.<rule-id>.<option>=<value>`
+   *
+   * Example:
+   *
+   * `rules.model-name-contract.pattern=^(stg|int|fct|dim)_[a-z0-9_]+$`
+   */
+  ruleConfig?: Record<string, Record<string, unknown>>;
   /**
    * Per-category severity map. Mirrors oxlint's top-level
    * `categories` field, but keyed by React Doctor's display

@@ -12,7 +12,9 @@ const ENTERPRISE_RULE_IDS = [
   "source-pii-meta",
   "no-hardcoded-env",
   "incremental-unique-key",
+  "no-unused-is-incremental",
   "snapshot-strategy",
+  "snapshot-unique-key",
   "relationship-test-on-fk",
   "not-null-on-required-keys",
   "model-has-tests",
@@ -21,6 +23,8 @@ const ENTERPRISE_RULE_IDS = [
   "model-path-layer-mismatch",
   "cluster-by-hint",
   "excessive-cte-depth",
+  "seed-has-owner",
+  "macro-snake-case",
 ] as const;
 
 const seedEnterpriseProject = (root: string): void => {
@@ -31,7 +35,7 @@ const seedEnterpriseProject = (root: string): void => {
   };
   write(
     "dbt_project.yml",
-    'name: enterprise_fixture\nversion: "1"\nprofile: bigquery_default\nmodel-paths: ["models"]\nsnapshot-paths: ["snapshots"]\n',
+    'name: enterprise_fixture\nversion: "1"\nprofile: bigquery_default\nmodel-paths: ["models"]\nseed-paths: ["seeds"]\nmacro-paths: ["macros"]\nsnapshot-paths: ["snapshots"]\n',
   );
   write("packages.yml", "packages:\n  - package: dbt-labs/dbt_utils\n");
   write(
@@ -44,7 +48,11 @@ const seedEnterpriseProject = (root: string): void => {
   write("models/marts/fct_orders.sql", "select 1 as id, 2 as customer_id\n");
   write(
     "models/marts/schema.yml",
-    "version: 2\nmodels:\n  - name: fct_orders\n    columns:\n      - name: id\n      - name: customer_id\n",
+    "version: 2\nmodels:\n  - name: fct_orders\n    columns:\n      - name: id\n      - name: customer_id\n  - name: no_incr\n    description: Table model with dead incremental branch\n",
+  );
+  write(
+    "models/marts/no_incr.sql",
+    "{{ config(materialized='table') }}\nselect 1 as x\n{% if is_incremental() %}\nwhere false\n{% endif %}\n",
   );
   write("models/marts/inc.sql", "{{ config(materialized='incremental') }}\nselect 1 as order_id\n");
   write("models/marts/prod.sql", "select * from prod_analytics.orders\n");
@@ -55,8 +63,14 @@ const seedEnterpriseProject = (root: string): void => {
   write("models/marts/big.sql", `${"select 1 as n\n".repeat(85)}`);
   write(
     "snapshots/s.yml",
-    "version: 2\nsnapshots:\n  - name: u\n    relation: ref('fct_orders')\n",
+    "version: 2\nsnapshots:\n  - name: u\n    relation: ref('fct_orders')\n  - name: v\n    relation: ref('fct_orders')\n    strategy: timestamp\n    updated_at: updated_at\n",
   );
+  write("seeds/raw_list.csv", "id\n1\n");
+  write(
+    "seeds/seeds.yml",
+    "version: 2\nseeds:\n  - name: raw_list\n    description: Fixture seed without owner\n",
+  );
+  write("macros/BadMacro.sql", "{% macro BadMacro() %}\nselect 1\n{% endmacro %}\n");
 };
 
 describe("enterprise rules", () => {

@@ -6,6 +6,9 @@ export interface InspectFlags {
   lint?: boolean;
   verbose?: boolean;
   score?: boolean;
+  coverage?: boolean;
+  showPerModelScores?: boolean;
+  useSqlfluff?: boolean;
   json?: boolean;
   jsonCompact?: boolean;
   yes?: boolean;
@@ -20,8 +23,8 @@ export interface InspectFlags {
   explain?: string;
   why?: string;
   failOn?: string;
+  manifest?: string;
   preset?: string;
   scoreMode?: string;
   sarif?: boolean;
-  writeBaseline?: boolean;
 }

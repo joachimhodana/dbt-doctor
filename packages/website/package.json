@@ -3,8 +3,9 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "predev": "node --experimental-strip-types --no-warnings ../../scripts/sync-leaderboard-public.ts",
-    "prebuild": "node --experimental-strip-types --no-warnings ../../scripts/sync-leaderboard-public.ts",
+    "generate:rules-docs": "node ../../scripts/generate-rules-docs.mjs && node ../../scripts/link-tool-parity-rules.mjs && node ../../scripts/update-tool-parity-coverage.mjs && vp fmt docs/rules docs/tool-parity",
+    "predev": "pnpm generate:rules-docs",
+    "prebuild": "pnpm generate:rules-docs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"

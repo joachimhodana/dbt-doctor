@@ -40,6 +40,7 @@ import { resolveFailOnLevel } from "../utils/resolve-fail-on-level.js";
 import { runExplain } from "../utils/run-explain.js";
 import { selectProjects } from "../utils/select-projects.js";
 import { shouldFailForDiagnostics } from "../utils/should-fail-for-diagnostics.js";
+import { shouldFailForScoreThresholds } from "../utils/should-fail-for-score-thresholds.js";
 import { shouldSkipPrompts } from "../utils/should-skip-prompts.js";
 import { validateModeFlags } from "../utils/validate-mode-flags.js";
 import { VERSION } from "../utils/version.js";
@@ -66,6 +67,7 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
         preset: flags.preset,
         scoreMode: flags.scoreMode,
         failOn: flags.failOn,
+        manifest: flags.manifest,
       }),
     );
     const redirectedDirectory = resolveConfigRootDir(
@@ -97,6 +99,12 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
     }
 
     const scanOptions = resolveCliInspectOptions(flags, userConfig);
+    if (scanOptions.useSqlfluff && !isQuiet) {
+      logger.warn(
+        "`--use-sqlfluff` is deprecated and will be removed in a future release. Native SQL/Jinja rules are now the default path.",
+      );
+      logger.break();
+    }
     const skipPrompts = shouldSkipPrompts({ yes: flags.yes, full: flags.full, json: flags.json });
 
     if (!flags.offline && isCiEnvironment() && !isQuiet) {
@@ -179,6 +187,9 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
         ) {
           process.exitCode = 1;
         }
+        if (shouldFailForScoreThresholds([scanResult], userConfig)) {
+          process.exitCode = 1;
+        }
       } finally {
         snapshot.cleanup();
       }
@@ -252,7 +263,6 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
         ...scanOptions,
         includePaths,
         configOverride: userConfig,
-        writeBaseline: flags.writeBaseline,
       });
       allDiagnostics.push(...scanResult.diagnostics);
       completedScans.push({ directory: projectDirectory, result: scanResult });
@@ -291,6 +301,14 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
     if (
       !isScoreOnly &&
       shouldFailForDiagnostics(ciFailureDiagnostics, resolveFailOnLevel(flags, userConfig))
+    ) {
+      process.exitCode = 1;
+    }
+    if (
+      shouldFailForScoreThresholds(
+        completedScans.map((scan) => scan.result),
+        userConfig,
+      )
     ) {
       process.exitCode = 1;
     }

@@ -6,6 +6,7 @@ export interface DiagnoseOptions {
   lint?: boolean;
   verbose?: boolean;
   includePaths?: string[];
+  manifestPath?: string;
   /** Per-call override for `DbtDoctorConfig.offline` (local score only). */
   offline?: boolean;
   /**

@@ -19,11 +19,21 @@ const program = new Command()
   .option("--no-lint", "skip linting")
   .option("--verbose", "show every rule and per-file details (default shows top 3 rules)")
   .option("--score", "output only the score")
+  .option("--coverage", "print model test/docs coverage summary")
+  .option("--show-per-model-scores", "print local score for each model (worst first)")
+  .option(
+    "--use-sqlfluff",
+    "DEPRECATED: use SQLFluff subprocess linting as fallback (will be removed in a future release)",
+  )
   .option("--json", "output a single structured JSON report (suppresses other output)")
   .option("--json-compact", "with --json, emit compact JSON (no indentation)")
   .option("-y, --yes", "skip prompts, scan all workspace projects")
   .option("--full", "force a full scan (overrides any `diff` value in config or `--diff`)")
   .option("--project <name>", "select workspace project (comma-separated for multiple)")
+  .option(
+    "--manifest <path>",
+    "path to dbt manifest JSON (default: target/manifest.json); enables manifest graph rules",
+  )
   .option(
     "--diff [base]",
     "scan only files changed vs base branch (pass `false` to disable; overridden by --full)",
@@ -41,10 +51,6 @@ const program = new Command()
   )
   .option("--annotations", "output diagnostics as GitHub Actions annotations")
   .option("--sarif", "output diagnostics as SARIF 2.1 JSON (for GitHub Code Scanning and similar)")
-  .option(
-    "--write-baseline",
-    "write current findings to .dbt-doctor-baseline.json (or path from config.baseline)",
-  )
   .option(
     "--pr-comment",
     "tune CLI output for sticky PR comments (drops weak-signal rule families like `design` from the printed list and the fail-on gate; configure via config.surfaces)",

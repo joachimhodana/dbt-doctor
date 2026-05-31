@@ -49,6 +49,8 @@ export const buildJsonReport = (input: BuildJsonReportInput): JsonReport => {
     project: result.project,
     diagnostics: result.diagnostics,
     score: result.score,
+    ...(result.coverage ? { coverage: result.coverage } : {}),
+    ...(result.perModelScores ? { perModelScores: result.perModelScores } : {}),
     skippedChecks: result.skippedChecks,
     ...(result.skippedCheckReasons ? { skippedCheckReasons: result.skippedCheckReasons } : {}),
     elapsedMilliseconds: result.elapsedMilliseconds,

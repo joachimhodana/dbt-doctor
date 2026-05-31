@@ -3,7 +3,7 @@ import { report } from "../utils/report.js";
 
 export const refOverSource: Rule = {
   id: "prefer-ref-over-raw-source",
-  severity: "warn",
+  severity: "error",
   category: "Architecture",
   recommendation: "Use {{ ref() }} for model dependencies",
   run: ({ sqlFiles, readFile }) => {

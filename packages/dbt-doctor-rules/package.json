@@ -41,8 +41,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@dbt-doctor/manifest": "workspace:*",
     "@dbt-doctor/project-info": "workspace:*",
-    "@dbt-doctor/types": "workspace:*"
+    "@dbt-doctor/types": "workspace:*",
+    "sql-parser-cst": "0.42.0"
   },
   "devDependencies": {
     "@types/node": "^25.6.0"

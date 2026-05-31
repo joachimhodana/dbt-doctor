@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { Diagnostic, ProjectInfo } from "@dbt-doctor/types";
+import { readManifest } from "@dbt-doctor/manifest";
 import {
   DBT_PROJECT_FILENAME,
   SOURCE_FILE_PATTERN,
@@ -50,11 +51,14 @@ export interface RunCustomRulesOptions {
   rootDirectory: string;
   project: ProjectInfo;
   includePaths?: string[];
+  manifestPath?: string;
+  ruleConfig?: Record<string, Record<string, unknown>>;
   ignoredTags: ReadonlySet<string>;
 }
 
 export const runCustomRules = (options: RunCustomRulesOptions): Diagnostic[] => {
-  const { rootDirectory, project, includePaths, ignoredTags } = options;
+  const { rootDirectory, project, includePaths, manifestPath, ignoredTags } = options;
+  const allRuleConfig = options.ruleConfig ?? {};
 
   let sqlFiles = listProjectFiles(rootDirectory, project.modelPaths, SOURCE_FILE_PATTERN);
   const yamlDirs = [
@@ -71,6 +75,7 @@ export const runCustomRules = (options: RunCustomRulesOptions): Diagnostic[] => 
   ];
   let yamlFiles = listProjectFiles(rootDirectory, yamlDirs, YAML_SOURCE_PATTERN);
   let macroSqlFiles = listProjectFiles(rootDirectory, project.macroPaths, SOURCE_FILE_PATTERN);
+  let testSqlFiles = listProjectFiles(rootDirectory, project.testPaths, SOURCE_FILE_PATTERN);
   let seedDataFiles = listProjectFiles(
     rootDirectory,
     project.seedPaths,
@@ -81,6 +86,7 @@ export const runCustomRules = (options: RunCustomRulesOptions): Diagnostic[] => 
     const allowed = new Set(includePaths.map((p) => p.replace(/\\/g, "/")));
     sqlFiles = sqlFiles.filter((f) => allowed.has(f));
     yamlFiles = yamlFiles.filter((f) => allowed.has(f));
+    testSqlFiles = testSqlFiles.filter((f) => allowed.has(f));
   }
 
   if (isFile(path.join(rootDirectory, DBT_PROJECT_FILENAME))) {
@@ -97,6 +103,7 @@ export const runCustomRules = (options: RunCustomRulesOptions): Diagnostic[] => 
     sqlFiles,
     yamlFiles: [...new Set(yamlFiles)],
     macroSqlFiles,
+    testSqlFiles,
     seedDataFiles,
     readFile: (relativePath) => {
       try {
@@ -106,11 +113,16 @@ export const runCustomRules = (options: RunCustomRulesOptions): Diagnostic[] => 
       }
     },
     fileExists: (relativePath) => isFile(path.join(rootDirectory, relativePath)),
+    manifest: readManifest(rootDirectory, manifestPath) ?? undefined,
+    ruleConfig: {},
   };
 
   const diagnostics: Diagnostic[] = [];
   for (const rule of ALL_DBT_DOCTOR_RULES) {
     if (rule.tags?.some((tag) => ignoredTags.has(tag))) continue;
+    if (rule.requiresManifest && !context.manifest) {
+      continue;
+    }
     if (
       rule.requiresAdapter &&
       rule.requiresAdapter.length > 0 &&
@@ -119,7 +131,7 @@ export const runCustomRules = (options: RunCustomRulesOptions): Diagnostic[] => 
     ) {
       continue;
     }
-    diagnostics.push(...rule.run(context));
+    diagnostics.push(...rule.run({ ...context, ruleConfig: allRuleConfig[rule.id] ?? {} }));
   }
   return diagnostics;
 };

@@ -66,3 +66,59 @@ export const findModelBlock = (
   }
   return null;
 };
+
+const isSeedYamlPath = (filePath: string): boolean => {
+  const relative = filePath.replace(/\\/g, "/");
+  return relative.includes("/seeds/") || relative.startsWith("seeds/") || relative === "seeds";
+};
+
+export const findSeedBlock = (
+  seedName: string,
+  yamlFiles: string[],
+  readFile: (path: string) => string,
+): { file: string; block: string } | null => {
+  for (const file of yamlFiles) {
+    if (!isSeedYamlPath(file)) continue;
+    if (!/\.(yml|yaml)$/i.test(file)) continue;
+    for (const block of splitNamedYamlBlocks(readFile(file), "seeds")) {
+      if (block.name === seedName) return { file, block: block.block };
+    }
+  }
+  return null;
+};
+
+export interface SourceTableBlock {
+  sourceName: string;
+  tableName: string;
+  block: string;
+}
+
+export const splitSourceTableBlocks = (content: string): SourceTableBlock[] => {
+  const tables: SourceTableBlock[] = [];
+
+  for (const source of splitNamedYamlBlocks(content, "sources")) {
+    const tablesIndex = source.block.search(/\n\s*tables:\s*\n/);
+    if (tablesIndex < 0) continue;
+
+    const tablesTail = source.block.slice(tablesIndex);
+    const tableRegex = /^\s{6}-\s+name:\s+["']?([\w.-]+)/gm;
+    const indices: { tableName: string; index: number }[] = [];
+    for (const match of tablesTail.matchAll(tableRegex)) {
+      if (match.index === undefined) continue;
+      indices.push({ tableName: match[1], index: match.index });
+    }
+
+    for (let index = 0; index < indices.length; index += 1) {
+      const start = indices[index]!.index;
+      const end = index + 1 < indices.length ? indices[index + 1]!.index : tablesTail.length;
+      const block = tablesTail.slice(start, end);
+      tables.push({
+        sourceName: source.name,
+        tableName: indices[index]!.tableName,
+        block,
+      });
+    }
+  }
+
+  return tables;
+};

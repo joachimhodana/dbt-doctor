@@ -3,9 +3,27 @@ import type { Diagnostic } from "./diagnostic.js";
 import type { ProjectInfo } from "./project-info.js";
 import type { ScoreResult } from "./score.js";
 
+export interface CoverageMetrics {
+  documentedModels: number;
+  totalModels: number;
+  documentedPercent: number;
+  testedModels: number;
+  testedPercent: number;
+}
+
+export interface PerModelScore {
+  modelName: string;
+  filePath: string;
+  score: number;
+  label: string;
+  diagnosticCount: number;
+}
+
 export interface InspectResult {
   diagnostics: Diagnostic[];
   score: ScoreResult | null;
+  coverage?: CoverageMetrics;
+  perModelScores?: PerModelScore[];
   skippedChecks: string[];
   /**
    * Human-readable explanation for each entry in `skippedChecks`. Keyed
@@ -27,10 +45,14 @@ export interface InspectOptions {
   offline?: boolean;
   silent?: boolean;
   includePaths?: string[];
+  manifestPath?: string;
+  useSqlfluff?: boolean;
   configOverride?: DbtDoctorConfig | null;
   respectInlineDisables?: boolean;
-  /** Write findings to the baseline file before filtering (see `config.baseline`). */
-  writeBaseline?: boolean;
+  /** Print model documentation/test coverage summary. */
+  coverage?: boolean;
+  /** Print per-model local scores sorted worst-first. */
+  showPerModelScores?: boolean;
   /**
    * Surface that consumes the printed diagnostic output (terminal
    * summary + per-rule list). Defaults to `"cli"`, which shows every
@@ -73,6 +95,8 @@ export interface JsonReportProjectEntry {
   project: ProjectInfo;
   diagnostics: Diagnostic[];
   score: ScoreResult | null;
+  coverage?: CoverageMetrics;
+  perModelScores?: PerModelScore[];
   skippedChecks: string[];
   /** Human-readable explanation per skipped check. See `InspectResult.skippedCheckReasons`. */
   skippedCheckReasons?: Record<string, string>;

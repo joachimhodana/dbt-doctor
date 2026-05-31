@@ -10,12 +10,30 @@ import { listSourceFiles } from "./utils/list-source-files.js";
 
 const SQLFLUFF_BATCH_SIZE = 50;
 
+/** Map dbt adapter to a SQLFluff dialect CLI value. */
+const SQLFLUFF_DIALECT_BY_ADAPTER: Record<ProjectInfo["adapter"], string> = {
+  snowflake: "snowflake",
+  bigquery: "bigquery",
+  postgres: "postgres",
+  redshift: "redshift",
+  databricks: "databricks",
+  duckdb: "duckdb",
+  athena: "athena",
+  spark: "sparksql",
+  trino: "trino",
+  unknown: "ansi",
+};
+
 export interface RunLinterOptions {
   rootDirectory: string;
   project: ProjectInfo;
   includePaths?: string[];
+  manifestPath?: string;
+  ruleConfig?: Record<string, Record<string, unknown>>;
   ignoredTags: ReadonlySet<string>;
   adoptExistingSqlfluffConfig?: boolean;
+  useSqlfluff?: boolean;
+  /** @deprecated Use useSqlfluff */
   skipSqlfluff?: boolean;
 }
 
@@ -33,7 +51,11 @@ interface SqlfluffFileResult {
   violations?: SqlfluffViolation[];
 }
 
-const runSqlfluffBatch = (rootDirectory: string, absolutePaths: string[]): Promise<Diagnostic[]> =>
+const runSqlfluffBatch = (
+  rootDirectory: string,
+  absolutePaths: string[],
+  dialect: string,
+): Promise<Diagnostic[]> =>
   new Promise((resolve) => {
     if (absolutePaths.length === 0) {
       resolve([]);
@@ -42,7 +64,15 @@ const runSqlfluffBatch = (rootDirectory: string, absolutePaths: string[]): Promi
 
     const child = spawn(
       "sqlfluff",
-      ["lint", ...absolutePaths, "--format", "json", "--disable-progress-bar"],
+      [
+        "lint",
+        ...absolutePaths,
+        "--format",
+        "json",
+        "--disable-progress-bar",
+        "--dialect",
+        dialect,
+      ],
       { cwd: rootDirectory, env: process.env },
     );
 
@@ -118,16 +148,28 @@ export const isSqlfluffAvailable = (): Promise<boolean> =>
   });
 
 export const runLinter = async (options: RunLinterOptions): Promise<Diagnostic[]> => {
-  const { rootDirectory, project, includePaths, ignoredTags, skipSqlfluff = false } = options;
+  const {
+    rootDirectory,
+    project,
+    includePaths,
+    manifestPath,
+    ruleConfig,
+    ignoredTags,
+    useSqlfluff,
+    skipSqlfluff = false,
+  } = options;
 
   const customDiagnostics = runCustomRules({
     rootDirectory,
     project,
     includePaths,
+    manifestPath,
+    ruleConfig,
     ignoredTags,
   });
 
-  if (skipSqlfluff) {
+  const shouldRunSqlfluff = typeof useSqlfluff === "boolean" ? useSqlfluff : !skipSqlfluff;
+  if (!shouldRunSqlfluff) {
     return dedupeDiagnostics(customDiagnostics);
   }
 
@@ -140,10 +182,11 @@ export const runLinter = async (options: RunLinterOptions): Promise<Diagnostic[]
 
   const absolutePaths = sqlPaths.map((relative) => path.join(rootDirectory, relative));
   const batches = batchIncludePaths([], absolutePaths);
+  const dialect = SQLFLUFF_DIALECT_BY_ADAPTER[project.adapter] ?? "ansi";
 
   const sqlfluffDiagnostics: Diagnostic[] = [];
   for (const batch of batches) {
-    const batchResults = await runSqlfluffBatch(rootDirectory, batch);
+    const batchResults = await runSqlfluffBatch(rootDirectory, batch, dialect);
     sqlfluffDiagnostics.push(...batchResults);
   }
 

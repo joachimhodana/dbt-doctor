@@ -1,21 +1,15 @@
 import type { Rule } from "../types.js";
+import { isIncrementalModel } from "../utils/incremental-model.js";
 import { isModelSqlPath, isUnderModelsYaml, modelBaseName } from "../utils/model-paths.js";
 import { findModelBlock } from "../utils/yaml-blocks.js";
 import { report } from "../utils/report.js";
-
-const isIncrementalModel = (sql: string, yamlBlock: string | null): boolean => {
-  if (/materialized\s*=\s*['"]incremental['"]/i.test(sql)) return true;
-  if (/materialized:\s*incremental/i.test(yamlBlock ?? "")) return true;
-  if (/materialized:\s*['"]incremental['"]/i.test(yamlBlock ?? "")) return true;
-  return false;
-};
 
 const hasUniqueKey = (sql: string, yamlBlock: string | null): boolean =>
   /unique_key\s*=/i.test(sql) || /unique_key:/i.test(yamlBlock ?? "");
 
 export const incrementalUniqueKey: Rule = {
   id: "incremental-unique-key",
-  severity: "warn",
+  severity: "error",
   category: "Configuration",
   tags: ["enterprise"],
   recommendation: "Incremental models must declare unique_key",
