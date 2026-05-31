@@ -24,7 +24,8 @@
     "version": "changeset version",
     "release": "pnpm build && changeset publish",
     "generate:rules-docs": "node scripts/generate-rules-docs.mjs && node scripts/link-tool-parity-rules.mjs && vp fmt packages/website/docs/rules",
-    "update:tool-parity-coverage": "node scripts/update-tool-parity-coverage.mjs"
+    "update:tool-parity-coverage": "node scripts/update-tool-parity-coverage.mjs",
+    "fp-scan": "node scripts/fp-scan-report.mjs"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.7.0",

@@ -5,7 +5,7 @@ describe("parseDbtDoctorProps", () => {
   it("parses scalar props", () => {
     expect(
       parseDbtDoctorProps(`
-# affiliates
+# example project
 score_mode=files
 preset=enterprise
 fail_on=warning

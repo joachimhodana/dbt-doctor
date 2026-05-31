@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Regression tests for affiliates-dbt / EDP patterns (multi-line join, subsidiary union, sage incremental).
+- Regression tests for common dbt Jinja/SQL edge cases (multi-line join, dim comments, incremental blocks).
 
 ## [0.3.1] - 2026-05-25
 
