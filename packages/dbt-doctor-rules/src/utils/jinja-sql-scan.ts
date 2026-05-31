@@ -65,10 +65,7 @@ export const maskJinjaBlocks = (content: string): string => {
   let masked = content;
   for (const range of ranges) {
     const length = range.end - range.start;
-    masked =
-      masked.slice(0, range.start) +
-      " ".repeat(length) +
-      masked.slice(range.end);
+    masked = masked.slice(0, range.start) + " ".repeat(length) + masked.slice(range.end);
   }
   return masked;
 };

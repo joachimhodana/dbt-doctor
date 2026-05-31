@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 
 const DEFAULT_DBT_PROJECT = [
-  'name: fp_fixture',
+  "name: fp_fixture",
   'version: "1"',
   "profile: default",
   'model-paths: ["models"]',
@@ -21,11 +21,7 @@ export interface TempDbtProject {
   cleanup: () => void;
 }
 
-export const writeProjectFile = (
-  rootDir: string,
-  relativePath: string,
-  body: string,
-): void => {
+export const writeProjectFile = (rootDir: string, relativePath: string, body: string): void => {
   const filePath = path.join(rootDir, relativePath);
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, body);
@@ -34,11 +30,7 @@ export const writeProjectFile = (
 export const createTempDbtProject = (input: TempDbtProjectInput): TempDbtProject => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), "dbt-doctor-fp-"));
   writeProjectFile(directory, "dbt_project.yml", DEFAULT_DBT_PROJECT);
-  writeProjectFile(
-    directory,
-    input.modelPath ?? "models/staging/stg_fixture.sql",
-    input.modelSql,
-  );
+  writeProjectFile(directory, input.modelPath ?? "models/staging/stg_fixture.sql", input.modelSql);
 
   for (const [relativePath, body] of Object.entries(input.extraFiles ?? {})) {
     writeProjectFile(directory, relativePath, body);

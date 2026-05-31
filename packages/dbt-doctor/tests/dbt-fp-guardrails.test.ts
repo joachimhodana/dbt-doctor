@@ -29,7 +29,9 @@ describe("dbt false-positive guardrails", () => {
     const diagnostics = runRules(project.directory, guardrail.rules);
     expect(
       diagnostics,
-      diagnostics.map((diagnostic) => `${diagnostic.rule} @ ${diagnostic.filePath}:${diagnostic.line}`).join("\n"),
+      diagnostics
+        .map((diagnostic) => `${diagnostic.rule} @ ${diagnostic.filePath}:${diagnostic.line}`)
+        .join("\n"),
     ).toHaveLength(0);
   });
 });
