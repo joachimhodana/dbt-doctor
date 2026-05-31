@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "generate:rules-docs": "node ../../scripts/generate-rules-docs.mjs && node ../../scripts/link-tool-parity-rules.mjs && node ../../scripts/update-tool-parity-coverage.mjs",
+    "generate:rules-docs": "node ../../scripts/generate-rules-docs.mjs && node ../../scripts/link-tool-parity-rules.mjs && node ../../scripts/update-tool-parity-coverage.mjs && vp fmt docs/rules docs/tool-parity",
     "predev": "pnpm generate:rules-docs",
     "prebuild": "pnpm generate:rules-docs",
     "dev": "next dev",

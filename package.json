@@ -23,7 +23,7 @@
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm build && changeset publish",
-    "generate:rules-docs": "node scripts/generate-rules-docs.mjs && node scripts/link-tool-parity-rules.mjs",
+    "generate:rules-docs": "node scripts/generate-rules-docs.mjs && node scripts/link-tool-parity-rules.mjs && vp fmt packages/website/docs/rules",
     "update:tool-parity-coverage": "node scripts/update-tool-parity-coverage.mjs"
   },
   "devDependencies": {

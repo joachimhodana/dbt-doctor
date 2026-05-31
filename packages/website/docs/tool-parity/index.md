@@ -20,7 +20,7 @@ dbt-doctor aims to be the **single linter** for dbt projects: one `npx dbt-docto
 | [dbt-coverage](/docs/tool-parity/dbt-coverage)         | 8 CLI features                |                                         **50%** | `--coverage` (file-based); catalog compare later  |
 | [SQLFluff](/docs/tool-parity/sqlfluff)                 | 74 rule codes (stable bundle) | **100%** native; **100%** with `--use-sqlfluff` | Native SQL/Jinja parity map + subprocess fallback |
 
-> Coverage was last updated on May 25, 2026.
+> Coverage was last updated on May 31, 2026.
 >
 > Average across these five tools: **90%**.
 
