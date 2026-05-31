@@ -1,4 +1,5 @@
 import { cstVisitor, parse } from "sql-parser-cst";
+import { JINJA_BLOCK_PATTERN } from "./jinja-sql-scan.js";
 
 export type SqlParserDialect = "bigquery" | "mariadb" | "mysql" | "postgresql" | "sqlite";
 
@@ -17,7 +18,9 @@ const mapAdapterToDialect = (adapter: string | null | undefined): SqlParserDiale
     normalized.includes("postgres") ||
     normalized.includes("redshift") ||
     normalized.includes("trino") ||
-    normalized.includes("duckdb")
+    normalized.includes("duckdb") ||
+    normalized.includes("snowflake") ||
+    normalized.includes("databricks")
   ) {
     return "postgresql";
   }
@@ -30,10 +33,8 @@ const maskTemplateChunk = (chunk: string): string =>
     .map((char) => (char === "\n" || char === "\r" ? char : "x"))
     .join("");
 
-const stripJinjaForParser = (sql: string): string => {
-  const JINJA_BLOCK_PATTERN = /\{\{[\s\S]*?\}\}|\{%[\s\S]*?%\}|\{#[\s\S]*?#\}/g;
-  return sql.replace(JINJA_BLOCK_PATTERN, (chunk) => maskTemplateChunk(chunk));
-};
+const stripJinjaForParser = (sql: string): string =>
+  sql.replace(JINJA_BLOCK_PATTERN, (chunk) => maskTemplateChunk(chunk));
 
 export const parseSqlWithCst = (
   filePath: string,

@@ -1,4 +1,5 @@
 import type { Rule } from "../types.js";
+import { findJinjaRanges, isInsideRanges } from "../utils/jinja-sql-scan.js";
 import { report } from "../utils/report.js";
 
 const LOWER_BOOL_PATTERN = /\b(true|false)\b/g;
@@ -13,7 +14,9 @@ export const sqlBooleanLiteralStyle: Rule = {
     const diagnostics = [];
     for (const file of sqlFiles) {
       const content = readFile(file);
+      const jinjaRanges = findJinjaRanges(content);
       for (const match of content.matchAll(LOWER_BOOL_PATTERN)) {
+        if (match.index !== undefined && isInsideRanges(match.index, jinjaRanges)) continue;
         const raw = match[0] ?? "";
         if (raw === raw.toUpperCase()) continue;
         diagnostics.push(

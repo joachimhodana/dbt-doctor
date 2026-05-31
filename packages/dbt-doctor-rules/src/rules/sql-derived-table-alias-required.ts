@@ -1,4 +1,5 @@
 import type { Rule } from "../types.js";
+import { maskJinjaBlocks } from "../utils/jinja-sql-scan.js";
 import { report } from "../utils/report.js";
 
 const DERIVED_TABLE_NO_ALIAS_PATTERN =
@@ -13,7 +14,7 @@ export const sqlDerivedTableAliasRequired: Rule = {
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];
     for (const file of sqlFiles) {
-      const content = readFile(file);
+      const content = maskJinjaBlocks(readFile(file));
       for (const _ of content.matchAll(DERIVED_TABLE_NO_ALIAS_PATTERN)) {
         diagnostics.push(
           report(

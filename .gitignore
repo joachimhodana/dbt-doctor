@@ -6,7 +6,9 @@ dist
 .turbo
 *.log
 .DS_Store
-.cursor
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
 review-report.md
 review-*.md
 *.review.md

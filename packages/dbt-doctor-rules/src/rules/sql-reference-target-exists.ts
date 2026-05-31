@@ -8,6 +8,7 @@ const SOURCE_PATTERN =
 
 const isModelNode = (node: ManifestNode): boolean => node.resourceType === "model";
 const isSourceNode = (node: ManifestNode): boolean => node.resourceType === "source";
+const isSeedNode = (node: ManifestNode): boolean => node.resourceType === "seed";
 
 export const sqlReferenceTargetExists: Rule = {
   id: "sql-reference-target-exists",
@@ -19,9 +20,9 @@ export const sqlReferenceTargetExists: Rule = {
   run: ({ sqlFiles, readFile, manifest }) => {
     if (!manifest) return [];
 
-    const modelNames = new Set(
+    const refTargets = new Set(
       Object.values(manifest.nodes)
-        .filter(isModelNode)
+        .filter((node) => isModelNode(node) || isSeedNode(node))
         .map((node) => node.name.toLowerCase()),
     );
 
@@ -44,7 +45,7 @@ export const sqlReferenceTargetExists: Rule = {
       for (const match of content.matchAll(REF_PATTERN)) {
         const model = match[1]?.trim();
         if (!model) continue;
-        if (modelNames.has(model.toLowerCase())) continue;
+        if (refTargets.has(model.toLowerCase())) continue;
 
         diagnostics.push(
           report(

@@ -1,0 +1,47 @@
+---
+description: Keep a Changelog and semver steps when cutting dbt-doctor releases
+alwaysApply: false
+globs: CHANGELOG.md,.changeset/**,packages/*/CHANGELOG.md,packages/*/package.json
+---
+
+# Release & CHANGELOG
+
+When preparing a **version bump** or **npm publish**, always update the root changelog.
+
+## Required files
+
+1. **`CHANGELOG.md`** (repo root) — primary, human-readable history for adopters ([Keep a Changelog](https://keepachangelog.com/)).
+2. **`.changeset/*.md`** — drives semver + per-package changelogs via Changesets.
+3. **`packages/*/CHANGELOG.md`** — updated by `pnpm changeset version` (do not hand-edit unless fixing).
+
+## Release workflow
+
+1. Add a Changeset describing user-facing impact (not implementation detail).
+2. Update **`CHANGELOG.md`** under `[Unreleased]` → move items into `[X.Y.Z] - YYYY-MM-DD` before tagging.
+3. Run `pnpm changeset version` then `pnpm build && pnpm test`.
+4. Commit: `chore(release): version packages to X.Y.Z`.
+5. Tag with package-scoped tags (`dbt-doctor@X.Y.Z`, not `vX.Y.Z`).
+6. `pnpm changeset publish` (npm OTP if required).
+7. GitHub release on tag `dbt-doctor@X.Y.Z`; link to root `CHANGELOG.md` section.
+
+## CHANGELOG sections
+
+Use: **Added**, **Changed**, **Deprecated**, **Removed**, **Fixed**, **Security**.
+
+Write for **adopters** (what changed in behavior), not for maintainers (file names).
+
+## Semver
+
+- **patch** — bug fixes, false-positive reductions, docs-only if user-visible.
+- **minor** — new rules/features, backward-compatible preset/config changes.
+- **major** — breaking CLI/config/API removals or default behavior breaks.
+
+## Example entry
+
+```markdown
+## [0.3.1] - 2026-05-31
+
+### Fixed
+
+- SQL style rules skip Jinja in `source()` and `{{ config() }}` blocks.
+```

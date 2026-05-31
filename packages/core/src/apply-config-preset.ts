@@ -66,8 +66,7 @@ const mergePresetConfig = (preset: DbtDoctorPreset, config: DbtDoctorConfig): Db
   };
 };
 
-export const applyConfigPreset = (config: DbtDoctorConfig | null): DbtDoctorConfig | null => {
-  if (!config) return null;
-  const preset: DbtDoctorPreset = config.preset ?? "default";
-  return mergePresetConfig(preset, config);
+export const applyConfigPreset = (config: DbtDoctorConfig | null): DbtDoctorConfig => {
+  const preset: DbtDoctorPreset = config?.preset ?? "default";
+  return mergePresetConfig(preset, config ?? { preset: "default" });
 };

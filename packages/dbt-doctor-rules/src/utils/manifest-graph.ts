@@ -2,6 +2,7 @@ import type { ManifestGraph, ManifestNode } from "@dbt-doctor/manifest";
 
 export const isModelNode = (node: ManifestNode): boolean => node.resourceType === "model";
 export const isSourceNode = (node: ManifestNode): boolean => node.resourceType === "source";
+export const isSeedNode = (node: ManifestNode): boolean => node.resourceType === "seed";
 export const isExposureNode = (node: ManifestNode): boolean => node.resourceType === "exposure";
 
 const nodePath = (node: ManifestNode): string =>

@@ -1,5 +1,10 @@
 import type { Rule } from "../types.js";
 import { offsetToLineColumn } from "../utils/sql-cst.js";
+import {
+  findJinjaRanges,
+  isDbtMacroSelectTarget,
+  isInsideRanges,
+} from "../utils/jinja-sql-scan.js";
 import { report } from "../utils/report.js";
 
 const SELECT_FROM_PATTERN = /\bselect\b([\s\S]*?)\bfrom\b/gi;
@@ -53,6 +58,8 @@ export const sqlExpressionAliasRequired: Rule = {
 
     for (const file of sqlFiles) {
       const content = readFile(file);
+      const jinjaRanges = findJinjaRanges(content);
+
       for (const match of content.matchAll(SELECT_FROM_PATTERN)) {
         const selectBody = (match[1] ?? "").trim();
         if (!selectBody) continue;
@@ -63,8 +70,11 @@ export const sqlExpressionAliasRequired: Rule = {
           if (isSimpleReference(normalized)) continue;
           if (!isExpressionTarget(normalized)) continue;
           if (hasAlias(normalized)) continue;
+          if (isDbtMacroSelectTarget(normalized)) continue;
 
           const targetIndex = content.indexOf(target, match.index ?? 0);
+          if (isInsideRanges(targetIndex, jinjaRanges)) continue;
+
           const position = offsetToLineColumn(content, Math.max(0, targetIndex));
           diagnostics.push(
             report(

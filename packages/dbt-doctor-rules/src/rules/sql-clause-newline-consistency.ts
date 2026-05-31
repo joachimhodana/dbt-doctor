@@ -1,4 +1,5 @@
 import type { Rule } from "../types.js";
+import { stripLineComments } from "../utils/jinja-sql-scan.js";
 import { report } from "../utils/report.js";
 
 const CLAUSE_PATTERN = /\b(from|where|group\s+by|having|order\s+by|limit)\b/gi;
@@ -19,7 +20,7 @@ export const sqlClauseNewlineConsistency: Rule = {
       const lines = readFile(file).split(/\r?\n/u);
 
       for (let i = 0; i < lines.length; i += 1) {
-        const line = lines[i] ?? "";
+        const line = stripLineComments(lines[i] ?? "");
         for (const match of line.matchAll(CLAUSE_PATTERN)) {
           if (match.index === undefined) continue;
           if (!hasContentBeforeIndex(line, match.index)) continue;

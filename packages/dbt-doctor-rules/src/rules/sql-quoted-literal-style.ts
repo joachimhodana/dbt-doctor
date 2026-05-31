@@ -1,5 +1,6 @@
 import type { Rule } from "../types.js";
 import { offsetToLineColumn } from "../utils/sql-cst.js";
+import { findJinjaRanges, isInsideRanges } from "../utils/jinja-sql-scan.js";
 import { report } from "../utils/report.js";
 
 const DOUBLE_QUOTED_STRING_PATTERN = /"[^"\n]*"/g;
@@ -14,8 +15,10 @@ export const sqlQuotedLiteralStyle: Rule = {
     const diagnostics = [];
     for (const file of sqlFiles) {
       const content = readFile(file);
+      const jinjaRanges = findJinjaRanges(content);
       for (const match of content.matchAll(DOUBLE_QUOTED_STRING_PATTERN)) {
         if (match.index === undefined) continue;
+        if (isInsideRanges(match.index, jinjaRanges)) continue;
         const value = match[0] ?? "";
         if (/^"[A-Za-z_][\w$]*"$/.test(value)) continue;
 

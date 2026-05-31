@@ -1,5 +1,10 @@
 import type { Rule } from "../types.js";
 import { offsetToLineColumn } from "../utils/sql-cst.js";
+import {
+  findJinjaRanges,
+  isInsideRanges,
+  isJinjaQualifier,
+} from "../utils/jinja-sql-scan.js";
 import { report } from "../utils/report.js";
 
 const FROM_JOIN_ALIAS_PATTERN =
@@ -44,6 +49,7 @@ export const sqlReferenceObjectInFrom: Rule = {
 
     for (const file of sqlFiles) {
       const content = readFile(file);
+      const jinjaRanges = findJinjaRanges(content);
 
       const allowedAliases = new Set<string>();
       for (const match of content.matchAll(FROM_JOIN_ALIAS_PATTERN)) {
@@ -56,9 +62,12 @@ export const sqlReferenceObjectInFrom: Rule = {
 
       for (const match of content.matchAll(QUALIFIED_REFERENCE_PATTERN)) {
         if (match.index === undefined) continue;
+        if (isInsideRanges(match.index, jinjaRanges)) continue;
+
         const qualifier = (match[1] ?? "").toLowerCase();
         if (!qualifier) continue;
         if (SQL_KEYWORDS.has(qualifier)) continue;
+        if (isJinjaQualifier(qualifier)) continue;
         if (allowedAliases.has(qualifier)) continue;
 
         const position = offsetToLineColumn(content, match.index);

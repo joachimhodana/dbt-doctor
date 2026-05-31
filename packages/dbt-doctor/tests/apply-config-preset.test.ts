@@ -2,8 +2,14 @@ import { describe, expect, it } from "vite-plus/test";
 import { applyConfigPreset } from "@dbt-doctor/core";
 
 describe("applyConfigPreset", () => {
-  it("returns null for null config", () => {
-    expect(applyConfigPreset(null)).toBeNull();
+  it("returns default preset when config is null", () => {
+    expect(applyConfigPreset(null)).toEqual({
+      preset: "default",
+      ignore: { tags: ["enterprise", "strict", "style", "sql-style"] },
+      categories: {},
+      surfaces: {},
+      rules: {},
+    });
   });
 
   it("applies default preset when preset is omitted", () => {

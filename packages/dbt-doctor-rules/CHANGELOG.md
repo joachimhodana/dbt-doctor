@@ -1,5 +1,28 @@
 # dbt-doctor-rules
 
+## 0.3.1
+
+### Patch Changes
+
+- Reduce Jinja-related false positives on real dbt projects and apply the default preset when no config file exists.
+
+  ### Fixed
+
+  - Skip Jinja blocks in SQL style rules (`source()` comma joins, `model.name`, `trim_all_columns`, config meta quotes).
+  - Treat `ref()` to seeds as valid manifest targets; count seed parents in `root-models`; skip models from dependency packages.
+  - Read `materialized` from model YAML in `materialization-hint`.
+  - Map Snowflake/Databricks adapters to a PostgreSQL-compatible CST dialect for `no-select-star`.
+  - Apply `preset=default` when `.dbt-doctor` is missing (instead of running the full rule catalog).
+
+  ### Added
+
+  - `jinja-sql-scan` helper and regression tests for common dbt SQL patterns.
+
+- Updated dependencies []:
+  - @dbt-doctor/types@0.3.1
+  - @dbt-doctor/project-info@0.3.1
+  - @dbt-doctor/manifest@0.3.1
+
 ## 0.3.0
 
 ### Minor Changes

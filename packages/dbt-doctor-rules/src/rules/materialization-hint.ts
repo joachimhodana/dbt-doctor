@@ -1,4 +1,7 @@
 import type { Rule } from "../types.js";
+import { hasMaterializedConfig } from "../utils/incremental-model.js";
+import { isModelSqlPath, isUnderModelsYaml, modelBaseName } from "../utils/model-paths.js";
+import { findModelBlock } from "../utils/yaml-blocks.js";
 import { report } from "../utils/report.js";
 
 export const materializationHint: Rule = {
@@ -7,12 +10,18 @@ export const materializationHint: Rule = {
   category: "Configuration",
   tags: ["style"],
   recommendation: "Set explicit materialization for large models",
-  run: ({ sqlFiles, readFile }) => {
+  run: ({ sqlFiles, yamlFiles, readFile }) => {
     const diagnostics = [];
     for (const file of sqlFiles) {
+      if (!isModelSqlPath(file)) continue;
       const content = readFile(file);
       if (content.split("\n").length < 80) continue;
-      if (/\{\{\s*config\s*\([^)]*materialized/.test(content)) continue;
+
+      const name = modelBaseName(file);
+      const yaml = findModelBlock(name, yamlFiles, readFile, isUnderModelsYaml);
+      const yamlText = yaml?.block ?? null;
+      if (hasMaterializedConfig(content, yamlText)) continue;
+
       diagnostics.push(
         report(
           materializationHint,

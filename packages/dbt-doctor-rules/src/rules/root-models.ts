@@ -2,6 +2,7 @@ import type { Rule } from "../types.js";
 import {
   diagnosticPathForNode,
   isModelNode,
+  isSeedNode,
   isSourceNode,
   parentNodes,
 } from "../utils/manifest-graph.js";
@@ -13,19 +14,21 @@ export const rootModels: Rule = {
   category: "Structure",
   requiresManifest: true,
   recommendation: "Root models with no sources or model parents are usually accidental DAG roots.",
-  run: ({ manifest }) => {
+  run: ({ manifest, project }) => {
     if (!manifest) return [];
 
     const diagnostics = [];
+    const projectName = project.projectName.toLowerCase();
 
     for (const node of Object.values(manifest.nodes)) {
       if (!isModelNode(node)) continue;
+      if (node.packageName && node.packageName.toLowerCase() !== projectName) continue;
 
       const parents = parentNodes(manifest, node);
-      const hasModelOrSourceParent = parents.some(
-        (parent) => isModelNode(parent) || isSourceNode(parent),
+      const hasUpstreamParent = parents.some(
+        (parent) => isModelNode(parent) || isSourceNode(parent) || isSeedNode(parent),
       );
-      if (hasModelOrSourceParent) continue;
+      if (hasUpstreamParent) continue;
 
       diagnostics.push(
         report(

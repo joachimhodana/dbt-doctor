@@ -1,5 +1,6 @@
 import type { Rule } from "../types.js";
 import { offsetToLineColumn } from "../utils/sql-cst.js";
+import { findJinjaRanges, isInsideRanges } from "../utils/jinja-sql-scan.js";
 import { report } from "../utils/report.js";
 
 const BOOL_COMPARE_PATTERN = /(=|!=|<>)\s*(true|false)\b/gi;
@@ -14,8 +15,10 @@ export const sqlBooleanComparisonSimplify: Rule = {
     const diagnostics = [];
     for (const file of sqlFiles) {
       const content = readFile(file);
+      const jinjaRanges = findJinjaRanges(content);
       for (const match of content.matchAll(BOOL_COMPARE_PATTERN)) {
         if (match.index === undefined) continue;
+        if (isInsideRanges(match.index, jinjaRanges)) continue;
         const pos = offsetToLineColumn(content, match.index);
         diagnostics.push(
           report(

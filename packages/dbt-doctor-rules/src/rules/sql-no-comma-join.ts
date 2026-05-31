@@ -1,8 +1,10 @@
 import type { Rule } from "../types.js";
 import { offsetToLineColumn } from "../utils/sql-cst.js";
+import { maskJinjaBlocks } from "../utils/jinja-sql-scan.js";
 import { report } from "../utils/report.js";
 
-const COMMA_JOIN_PATTERN = /\bfrom\b[\s\S]{0,240}?,\s*[a-zA-Z_"`\[]/gi;
+const FROM_PATTERN = /\bfrom\b/gi;
+const COMMA_TABLE_PATTERN = /,\s*[a-zA-Z_"`\[]/;
 
 export const sqlNoCommaJoin: Rule = {
   id: "sql-no-comma-join",
@@ -14,9 +16,17 @@ export const sqlNoCommaJoin: Rule = {
     const diagnostics = [];
 
     for (const file of sqlFiles) {
-      const content = readFile(file);
-      for (const match of content.matchAll(COMMA_JOIN_PATTERN)) {
+      const content = maskJinjaBlocks(readFile(file));
+
+      for (const match of content.matchAll(FROM_PATTERN)) {
         if (match.index === undefined) continue;
+        const slice = content.slice(match.index, match.index + 240);
+        const commaMatch = slice.match(COMMA_TABLE_PATTERN);
+        if (!commaMatch || commaMatch.index === undefined) continue;
+
+        const beforeComma = slice.slice(0, commaMatch.index);
+        if (beforeComma.includes(")")) continue;
+
         const position = offsetToLineColumn(content, match.index);
         diagnostics.push(
           report(
