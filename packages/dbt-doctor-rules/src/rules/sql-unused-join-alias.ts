@@ -8,6 +8,7 @@ export const sqlUnusedJoinAlias: Rule = {
   id: "sql-unused-join-alias",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Joined table aliases should be referenced or removed.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

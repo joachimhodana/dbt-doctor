@@ -55,6 +55,7 @@ export const sourceHasAllColumns: Rule = {
   id: "source-has-all-columns",
   severity: "warn",
   category: "Governance",
+  tags: ["enterprise"],
   recommendation:
     "Keep source YAML columns aligned with the discovered catalog columns (target/catalog.json).",
   run: ({ rootDirectory, yamlFiles, readFile, ruleConfig }) => {

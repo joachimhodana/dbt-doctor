@@ -14,6 +14,7 @@ export const modelParentsAndChilds: Rule = {
   id: "model-parents-and-childs",
   severity: "warn",
   category: "Architecture",
+  tags: ["enterprise"],
   requiresManifest: true,
   recommendation:
     "Set min/max parent and child thresholds to enforce model graph shape (dbt-checkpoint parity).",

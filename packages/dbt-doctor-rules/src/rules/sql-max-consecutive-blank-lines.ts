@@ -14,6 +14,7 @@ export const sqlMaxConsecutiveBlankLines: Rule = {
   id: "sql-max-consecutive-blank-lines",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Limit consecutive blank lines in SQL files.",
   run: ({ sqlFiles, readFile, ruleConfig }) => {
     const diagnostics = [];

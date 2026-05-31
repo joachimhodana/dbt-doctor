@@ -6,6 +6,7 @@ export const sqlSingleStatementModel: Rule = {
   id: "sql-single-statement-model",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Keep dbt model SQL to a single SELECT statement.",
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics = [];

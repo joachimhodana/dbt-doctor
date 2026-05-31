@@ -7,6 +7,7 @@ export const sqlCountStarPreferred: Rule = {
   id: "sql-count-star-preferred",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "Prefer COUNT(*) over COUNT(1) or COUNT(constant).",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

@@ -13,6 +13,7 @@ export const seedColumnsHaveDescription: Rule = {
   id: "seed-columns-have-description",
   severity: "warn",
   category: "Documentation",
+  tags: ["strict"],
   recommendation: "Seed columns should include descriptions.",
   run: ({ yamlFiles, readFile }) => {
     const diagnostics = [];

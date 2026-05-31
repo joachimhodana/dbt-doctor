@@ -8,6 +8,7 @@ export const sqlNoPositionalGroupOrder: Rule = {
   id: "sql-no-positional-group-order",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Use explicit column names instead of positional GROUP BY / ORDER BY references.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

@@ -12,6 +12,7 @@ export const modelSinglePkColumnLevel: Rule = {
   id: "model-single-pk-column-level",
   severity: "warn",
   category: "Governance",
+  tags: ["enterprise"],
   recommendation: "Define exactly one primary key at column level when PK is required.",
   run: ({ sqlFiles, yamlFiles, readFile }) => {
     const diagnostics = [];

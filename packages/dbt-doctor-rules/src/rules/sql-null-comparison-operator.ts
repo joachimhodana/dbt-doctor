@@ -8,6 +8,7 @@ export const sqlNullComparisonOperator: Rule = {
   id: "sql-null-comparison-operator",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Use IS NULL / IS NOT NULL instead of equality operators with NULL.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

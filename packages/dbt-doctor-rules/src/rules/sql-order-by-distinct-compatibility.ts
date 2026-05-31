@@ -10,6 +10,7 @@ export const sqlOrderByDistinctCompatibility: Rule = {
   id: "sql-order-by-distinct-compatibility",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "In DISTINCT queries, ORDER BY expressions should be selected or positional.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

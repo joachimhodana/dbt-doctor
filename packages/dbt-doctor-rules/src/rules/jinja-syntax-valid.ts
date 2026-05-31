@@ -30,6 +30,7 @@ export const jinjaSyntaxValid: Rule = {
   id: "jinja-syntax-valid",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["strict"],
   recommendation: "Ensure all Jinja tags in SQL have matching closing delimiters.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

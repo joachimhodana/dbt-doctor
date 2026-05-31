@@ -99,6 +99,12 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
     }
 
     const scanOptions = resolveCliInspectOptions(flags, userConfig);
+    if (scanOptions.useSqlfluff && !isQuiet) {
+      logger.warn(
+        "`--use-sqlfluff` is deprecated and will be removed in a future release. Native SQL/Jinja rules are now the default path.",
+      );
+      logger.break();
+    }
     const skipPrompts = shouldSkipPrompts({ yes: flags.yes, full: flags.full, json: flags.json });
 
     if (!flags.offline && isCiEnvironment() && !isQuiet) {

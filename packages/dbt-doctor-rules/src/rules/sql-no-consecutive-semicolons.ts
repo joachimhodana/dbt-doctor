@@ -7,6 +7,7 @@ export const sqlNoConsecutiveSemicolons: Rule = {
   id: "sql-no-consecutive-semicolons",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid consecutive empty statement separators.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

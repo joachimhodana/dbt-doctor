@@ -7,6 +7,7 @@ export const sqlBetweenSymmetricStyle: Rule = {
   id: "sql-between-symmetric-style",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid BETWEEN SYMMETRIC for broader dialect portability.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

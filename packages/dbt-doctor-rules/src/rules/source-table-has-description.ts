@@ -6,6 +6,7 @@ export const sourceTableHasDescription: Rule = {
   id: "source-table-has-description",
   severity: "warn",
   category: "Documentation",
+  tags: ["strict"],
   recommendation: "Document every source table with a non-empty description.",
   run: ({ yamlFiles, readFile }) => {
     const diagnostics = [];

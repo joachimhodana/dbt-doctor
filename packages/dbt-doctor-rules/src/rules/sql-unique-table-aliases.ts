@@ -9,6 +9,7 @@ export const sqlUniqueTableAliases: Rule = {
   id: "sql-unique-table-aliases",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Use unique table aliases within a query block.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

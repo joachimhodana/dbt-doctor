@@ -8,6 +8,7 @@ export const sqlCastStyleConsistency: Rule = {
   id: "sql-cast-style-consistency",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "Use one cast style consistently within a file.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

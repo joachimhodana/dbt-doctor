@@ -94,6 +94,7 @@ export const requiredDocsMet: Rule = {
   id: "required-docs-met",
   severity: "warn",
   category: "Documentation",
+  tags: ["strict"],
   recommendation:
     "Satisfy +required_docs from dbt_project.yml by documenting model and column descriptions.",
   run: (context) => {

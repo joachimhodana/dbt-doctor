@@ -21,6 +21,7 @@ export const sourceHasTestsByType: Rule = {
   id: "source-has-tests-by-type",
   severity: "warn",
   category: "Testing",
+  tags: ["strict"],
   recommendation:
     "Set `rules.source-has-tests-by-type.schema=<n>` and/or `rules.source-has-tests-by-type.data=<n>` in .dbt-doctor.",
   run: ({ yamlFiles, readFile, testSqlFiles, ruleConfig }) => {

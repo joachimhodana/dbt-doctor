@@ -10,6 +10,7 @@ export const sqlReferenceKeywordQuoted: Rule = {
   id: "sql-reference-keyword-quoted",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "If reserved words are used as identifiers, quote them explicitly.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

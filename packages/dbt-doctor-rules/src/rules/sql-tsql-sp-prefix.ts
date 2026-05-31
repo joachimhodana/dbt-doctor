@@ -8,6 +8,7 @@ export const sqlTsqlSpPrefix: Rule = {
   id: "sql-tsql-sp-prefix",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "In T-SQL, avoid `sp_` prefix for user-defined procedures.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

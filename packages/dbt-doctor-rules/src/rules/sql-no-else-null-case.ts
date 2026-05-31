@@ -8,6 +8,7 @@ export const sqlNoElseNullCase: Rule = {
   id: "sql-no-else-null-case",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid redundant ELSE NULL in CASE expressions.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

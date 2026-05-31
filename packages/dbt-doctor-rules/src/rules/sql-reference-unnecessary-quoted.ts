@@ -7,6 +7,7 @@ export const sqlReferenceUnnecessaryQuoted: Rule = {
   id: "sql-reference-unnecessary-quoted",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid unnecessary quoted identifiers when plain identifiers are safe.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

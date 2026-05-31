@@ -8,6 +8,7 @@ export const modelColumnsHaveMetaKeys: Rule = {
   id: "model-columns-have-meta-keys",
   severity: "warn",
   category: "Governance",
+  tags: ["strict"],
   recommendation:
     "Set `rules.model-columns-have-meta-keys.required` to enforce required column-level meta keys.",
   run: ({ yamlFiles, readFile, ruleConfig }) => {

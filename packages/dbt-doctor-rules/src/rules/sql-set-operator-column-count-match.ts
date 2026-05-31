@@ -19,6 +19,7 @@ export const sqlSetOperatorColumnCountMatch: Rule = {
   id: "sql-set-operator-column-count-match",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "SELECT statements in set operators should project the same number of columns.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

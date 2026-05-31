@@ -7,6 +7,7 @@ export const sqlReferenceSpecialCharsQuoted: Rule = {
   id: "sql-reference-special-chars-quoted",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Identifiers containing special characters should be quoted.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

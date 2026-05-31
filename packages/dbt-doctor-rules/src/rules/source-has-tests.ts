@@ -22,6 +22,7 @@ export const sourceHasTests: Rule = {
   id: "source-has-tests",
   severity: "warn",
   category: "Testing",
+  tags: ["strict"],
   recommendation: "Sources should declare at least one test (schema or data).",
   run: ({ yamlFiles, readFile, testSqlFiles }) => {
     const diagnostics = [];

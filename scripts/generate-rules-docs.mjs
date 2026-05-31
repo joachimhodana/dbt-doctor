@@ -523,7 +523,7 @@ output.push("");
 output.push("See [Configuration](/docs/getting-started/configuration) for a full example.");
 output.push("");
 output.push(
-  "See also [Tool parity](/docs/tool-parity) for how these rules map to SQLFluff, dbt_project_evaluator, dbt-checkpoint, and other tools.",
+  "See also [Tool parity](/docs/tool-parity) for how these rules map to SQLFluff, dbt-checkpoint, dbt-score, and other tools.",
 );
 output.push("");
 output.push("## Rule index");

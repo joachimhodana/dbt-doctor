@@ -8,6 +8,7 @@ export const sqlDerivedTableAliasRequired: Rule = {
   id: "sql-derived-table-alias-required",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Derived tables should always be aliased.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

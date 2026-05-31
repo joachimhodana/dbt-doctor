@@ -7,6 +7,7 @@ export const sqlZeroLengthStringStyle: Rule = {
   id: "sql-zero-length-string-style",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "Handle zero-length strings explicitly and consistently.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

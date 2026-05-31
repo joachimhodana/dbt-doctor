@@ -8,6 +8,7 @@ export const sqlQuotedLiteralStyle: Rule = {
   id: "sql-quoted-literal-style",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Use single quotes for string literals.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

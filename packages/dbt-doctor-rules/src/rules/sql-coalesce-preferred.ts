@@ -7,6 +7,7 @@ export const sqlCoalescePreferred: Rule = {
   id: "sql-coalesce-preferred",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "Prefer COALESCE over dialect-specific null-handling helpers.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

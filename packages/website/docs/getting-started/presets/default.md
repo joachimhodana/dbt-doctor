@@ -11,9 +11,11 @@
 
 ## What it skips
 
-- `strict` tagged rules
-- `enterprise` tagged rules
-- SQL style tags (`style`, `sql-style`)
+- `strict` tagged rules (docs contracts, dbt-checkpoint parity, Jinja padding, etc.)
+- `enterprise` tagged rules (governance meta, catalog column checks, etc.)
+- SQL style tags (`style`, `sql-style`) — native SQLFluff-parity formatting
+
+Only **untagged** core rules run on `default` (architecture, naming, `no-select-star`, and similar).
 
 ## CI behavior
 

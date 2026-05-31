@@ -8,6 +8,7 @@ export const sqlNoSelfAlias: Rule = {
   id: "sql-no-self-alias",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid redundant self-aliasing like `col AS col`.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

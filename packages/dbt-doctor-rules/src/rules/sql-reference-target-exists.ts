@@ -13,6 +13,7 @@ export const sqlReferenceTargetExists: Rule = {
   id: "sql-reference-target-exists",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   requiresManifest: true,
   recommendation: "Ensure every ref() and source() target exists in manifest metadata.",
   run: ({ sqlFiles, readFile, manifest }) => {

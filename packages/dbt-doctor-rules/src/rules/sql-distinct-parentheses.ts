@@ -7,6 +7,7 @@ export const sqlDistinctParentheses: Rule = {
   id: "sql-distinct-parentheses",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid DISTINCT wrapped in parentheses.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

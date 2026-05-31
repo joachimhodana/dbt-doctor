@@ -9,6 +9,7 @@ export const scriptHasNoTableName: Rule = {
   id: "script-has-no-table-name",
   severity: "warn",
   category: "Architecture",
+  tags: ["strict"],
   recommendation: "Avoid hardcoded relation names in model SQL.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

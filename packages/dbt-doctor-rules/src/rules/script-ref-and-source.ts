@@ -42,6 +42,7 @@ export const scriptRefAndSource: Rule = {
   id: "script-ref-and-source",
   severity: "warn",
   category: "Architecture",
+  tags: ["strict"],
   recommendation:
     "Reference relations with valid {{ ref() }} / {{ source() }} and call only existing macros.",
   run: ({ sqlFiles, readFile, manifest, macroSqlFiles }) => {

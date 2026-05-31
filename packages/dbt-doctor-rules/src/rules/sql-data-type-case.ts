@@ -7,6 +7,7 @@ export const sqlDataTypeCase: Rule = {
   id: "sql-data-type-case",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Use uppercase data types in CAST expressions.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

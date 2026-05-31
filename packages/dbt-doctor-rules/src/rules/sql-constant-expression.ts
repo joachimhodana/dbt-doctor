@@ -8,6 +8,7 @@ export const sqlConstantExpression: Rule = {
   id: "sql-constant-expression",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid constant or always-true expressions in predicates.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

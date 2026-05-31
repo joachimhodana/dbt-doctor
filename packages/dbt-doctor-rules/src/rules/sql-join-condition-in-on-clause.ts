@@ -8,6 +8,7 @@ export const sqlJoinConditionInOnClause: Rule = {
   id: "sql-join-condition-in-on-clause",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Put join predicates in ON clauses rather than WHERE clauses.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

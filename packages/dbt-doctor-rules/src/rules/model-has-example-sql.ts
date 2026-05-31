@@ -12,6 +12,7 @@ export const modelHasExampleSql: Rule = {
   id: "model-has-example-sql",
   severity: "warn",
   category: "Documentation",
+  tags: ["strict"],
   recommendation: "Model metadata should include an example_sql snippet.",
   run: ({ sqlFiles, yamlFiles, readFile }) => {
     const diagnostics = [];

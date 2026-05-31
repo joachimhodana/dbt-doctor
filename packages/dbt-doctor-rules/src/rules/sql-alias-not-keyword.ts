@@ -25,6 +25,7 @@ export const sqlAliasNotKeyword: Rule = {
   id: "sql-alias-not-keyword",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid SQL reserved words as aliases.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

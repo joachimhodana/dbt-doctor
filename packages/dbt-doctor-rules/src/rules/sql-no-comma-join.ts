@@ -8,6 +8,7 @@ export const sqlNoCommaJoin: Rule = {
   id: "sql-no-comma-join",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Use explicit JOIN syntax instead of comma joins in FROM clauses.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

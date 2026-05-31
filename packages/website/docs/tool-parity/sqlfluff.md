@@ -4,6 +4,8 @@
 
 **Coverage: 100%** (74 covered, 0 partial, 0 not planned) of 74 upstream checks.
 
+Native rules use the `sql-style` tag and run with `preset=strict` or `preset=enterprise`, not `default`. See [Migrating from SQLFluff](/docs/getting-started/migrating-from-sqlfluff).
+
 [← Tool parity](/docs/tool-parity)
 
 ## Parity map
@@ -90,10 +92,11 @@
 | Mode             | Use                        |
 | ---------------- | -------------------------- |
 | Native default   | Fast no-Python SQL linting |
-| `--use-sqlfluff` | Full SQLFluff parity now   |
+| `--use-sqlfluff` | Deprecated fallback mode   |
 | Both             | Migration period           |
 
 ```bash
 npx dbt-doctor@latest
+# Deprecated fallback mode:
 npx dbt-doctor@latest --use-sqlfluff
 ```

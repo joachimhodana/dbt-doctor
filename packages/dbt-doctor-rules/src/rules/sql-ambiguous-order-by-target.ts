@@ -8,6 +8,7 @@ export const sqlAmbiguousOrderByTarget: Rule = {
   id: "sql-ambiguous-order-by-target",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid ambiguous ORDER BY targets that can resolve to multiple expressions.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

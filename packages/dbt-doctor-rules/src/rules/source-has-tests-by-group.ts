@@ -20,6 +20,7 @@ export const sourceHasTestsByGroup: Rule = {
   id: "source-has-tests-by-group",
   severity: "warn",
   category: "Testing",
+  tags: ["strict"],
   recommendation:
     "Set `rules.source-has-tests-by-group.<group>=<n>` (groups: uniqueness, nullness, relationships, accepted_values).",
   run: ({ yamlFiles, readFile, ruleConfig }) => {

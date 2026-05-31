@@ -10,6 +10,7 @@ export const sqlClauseNewlineConsistency: Rule = {
   id: "sql-clause-newline-consistency",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Place major clauses on their own lines for consistent query layout.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

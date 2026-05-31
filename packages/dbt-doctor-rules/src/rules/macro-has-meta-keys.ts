@@ -12,6 +12,7 @@ export const macroHasMetaKeys: Rule = {
   id: "macro-has-meta-keys",
   severity: "warn",
   category: "Governance",
+  tags: ["enterprise"],
   recommendation:
     "Set `rules.macro-has-meta-keys.required` to enforce required macro-level meta keys.",
   run: ({ yamlFiles, readFile, ruleConfig }) => {

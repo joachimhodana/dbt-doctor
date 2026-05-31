@@ -21,7 +21,10 @@ const program = new Command()
   .option("--score", "output only the score")
   .option("--coverage", "print model test/docs coverage summary")
   .option("--show-per-model-scores", "print local score for each model (worst first)")
-  .option("--use-sqlfluff", "opt into SQLFluff subprocess linting")
+  .option(
+    "--use-sqlfluff",
+    "DEPRECATED: use SQLFluff subprocess linting as fallback (will be removed in a future release)",
+  )
   .option("--json", "output a single structured JSON report (suppresses other output)")
   .option("--json-compact", "with --json, emit compact JSON (no indentation)")
   .option("-y, --yes", "skip prompts, scan all workspace projects")

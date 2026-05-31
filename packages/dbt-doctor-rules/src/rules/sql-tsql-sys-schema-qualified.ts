@@ -7,6 +7,7 @@ export const sqlTsqlSysSchemaQualified: Rule = {
   id: "sql-tsql-sys-schema-qualified",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "System catalogs should be schema-qualified in T-SQL.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

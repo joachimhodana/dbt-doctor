@@ -8,6 +8,7 @@ export const sqlBooleanComparisonSimplify: Rule = {
   id: "sql-boolean-comparison-simplify",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid explicit boolean equality comparisons where predicate forms are clearer.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

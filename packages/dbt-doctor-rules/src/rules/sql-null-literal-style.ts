@@ -7,6 +7,7 @@ export const sqlNullLiteralStyle: Rule = {
   id: "sql-null-literal-style",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "Use NULL keyword, not quoted 'null' string literal.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

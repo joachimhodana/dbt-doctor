@@ -58,18 +58,20 @@ adopt_existing_sqlfluff_config=true
 
 ## Most-used keys
 
-| Key                   | Values                            | Purpose                      |
-| --------------------- | --------------------------------- | ---------------------------- |
-| `preset`              | `default`, `strict`, `enterprise` | Rule bundle                  |
-| `fail_on`             | `error`, `warning`, `none`        | CI exit behavior             |
-| `diff`                | `true` or branch name             | Changed-files scan           |
-| `manifest_path`       | file path                         | Enable manifest-aware checks |
-| `score_mode`          | `files`, `unique-rules`           | Score formula                |
-| `ignore.rules`        | comma list                        | Skip specific rules          |
-| `ignore.files`        | glob list                         | Skip all rules on files      |
-| `ignore.tags`         | comma list                        | Skip rule families           |
-| `rules.<id>`          | `error`, `warn`, `off`            | Override one rule severity   |
-| `rules.<id>.<option>` | string/number/bool/list           | Per-rule options             |
+| Key                   | Values                            | Purpose                                          |
+| --------------------- | --------------------------------- | ------------------------------------------------ |
+| `preset`              | `default`, `strict`, `enterprise` | Rule bundle                                      |
+| `fail_on`             | `error`, `warning`, `none`        | CI exit behavior                                 |
+| `diff`                | `true` or branch name             | Changed-files scan                               |
+| `manifest_path`       | file path                         | Enable manifest-aware checks                     |
+| `score_mode`          | `files`, `unique-rules`           | Score formula                                    |
+| `fail_project_under`  | number (0–100)                    | Fail when project score is below threshold       |
+| `fail_any_item_under` | number (0–100)                    | Fail when any per-model score is below threshold |
+| `ignore.rules`        | comma list                        | Skip specific rules                              |
+| `ignore.files`        | glob list                         | Skip all rules on files                          |
+| `ignore.tags`         | comma list                        | Skip rule families                               |
+| `rules.<id>`          | `error`, `warn`, `off`            | Override one rule severity                       |
+| `rules.<id>.<option>` | string/number/bool/list           | Per-rule options                                 |
 
 ## Preset behavior
 
@@ -95,9 +97,21 @@ rules.no-select-star=error
 rules.model-name-contract.pattern=^(stg|int|fct|dim)_[a-z0-9_]+$
 ```
 
+## Score thresholds (CI gates)
+
+Fail the job when scores drop below a minimum (requires a score to be computed — do not use `--offline` if you rely on these):
+
+```ini
+fail_project_under=70
+fail_any_item_under=50
+```
+
+Combine with CLI flags `--coverage` and `--show-per-model-scores` when you want per-model visibility. See [Score Modes](/docs/score-modes).
+
 ## Related
 
 - [CI](/docs/getting-started/ci)
 - [Presets](/docs/getting-started/presets)
+- [Migrating from SQLFluff](/docs/getting-started/migrating-from-sqlfluff)
 - [Score Modes](/docs/score-modes)
 - [Rules](/docs/rules)

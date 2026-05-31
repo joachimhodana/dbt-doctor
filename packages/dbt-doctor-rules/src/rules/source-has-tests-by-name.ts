@@ -8,6 +8,7 @@ export const sourceHasTestsByName: Rule = {
   id: "source-has-tests-by-name",
   severity: "warn",
   category: "Testing",
+  tags: ["strict"],
   recommendation:
     "Set `rules.source-has-tests-by-name.<test_name>=<count>` in .dbt-doctor to enforce source test minimums.",
   run: ({ yamlFiles, readFile, ruleConfig }) => {

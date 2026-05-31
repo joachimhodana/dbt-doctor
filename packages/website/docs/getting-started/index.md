@@ -26,6 +26,7 @@ npx dbt-doctor@latest
 3. Wire it into CI: [CI Integration](/docs/getting-started/ci)
 4. Browse rule catalog: [Rules](/docs/rules)
 5. Understand scoring: [Score Modes](/docs/score-modes)
+6. Coming from SQLFluff: [Migrating from SQLFluff](/docs/getting-started/migrating-from-sqlfluff)
 
 ## 60-second setup
 

@@ -11,6 +11,7 @@ export const sourceHasDescription: Rule = {
   id: "source-has-description",
   severity: "warn",
   category: "Documentation",
+  tags: ["strict"],
   recommendation: "Document each source definition with a non-empty description.",
   run: ({ yamlFiles, readFile }) => {
     const diagnostics = [];

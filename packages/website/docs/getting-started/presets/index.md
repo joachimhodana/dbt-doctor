@@ -31,7 +31,7 @@ PR checks / docs + SQL style
   └─► preset=strict            (core + documentation + SQL style rules)
 
 Platform / data governance
-  └─► preset=enterprise        (all 122 rules, fails on warnings)
+  └─► preset=enterprise        (full catalog, fails on warnings)
 ```
 
 | You want…                                                                      | Set this            |

@@ -6,7 +6,7 @@ Used by the CLI (`runCustomRules`) with native SQL parser rules by default and o
 
 ## Rule catalog
 
-See the **[Rules reference](https://dbt-doctor.joachimhodana.com/docs/rules)** and **[Tool parity](https://dbt-doctor.joachimhodana.com/docs/tool-parity)** docs for the full catalog, presets, and coverage vs [dbt_project_evaluator](https://dbt-labs.github.io/dbt-project-evaluator/latest/), [dbt_meta_testing](https://hub.getdbt.com/tnightengale/dbt_meta_testing/latest/), and SQLFluff.
+See the **[Rules reference](https://dbt-doctor.joachimhodana.com/docs/rules)** and **[Tool parity](https://dbt-doctor.joachimhodana.com/docs/tool-parity)** docs for the full catalog, presets, and coverage vs SQLFluff, [dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint), [dbt-score](https://dbt-score.picnic.tech/), and [dbt_meta_testing](https://hub.getdbt.com/tnightengale/dbt_meta_testing/latest/).
 
 Website coverage summaries live in [Tool parity](https://dbt-doctor.joachimhodana.com/docs/tool-parity).
 

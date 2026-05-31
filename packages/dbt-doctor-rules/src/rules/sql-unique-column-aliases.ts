@@ -8,6 +8,7 @@ export const sqlUniqueColumnAliases: Rule = {
   id: "sql-unique-column-aliases",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Column aliases should be unique within a SELECT clause.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

@@ -6,6 +6,7 @@ export const scriptSemicolon: Rule = {
   id: "script-semicolon",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["strict"],
   recommendation: "Avoid a trailing semicolon at end of dbt model SQL.",
   run: ({ sqlFiles, readFile, project }) => {
     const diagnostics = [];

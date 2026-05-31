@@ -12,6 +12,7 @@ export const modelHasUniquenessTest: Rule = {
   id: "model-has-uniqueness-test",
   severity: "warn",
   category: "Testing",
+  tags: ["strict"],
   recommendation: "Models should include a uniqueness test for key columns.",
   run: ({ sqlFiles, yamlFiles, readFile }) => {
     const diagnostics = [];

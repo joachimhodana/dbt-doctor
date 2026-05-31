@@ -8,6 +8,7 @@ export const sqlUnionDistinctRedundant: Rule = {
   id: "sql-union-distinct-redundant",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Use UNION (default distinct) or UNION ALL; avoid redundant UNION DISTINCT.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

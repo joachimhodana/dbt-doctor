@@ -7,6 +7,7 @@ export const sqlOrderByOrdinalUnambiguous: Rule = {
   id: "sql-order-by-ordinal-unambiguous",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid ordinal ORDER BY references in complex queries.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

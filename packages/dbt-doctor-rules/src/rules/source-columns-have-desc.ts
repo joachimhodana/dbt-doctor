@@ -10,6 +10,7 @@ export const sourceColumnsHaveDesc: Rule = {
   id: "source-columns-have-desc",
   severity: "warn",
   category: "Documentation",
+  tags: ["strict"],
   recommendation: "Describe every column on every source table.",
   run: ({ yamlFiles, readFile }) => {
     const diagnostics = [];

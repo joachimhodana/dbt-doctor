@@ -36,6 +36,7 @@ export const sqlReferenceObjectInFrom: Rule = {
   id: "sql-reference-object-in-from",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation:
     "Qualified references should use aliases/relations declared in FROM or JOIN clauses.",
   run: ({ sqlFiles, readFile }) => {

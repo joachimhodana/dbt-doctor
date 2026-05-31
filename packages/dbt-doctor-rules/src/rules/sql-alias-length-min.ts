@@ -10,6 +10,7 @@ export const sqlAliasLengthMin: Rule = {
   id: "sql-alias-length-min",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid overly short table aliases.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

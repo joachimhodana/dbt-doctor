@@ -7,6 +7,7 @@ export const sqlTsqlBareTempTable: Rule = {
   id: "sql-tsql-bare-temp-table",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid bare temporary-table references in reusable dbt SQL.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

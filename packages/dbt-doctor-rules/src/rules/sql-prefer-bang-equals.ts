@@ -15,6 +15,7 @@ export const sqlPreferBangEquals: Rule = {
   id: "sql-prefer-bang-equals",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Use != instead of <> for inequality to keep operator style consistent.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

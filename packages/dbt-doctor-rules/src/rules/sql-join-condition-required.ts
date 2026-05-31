@@ -8,6 +8,7 @@ export const sqlJoinConditionRequired: Rule = {
   id: "sql-join-condition-required",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "JOIN clauses should include ON/USING conditions unless cross join is explicit.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

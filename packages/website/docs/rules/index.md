@@ -15,7 +15,7 @@ rules.model-has-meta-keys.required=owner,team
 
 See [Configuration](/docs/getting-started/configuration) for a full example.
 
-See also [Tool parity](/docs/tool-parity) for how these rules map to SQLFluff, dbt_project_evaluator, dbt-checkpoint, and other tools.
+See also [Tool parity](/docs/tool-parity) for how these rules map to SQLFluff, dbt-checkpoint, dbt-score, and other tools.
 
 ## Rule index
 
@@ -113,7 +113,7 @@ rules.model-fanout=warn
 
 ### model-parents-and-childs {#model-parents-and-childs}
 
-**warn** · Architecture
+**warn** · Architecture · tags: `enterprise`
 
 - Requires `target/manifest.json`
 
@@ -275,7 +275,7 @@ rules.rejoining-upstream-concepts=error
 
 ### script-has-no-table-name {#script-has-no-table-name}
 
-**warn** · Architecture
+**warn** · Architecture · tags: `strict`
 
 Avoid hardcoded relation names in model SQL.
 
@@ -293,7 +293,7 @@ rules.script-has-no-table-name=warn
 
 ### script-ref-and-source {#script-ref-and-source}
 
-**warn** · Architecture
+**warn** · Architecture · tags: `strict`
 
 Reference relations with valid {{ ref() }} / {{ source() }} and call only existing macros.
 
@@ -795,7 +795,7 @@ rules.macro-documented=warn
 
 ### model-has-example-sql {#model-has-example-sql}
 
-**warn** · Documentation
+**warn** · Documentation · tags: `strict`
 
 Model metadata should include an example_sql snippet.
 
@@ -831,7 +831,7 @@ rules.per-model-schema-yml=warn
 
 ### required-docs-met {#required-docs-met}
 
-**warn** · Documentation
+**warn** · Documentation · tags: `strict`
 
 Satisfy +required_docs from dbt_project.yml by documenting model and column descriptions.
 
@@ -867,7 +867,7 @@ rules.schema-description=warn
 
 ### seed-columns-have-description {#seed-columns-have-description}
 
-**warn** · Documentation
+**warn** · Documentation · tags: `strict`
 
 Seed columns should include descriptions.
 
@@ -903,7 +903,7 @@ rules.seed-documented=warn
 
 ### source-columns-have-desc {#source-columns-have-desc}
 
-**warn** · Documentation
+**warn** · Documentation · tags: `strict`
 
 Describe every column on every source table.
 
@@ -921,7 +921,7 @@ rules.source-columns-have-desc=warn
 
 ### source-has-description {#source-has-description}
 
-**warn** · Documentation
+**warn** · Documentation · tags: `strict`
 
 Document each source definition with a non-empty description.
 
@@ -939,7 +939,7 @@ rules.source-has-description=warn
 
 ### source-table-has-description {#source-table-has-description}
 
-**warn** · Documentation
+**warn** · Documentation · tags: `strict`
 
 Document every source table with a non-empty description.
 
@@ -1105,7 +1105,7 @@ rules.exposures-on-private-models=error
 
 ### macro-has-meta-keys {#macro-has-meta-keys}
 
-**warn** · Governance
+**warn** · Governance · tags: `enterprise`
 
 Set `rules.macro-has-meta-keys.required` to enforce required macro-level meta keys.
 
@@ -1123,7 +1123,7 @@ rules.macro-has-meta-keys=warn
 
 ### model-columns-have-meta-keys {#model-columns-have-meta-keys}
 
-**warn** · Governance
+**warn** · Governance · tags: `strict`
 
 Set `rules.model-columns-have-meta-keys.required` to enforce required column-level meta keys.
 
@@ -1281,7 +1281,7 @@ rules.model-owner-or-meta=warn
 
 ### model-single-pk-column-level {#model-single-pk-column-level}
 
-**warn** · Governance
+**warn** · Governance · tags: `enterprise`
 
 Define exactly one primary key at column level when PK is required.
 
@@ -1413,7 +1413,7 @@ rules.snapshot-has-meta-keys.required=owner
 
 ### source-has-all-columns {#source-has-all-columns}
 
-**warn** · Governance
+**warn** · Governance · tags: `enterprise`
 
 Keep source YAML columns aligned with the discovered catalog columns (target/catalog.json).
 
@@ -1856,7 +1856,7 @@ rules.unused-sources=warn
 
 ### sql-between-symmetric-style {#sql-between-symmetric-style}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 Avoid BETWEEN SYMMETRIC for broader dialect portability.
 
@@ -1874,7 +1874,7 @@ rules.sql-between-symmetric-style=warn
 
 ### sql-boolean-literal-style {#sql-boolean-literal-style}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 Use uppercase boolean literals.
 
@@ -1892,7 +1892,7 @@ rules.sql-boolean-literal-style=warn
 
 ### sql-cast-style-consistency {#sql-cast-style-consistency}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 Use one cast style consistently within a file.
 
@@ -1910,7 +1910,7 @@ rules.sql-cast-style-consistency=warn
 
 ### sql-coalesce-preferred {#sql-coalesce-preferred}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 Prefer COALESCE over dialect-specific null-handling helpers.
 
@@ -1928,7 +1928,7 @@ rules.sql-coalesce-preferred=warn
 
 ### sql-count-star-preferred {#sql-count-star-preferred}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 Prefer COUNT(\*) over COUNT(1) or COUNT(constant).
 
@@ -1946,7 +1946,7 @@ rules.sql-count-star-preferred=warn
 
 ### sql-join-using-consistency {#sql-join-using-consistency}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 Prefer ON clauses over USING for explicit join semantics.
 
@@ -1964,7 +1964,7 @@ rules.sql-join-using-consistency=warn
 
 ### sql-null-literal-style {#sql-null-literal-style}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 Use NULL keyword, not quoted
 
@@ -1982,7 +1982,7 @@ rules.sql-null-literal-style=warn
 
 ### sql-reference-unnecessary-quoted {#sql-reference-unnecessary-quoted}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 Avoid unnecessary quoted identifiers when plain identifiers are safe.
 
@@ -2000,7 +2000,7 @@ rules.sql-reference-unnecessary-quoted=warn
 
 ### sql-tsql-bare-temp-table {#sql-tsql-bare-temp-table}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 Avoid bare temporary-table references in reusable dbt SQL.
 
@@ -2018,7 +2018,7 @@ rules.sql-tsql-bare-temp-table=warn
 
 ### sql-tsql-sp-prefix {#sql-tsql-sp-prefix}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 In T-SQL, avoid `sp_` prefix for user-defined procedures.
 
@@ -2036,7 +2036,7 @@ rules.sql-tsql-sp-prefix=warn
 
 ### sql-tsql-sys-schema-qualified {#sql-tsql-sys-schema-qualified}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 System catalogs should be schema-qualified in T-SQL.
 
@@ -2054,7 +2054,7 @@ rules.sql-tsql-sys-schema-qualified=warn
 
 ### sql-zero-length-string-style {#sql-zero-length-string-style}
 
-**warn** · SQL Convention
+**warn** · SQL Convention · tags: `style`, `sql-style`
 
 Handle zero-length strings explicitly and consistently.
 
@@ -2137,7 +2137,7 @@ rules.empty-model-file=error
 
 ### jinja-syntax-valid {#jinja-syntax-valid}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `strict`
 
 Ensure all Jinja tags in SQL have matching closing delimiters.
 
@@ -2173,7 +2173,7 @@ rules.no-select-star=error
 
 ### script-semicolon {#script-semicolon}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `strict`
 
 Avoid a trailing semicolon at end of dbt model SQL.
 
@@ -2191,7 +2191,7 @@ rules.script-semicolon=warn
 
 ### sql-ambiguous-order-by-target {#sql-ambiguous-order-by-target}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Avoid ambiguous ORDER BY targets that can resolve to multiple expressions.
 
@@ -2209,7 +2209,7 @@ rules.sql-ambiguous-order-by-target=warn
 
 ### sql-boolean-comparison-simplify {#sql-boolean-comparison-simplify}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Avoid explicit boolean equality comparisons where predicate forms are clearer.
 
@@ -2227,7 +2227,7 @@ rules.sql-boolean-comparison-simplify=warn
 
 ### sql-constant-expression {#sql-constant-expression}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Avoid constant or always-true expressions in predicates.
 
@@ -2245,7 +2245,7 @@ rules.sql-constant-expression=warn
 
 ### sql-distinct-with-order-by-non-selected {#sql-distinct-with-order-by-non-selected}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Avoid DISTINCT + ORDER BY columns that are not clearly part of selected outputs.
 
@@ -2263,7 +2263,7 @@ rules.sql-distinct-with-order-by-non-selected=warn
 
 ### sql-join-condition-required {#sql-join-condition-required}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 JOIN clauses should include ON/USING conditions unless cross join is explicit.
 
@@ -2281,7 +2281,7 @@ rules.sql-join-condition-required=warn
 
 ### sql-no-comma-join {#sql-no-comma-join}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Use explicit JOIN syntax instead of comma joins in FROM clauses.
 
@@ -2299,7 +2299,7 @@ rules.sql-no-comma-join=warn
 
 ### sql-no-subquery-in-join {#sql-no-subquery-in-join}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Avoid subqueries inside JOIN clauses; prefer CTEs for readability and reuse.
 
@@ -2317,7 +2317,7 @@ rules.sql-no-subquery-in-join=warn
 
 ### sql-null-comparison-operator {#sql-null-comparison-operator}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Use IS NULL / IS NOT NULL instead of equality operators with NULL.
 
@@ -2335,7 +2335,7 @@ rules.sql-null-comparison-operator=warn
 
 ### sql-order-by-distinct-compatibility {#sql-order-by-distinct-compatibility}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 In DISTINCT queries, ORDER BY expressions should be selected or positional.
 
@@ -2353,7 +2353,7 @@ rules.sql-order-by-distinct-compatibility=warn
 
 ### sql-order-by-ordinal-unambiguous {#sql-order-by-ordinal-unambiguous}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Avoid ordinal ORDER BY references in complex queries.
 
@@ -2371,7 +2371,7 @@ rules.sql-order-by-ordinal-unambiguous=warn
 
 ### sql-prefer-bang-equals {#sql-prefer-bang-equals}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Use != instead of <> for inequality to keep operator style consistent.
 
@@ -2389,7 +2389,7 @@ rules.sql-prefer-bang-equals=warn
 
 ### sql-reference-object-in-from {#sql-reference-object-in-from}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Qualified references should use aliases/relations declared in FROM or JOIN clauses.
 
@@ -2407,7 +2407,7 @@ rules.sql-reference-object-in-from=warn
 
 ### sql-reference-target-exists {#sql-reference-target-exists}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 - Requires `target/manifest.json`
 
@@ -2427,7 +2427,7 @@ rules.sql-reference-target-exists=warn
 
 ### sql-set-operator-column-count-match {#sql-set-operator-column-count-match}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 SELECT statements in set operators should project the same number of columns.
 
@@ -2445,7 +2445,7 @@ rules.sql-set-operator-column-count-match=warn
 
 ### sql-single-statement-model {#sql-single-statement-model}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Keep dbt model SQL to a single SELECT statement.
 
@@ -2463,7 +2463,7 @@ rules.sql-single-statement-model=warn
 
 ### sql-union-distinct-redundant {#sql-union-distinct-redundant}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Use UNION (default distinct) or UNION ALL; avoid redundant UNION DISTINCT.
 
@@ -2481,7 +2481,7 @@ rules.sql-union-distinct-redundant=warn
 
 ### sql-unique-column-aliases {#sql-unique-column-aliases}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Column aliases should be unique within a SELECT clause.
 
@@ -2499,7 +2499,7 @@ rules.sql-unique-column-aliases=warn
 
 ### sql-unused-join-alias {#sql-unused-join-alias}
 
-**warn** · SQL Quality
+**warn** · SQL Quality · tags: `style`, `sql-style`
 
 Joined table aliases should be referenced or removed.
 
@@ -2588,7 +2588,7 @@ rules.too-many-joins=warn
 
 ### jinja-tag-padding {#jinja-tag-padding}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `strict`
 
 Use a single space around content inside Jinja tags on single-line expressions.
 
@@ -2606,7 +2606,7 @@ rules.jinja-tag-padding=warn
 
 ### sql-alias-length-min {#sql-alias-length-min}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Avoid overly short table aliases.
 
@@ -2624,7 +2624,7 @@ rules.sql-alias-length-min=warn
 
 ### sql-alias-not-keyword {#sql-alias-not-keyword}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Avoid SQL reserved words as aliases.
 
@@ -2660,7 +2660,7 @@ rules.sql-ambiguous-distinct-group-by=warn
 
 ### sql-ambiguous-join-type {#sql-ambiguous-join-type}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Make JOIN type explicit (INNER/LEFT/RIGHT/FULL/CROSS).
 
@@ -2714,7 +2714,7 @@ rules.sql-case-nesting=warn
 
 ### sql-clause-newline-consistency {#sql-clause-newline-consistency}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Place major clauses on their own lines for consistent query layout.
 
@@ -2768,7 +2768,7 @@ rules.sql-cte-bracket-position=warn
 
 ### sql-data-type-case {#sql-data-type-case}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Use uppercase data types in CAST expressions.
 
@@ -2786,7 +2786,7 @@ rules.sql-data-type-case=warn
 
 ### sql-derived-table-alias-required {#sql-derived-table-alias-required}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Derived tables should always be aliased.
 
@@ -2804,7 +2804,7 @@ rules.sql-derived-table-alias-required=warn
 
 ### sql-distinct-parentheses {#sql-distinct-parentheses}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Avoid DISTINCT wrapped in parentheses.
 
@@ -2876,7 +2876,7 @@ rules.sql-explicit-table-alias=warn
 
 ### sql-expression-alias-required {#sql-expression-alias-required}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Alias expression targets in SELECT lists for readability and stable downstream references.
 
@@ -2968,7 +2968,7 @@ rules.sql-indentation-consistency=warn
 
 ### sql-join-condition-in-on-clause {#sql-join-condition-in-on-clause}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Put join predicates in ON clauses rather than WHERE clauses.
 
@@ -3026,7 +3026,7 @@ rules.sql-leading-commas.enabled=true
 
 ### sql-max-consecutive-blank-lines {#sql-max-consecutive-blank-lines}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Limit consecutive blank lines in SQL files.
 
@@ -3044,7 +3044,7 @@ rules.sql-max-consecutive-blank-lines=warn
 
 ### sql-no-consecutive-semicolons {#sql-no-consecutive-semicolons}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Avoid consecutive empty statement separators.
 
@@ -3062,7 +3062,7 @@ rules.sql-no-consecutive-semicolons=warn
 
 ### sql-no-else-null-case {#sql-no-else-null-case}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Avoid redundant ELSE NULL in CASE expressions.
 
@@ -3098,7 +3098,7 @@ rules.sql-no-leading-whitespace=warn
 
 ### sql-no-positional-group-order {#sql-no-positional-group-order}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Use explicit column names instead of positional GROUP BY / ORDER BY references.
 
@@ -3116,7 +3116,7 @@ rules.sql-no-positional-group-order=warn
 
 ### sql-no-self-alias {#sql-no-self-alias}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Avoid redundant self-aliasing like `col AS col`.
 
@@ -3170,7 +3170,7 @@ rules.sql-order-by-direction-consistency=warn
 
 ### sql-quoted-literal-style {#sql-quoted-literal-style}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Use single quotes for string literals.
 
@@ -3206,7 +3206,7 @@ rules.sql-reference-consistency=warn
 
 ### sql-reference-keyword-quoted {#sql-reference-keyword-quoted}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 If reserved words are used as identifiers, quote them explicitly.
 
@@ -3224,7 +3224,7 @@ rules.sql-reference-keyword-quoted=warn
 
 ### sql-reference-special-chars-quoted {#sql-reference-special-chars-quoted}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Identifiers containing special characters should be quoted.
 
@@ -3301,7 +3301,7 @@ rules.sql-select-trailing-comma.enabled=false
 
 ### sql-self-join-alias-distinct {#sql-self-join-alias-distinct}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Self-joins should use distinct aliases per relation instance.
 
@@ -3413,7 +3413,7 @@ rules.sql-union-explicit-qualifier.requireExplicitQualifier=true
 
 ### sql-unique-table-aliases {#sql-unique-table-aliases}
 
-**warn** · SQL Style
+**warn** · SQL Style · tags: `style`, `sql-style`
 
 Use unique table aliases within a query block.
 
@@ -3667,7 +3667,7 @@ rules.model-has-tests-by-type.data=1
 
 ### model-has-uniqueness-test {#model-has-uniqueness-test}
 
-**warn** · Testing
+**warn** · Testing · tags: `strict`
 
 Models should include a uniqueness test for key columns.
 
@@ -3685,7 +3685,7 @@ rules.model-has-uniqueness-test=warn
 
 ### model-single-column-uniqueness {#model-single-column-uniqueness}
 
-**warn** · Testing
+**warn** · Testing · tags: `strict`
 
 At least one uniqueness test should exist at column level.
 
@@ -3757,7 +3757,7 @@ rules.required-tests-met=warn
 
 ### source-has-tests {#source-has-tests}
 
-**warn** · Testing
+**warn** · Testing · tags: `strict`
 
 Sources should declare at least one test (schema or data).
 
@@ -3775,7 +3775,7 @@ rules.source-has-tests=warn
 
 ### source-has-tests-by-group {#source-has-tests-by-group}
 
-**warn** · Testing
+**warn** · Testing · tags: `strict`
 
 Set `rules.source-has-tests-by-group.<group>=<n>` (groups: uniqueness, nullness, relationships, accepted_values).
 
@@ -3793,7 +3793,7 @@ rules.source-has-tests-by-group=warn
 
 ### source-has-tests-by-name {#source-has-tests-by-name}
 
-**warn** · Testing
+**warn** · Testing · tags: `strict`
 
 Set `rules.source-has-tests-by-name.<test_name>=<count>` in .dbt-doctor to enforce source test minimums.
 
@@ -3811,7 +3811,7 @@ rules.source-has-tests-by-name=warn
 
 ### source-has-tests-by-type {#source-has-tests-by-type}
 
-**warn** · Testing
+**warn** · Testing · tags: `strict`
 
 Set `rules.source-has-tests-by-type.schema=<n>` and/or `rules.source-has-tests-by-type.data=<n>` in .dbt-doctor.
 

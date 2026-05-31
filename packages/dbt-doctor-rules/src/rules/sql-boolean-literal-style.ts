@@ -7,6 +7,7 @@ export const sqlBooleanLiteralStyle: Rule = {
   id: "sql-boolean-literal-style",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "Use uppercase boolean literals.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

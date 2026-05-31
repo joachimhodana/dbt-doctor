@@ -7,6 +7,7 @@ export const sqlDistinctWithOrderByNonSelected: Rule = {
   id: "sql-distinct-with-order-by-non-selected",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation:
     "Avoid DISTINCT + ORDER BY columns that are not clearly part of selected outputs.",
   run: ({ sqlFiles, readFile }) => {

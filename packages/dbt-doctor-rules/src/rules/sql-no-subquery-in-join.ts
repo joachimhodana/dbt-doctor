@@ -8,6 +8,7 @@ export const sqlNoSubqueryInJoin: Rule = {
   id: "sql-no-subquery-in-join",
   severity: "warn",
   category: "SQL Quality",
+  tags: ["style", "sql-style"],
   recommendation: "Avoid subqueries inside JOIN clauses; prefer CTEs for readability and reuse.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

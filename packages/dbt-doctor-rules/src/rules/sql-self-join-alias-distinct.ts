@@ -10,6 +10,7 @@ export const sqlSelfJoinAliasDistinct: Rule = {
   id: "sql-self-join-alias-distinct",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Self-joins should use distinct aliases per relation instance.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

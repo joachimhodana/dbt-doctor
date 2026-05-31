@@ -7,6 +7,7 @@ export const sqlJoinUsingConsistency: Rule = {
   id: "sql-join-using-consistency",
   severity: "warn",
   category: "SQL Convention",
+  tags: ["style", "sql-style"],
   recommendation: "Prefer ON clauses over USING for explicit join semantics.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

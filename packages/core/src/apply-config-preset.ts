@@ -37,7 +37,7 @@ const PRESET_OVERRIDES: Record<DbtDoctorPreset, Partial<DbtDoctorConfig>> = {
     },
   },
   /**
-   * Full rule catalog (122 rules) with stricter governance and graph checks.
+   * Full rule catalog (all registered rules) with stricter governance and graph checks.
    */
   enterprise: {
     scoreMode: "files",

@@ -13,6 +13,7 @@ export const jinjaTagPadding: Rule = {
   id: "jinja-tag-padding",
   severity: "warn",
   category: "SQL Style",
+  tags: ["strict"],
   recommendation: "Use a single space around content inside Jinja tags on single-line expressions.",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

@@ -7,6 +7,7 @@ export const sqlAmbiguousJoinType: Rule = {
   id: "sql-ambiguous-join-type",
   severity: "warn",
   category: "SQL Style",
+  tags: ["style", "sql-style"],
   recommendation: "Make JOIN type explicit (INNER/LEFT/RIGHT/FULL/CROSS).",
   run: ({ sqlFiles, readFile }) => {
     const diagnostics = [];

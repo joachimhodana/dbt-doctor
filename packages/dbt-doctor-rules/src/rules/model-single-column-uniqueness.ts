@@ -10,6 +10,7 @@ export const modelSingleColumnUniqueness: Rule = {
   id: "model-single-column-uniqueness",
   severity: "warn",
   category: "Testing",
+  tags: ["strict"],
   recommendation: "At least one uniqueness test should exist at column level.",
   run: ({ sqlFiles, yamlFiles, readFile }) => {
     const diagnostics = [];
