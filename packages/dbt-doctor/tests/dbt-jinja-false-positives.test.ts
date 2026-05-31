@@ -198,4 +198,192 @@ describe("dbt jinja false positives", () => {
 
     expect(runRules(directory, ["materialization-hint"])).toHaveLength(0);
   });
+
+  it("does not flag incremental filter subqueries inside jinja if blocks", () => {
+    directory = fs.mkdtempSync(path.join(os.tmpdir(), "dbt-doctor-jinja-fp-"));
+    writeFile(
+      directory,
+      "dbt_project.yml",
+      'name: fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
+    );
+    writeFile(
+      directory,
+      "models/intermediate/int_affiliate_sales.sql",
+      [
+        "select *",
+        "from {{ ref('affiliate_sales_unmapped') }}",
+        "{% if is_incremental() %}",
+        "where _fivetran_start >= (select max(_fivetran_start)::date from {{ this }})",
+        "{% endif %}",
+      ].join("\n"),
+    );
+
+    expect(runRules(directory, ["sql-expression-alias-required"])).toHaveLength(0);
+  });
+
+  it("does not flag snowflake star exclude projections", () => {
+    directory = fs.mkdtempSync(path.join(os.tmpdir(), "dbt-doctor-jinja-fp-"));
+    writeFile(
+      directory,
+      "dbt_project.yml",
+      'name: fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
+    );
+    writeFile(
+      directory,
+      "models/intermediate/int_affiliate_sales.sql",
+      [
+        "with ranked as (select * exclude (rnk) from {{ ref('mapped') }})",
+        "select * exclude (rnk, ppm_extract_id) from ranked",
+      ].join("\n"),
+    );
+
+    expect(runRules(directory, ["sql-expression-alias-required"])).toHaveLength(0);
+  });
+
+  it("does not flag multiline join aliases or edp dim comment qualifiers", () => {
+    directory = fs.mkdtempSync(path.join(os.tmpdir(), "dbt-doctor-jinja-fp-"));
+    writeFile(
+      directory,
+      "dbt_project.yml",
+      'name: fixture\nversion: "1"\nprofile: default\nmodel-paths: ["models"]\n',
+    );
+    writeFile(
+      directory,
+      "models/marts/dim_customer.sql",
+      [
+        "{{ config(meta={",
+        '    "compare_columns": [',
+        '        "subsidiary_code",',
+        '        "customer_name"',
+        "    ]",
+        "}) }}",
+        "-- Columns from the cleansing model to be included in the target dimension model",
+        "select",
+        "    bill_to_id as affiliate_customer_id,",
+        "    _early_sync_date, -- do not take dates in the future",
+        "    false::boolean as _delete_ind",
+        "from {{ ref('int_affiliate_customer') }}",
+      ].join("\n"),
+    );
+    writeFile(
+      directory,
+      "models/cleansing/affiliate_sales_mapped.sql",
+      [
+        "with",
+        "    {{ model.name }} as (",
+        "        select {{ trim_all_columns(source('raw', 'sales')) }}",
+        "        from {{ source('raw', 'sales') }}",
+        "    ),",
+        "    final as (",
+        "        select coalesce(isbn.uk_isbn, sales.uk_isbn) as uk_isbn",
+        "        from {{ model.name }} sales",
+        "        left join (",
+        "            select group_isbn, uk_isbn",
+        "            from {{ source('raw', 'isbn') }}",
+        "            where _fivetran_active",
+        "        ) isbn",
+        "            on sales.product_id = isbn.group_isbn",
+        "    )",
+        "select * from final",
+      ].join("\n"),
+    );
+    writeFile(
+      directory,
+      "models/cleansing/affiliate_arch_sales_mapped.sql",
+      [
+        "with",
+        "    {{ model.name }} as (",
+        "        select {{ trim_all_columns(source('raw', 'arch_sales')) }}",
+        "        from {{ source('raw', 'arch_sales') }}",
+        "    ),",
+        "    base as (",
+        "        select id from {{ model.name }}",
+        "    ),",
+        "    final as (",
+        "        select sales.id",
+        "        from base sales",
+        "        left join {{ ref('affiliate_import_audit') }} import",
+        "            on sales.import_id = import.id",
+        "    )",
+        "select * from final",
+      ].join("\n"),
+    );
+    writeFile(
+      directory,
+      "models/cleansing/affiliate_arch_sales_unmapped.sql",
+      [
+        "with final as (",
+        "    select import.file_name",
+        "    from {{ model.name }} sales",
+        "    left join",
+        '        {{ ref("affiliate_import_audit") }} import',
+        "        on sales.import_id = import.id",
+        ")",
+        "select * from final",
+      ].join("\n"),
+    );
+    writeFile(
+      directory,
+      "models/integration/dimensions/int_affiliate_sales_type_dim.sql",
+      [
+        "-- RELEVANT AND ALIAS THEM WITH THE TARGET DIM NAME E.G. INT_MEAS_UNIT AS UOM_CODE",
+        "select ast.id from {{ ref('affiliate_sales_type') }} ast",
+      ].join("\n"),
+    );
+    writeFile(
+      directory,
+      "models/integration/facts/int_affiliate_sales_fact.sql",
+      [
+        "with dedup as (",
+        "    select {{ model.name }}.*, row_number() over (partition by id) as rn",
+        "    from {{ model.name }}",
+        ")",
+        "select id from dedup",
+      ].join("\n"),
+    );
+    writeFile(
+      directory,
+      "models/cleansing/subsidiary_mapping.sql",
+      [
+        "with {{ model.name }} as (",
+        "    select {{ trim_all_columns(ref('subsidiary_map')) }}",
+        "    from {{ ref('subsidiary_map') }}",
+        "),",
+        "final as (",
+        "    select a.*,",
+        "           load_datetime as _fivetran_synced",
+        "    from {{ model.name }} a",
+        ")",
+        "select * from final",
+      ].join("\n"),
+    );
+    writeFile(
+      directory,
+      "models/integration/dimensions/int_affiliate_subsidiary_dim.sql",
+      [
+        "-- IN THE SELECT STATEMENT INCLUDE ONLY COLUMNS FROM THE REFERENCED MODEL",
+        "with data_union_mapping as (",
+        "    select",
+        "        sub_code as subsidiary_code,",
+        "        subsidiary as subsidiary_name,",
+        "        currency as subsidiary_currency_code,",
+        "        1 as rnk",
+        "    from {{ ref('affiliate_subsidiary') }}",
+        "    union all",
+        "    select",
+        "        sub_code as subsidiary_code,",
+        "        subsidiary as subsidiary_name,",
+        "        currency as subsidiary_currency_code,",
+        "        2 as rnk",
+        "    from {{ ref('subsidiary_mapping') }}",
+        ")",
+        "select subsidiary_code from data_union_mapping",
+      ].join("\n"),
+    );
+
+    expect(runRules(directory, ["sql-no-comma-join"])).toHaveLength(0);
+    expect(runRules(directory, ["sql-reference-object-in-from"])).toHaveLength(0);
+    expect(runRules(directory, ["sql-expression-alias-required"])).toHaveLength(0);
+    expect(runRules(directory, ["sql-set-operator-column-count-match"])).toHaveLength(0);
+  });
 });

@@ -1,6 +1,6 @@
 {
   "name": "@dbt-doctor/core",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "description": "Internal: diagnostic engine for dbt-doctor (lint runner, scoring, config, suppressions).",
   "license": "MIT",

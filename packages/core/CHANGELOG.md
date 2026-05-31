@@ -1,5 +1,16 @@
 # @dbt-doctor/core
 
+## 0.2.2
+
+### Patch Changes
+
+- Eliminate remaining Jinja and dbt-SQL false positives on real projects (multi-line joins, comments, incremental blocks, Snowflake star exclude).
+
+- Updated dependencies []:
+  - dbt-doctor-rules@0.3.2
+  - @dbt-doctor/types@0.3.2
+  - @dbt-doctor/project-info@0.3.2
+
 ## 0.2.1
 
 ### Patch Changes

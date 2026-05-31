@@ -1,5 +1,5 @@
 import type { Rule } from "../types.js";
-import { hasUnionByName, maskJinjaBlocks } from "../utils/jinja-sql-scan.js";
+import { hasUnionByName, maskJinjaBlocks, stripSqlComments } from "../utils/jinja-sql-scan.js";
 import { report } from "../utils/report.js";
 
 const SET_OPERATOR_PATTERN = /\bunion(?:\s+all)?\b|\bintersect\b|\bexcept\b/i;
@@ -29,7 +29,7 @@ export const sqlSetOperatorColumnCountMatch: Rule = {
       const rawContent = readFile(file);
       if (hasUnionByName(rawContent)) continue;
 
-      const content = maskJinjaBlocks(rawContent);
+      const content = stripSqlComments(maskJinjaBlocks(rawContent));
       if (!SET_OPERATOR_PATTERN.test(content)) continue;
 
       const branches = content.split(/\bunion(?:\s+all)?\b|\bintersect\b|\bexcept\b/gi);

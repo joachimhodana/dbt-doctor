@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-05-31
+
+### Fixed
+
+- **SQL comment false positives** — rules skip `-- Columns from...` and `E.G.` in dim header comments.
+- **`sql-no-comma-join`** — scope FROM scanning to the clause (stop at `JOIN`, `)`, subqueries); ignore CTE `),` separators.
+- **`sql-reference-object-in-from`** — collect aliases from multi-line joins, subquery `) alias on`, and `from base sales`; ignore comment lines.
+- **`sql-expression-alias-required`** — skip `{% if is_incremental() %}` bodies, `a.*`, `{{ model.name }}.*`, and Snowflake `* EXCLUDE (...)`.
+- **`sql-set-operator-column-count-match`** — ignore `SELECT`/`FROM` words in line comments.
+
+### Added
+
+- Regression tests for affiliates-dbt / EDP patterns (multi-line join, subsidiary union, sage incremental).
+
 ## [0.3.1] - 2026-05-25
 
 ### Added
@@ -64,6 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First public npm release: `dbt-doctor` CLI and `dbt-doctor-rules`.
 
-[Unreleased]: https://github.com/joachimhodana/dbt-doctor/compare/dbt-doctor@0.3.1...HEAD
+[Unreleased]: https://github.com/joachimhodana/dbt-doctor/compare/dbt-doctor@0.3.2...HEAD
+[0.3.2]: https://github.com/joachimhodana/dbt-doctor/compare/dbt-doctor@0.3.1...dbt-doctor@0.3.2
 [0.3.1]: https://github.com/joachimhodana/dbt-doctor/compare/dbt-doctor@0.3.0...dbt-doctor@0.3.1
 [0.3.0]: https://github.com/joachimhodana/dbt-doctor/releases/tag/dbt-doctor%400.3.0

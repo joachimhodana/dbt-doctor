@@ -1,6 +1,6 @@
 {
   "name": "@dbt-doctor/manifest",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Manifest graph loader for dbt-doctor",
   "bugs": {
     "url": "https://github.com/joachimhodana/dbt-doctor/issues"

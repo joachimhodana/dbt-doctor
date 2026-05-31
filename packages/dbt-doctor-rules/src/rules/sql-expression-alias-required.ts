@@ -4,6 +4,7 @@ import {
   findJinjaRanges,
   isDbtMacroSelectTarget,
   isInsideRanges,
+  stripLineComments,
 } from "../utils/jinja-sql-scan.js";
 import { report } from "../utils/report.js";
 
@@ -41,7 +42,10 @@ const hasAlias = (target: string): boolean => {
 };
 
 const isSimpleReference = (target: string): boolean =>
-  /^[a-zA-Z_][\w$]*(\.[a-zA-Z_][\w$]*)?$/.test(target) || /^\*$/.test(target);
+  /^[a-zA-Z_][\w$]*(\.[a-zA-Z_][\w$]*)?$/.test(target) ||
+  /^\*$/.test(target) ||
+  /^[a-zA-Z_][\w$]*\.\*+$/.test(target) ||
+  /^\*\s+exclude\s*\([^)]*\)$/i.test(target);
 
 const isExpressionTarget = (target: string): boolean =>
   /\(|\+|\-|\*|\/|\bcase\b|\bcoalesce\b|\bnullif\b|\bcast\b/i.test(target);
@@ -61,18 +65,23 @@ export const sqlExpressionAliasRequired: Rule = {
       const jinjaRanges = findJinjaRanges(content);
 
       for (const match of content.matchAll(SELECT_FROM_PATTERN)) {
+        const selectStart = match.index ?? 0;
+        if (isInsideRanges(selectStart, jinjaRanges)) continue;
+
         const selectBody = (match[1] ?? "").trim();
         if (!selectBody) continue;
 
         const targets = splitSelectTargets(selectBody);
         for (const target of targets) {
-          const normalized = target.replace(/\s+/g, " ").trim();
+          const normalized = stripLineComments(target).replace(/\s+/g, " ").trim();
+          if (!normalized) continue;
           if (isSimpleReference(normalized)) continue;
           if (!isExpressionTarget(normalized)) continue;
           if (hasAlias(normalized)) continue;
           if (isDbtMacroSelectTarget(normalized)) continue;
 
-          const targetIndex = content.indexOf(target, match.index ?? 0);
+          const targetIndex = selectStart + selectBody.indexOf(normalized);
+          if (targetIndex < selectStart) continue;
           if (isInsideRanges(targetIndex, jinjaRanges)) continue;
 
           const position = offsetToLineColumn(content, Math.max(0, targetIndex));

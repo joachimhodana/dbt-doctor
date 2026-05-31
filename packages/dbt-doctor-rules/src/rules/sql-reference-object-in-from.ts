@@ -1,14 +1,14 @@
 import type { Rule } from "../types.js";
 import { offsetToLineColumn } from "../utils/sql-cst.js";
 import {
+  collectTableAliases,
   findJinjaRanges,
   isInsideRanges,
   isJinjaQualifier,
+  isOffsetInSqlComment,
 } from "../utils/jinja-sql-scan.js";
 import { report } from "../utils/report.js";
 
-const FROM_JOIN_ALIAS_PATTERN =
-  /\b(?:from|join)\s+(?!\()(?:(?:\{\{[\s\S]*?\}\})|(?:[`"\[]?[a-zA-Z_][\w$]*[`"\]]?(?:\.[`"\[]?[a-zA-Z_][\w$]*[`"\]]?){0,2}))\s+(?:as\s+)?([a-zA-Z_][\w$]*)/gi;
 const QUALIFIED_REFERENCE_PATTERN = /\b([a-zA-Z_][\w$]*)\.([a-zA-Z_][\w$]*)\b/g;
 
 const SQL_KEYWORDS = new Set([
@@ -50,19 +50,14 @@ export const sqlReferenceObjectInFrom: Rule = {
     for (const file of sqlFiles) {
       const content = readFile(file);
       const jinjaRanges = findJinjaRanges(content);
-
-      const allowedAliases = new Set<string>();
-      for (const match of content.matchAll(FROM_JOIN_ALIAS_PATTERN)) {
-        const alias = (match[1] ?? "").toLowerCase();
-        if (!alias) continue;
-        allowedAliases.add(alias);
-      }
+      const allowedAliases = collectTableAliases(content);
 
       if (allowedAliases.size === 0) continue;
 
       for (const match of content.matchAll(QUALIFIED_REFERENCE_PATTERN)) {
         if (match.index === undefined) continue;
         if (isInsideRanges(match.index, jinjaRanges)) continue;
+        if (isOffsetInSqlComment(content, match.index)) continue;
 
         const qualifier = (match[1] ?? "").toLowerCase();
         if (!qualifier) continue;
