@@ -3,6 +3,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { Copy, Check, ChevronRight, RotateCcw } from "lucide-react";
 import { PERFECT_SCORE } from "@/constants";
+import {
+  BUILTIN_RULE_COUNT,
+  HIDDEN_GOVERNANCE_RULE_IDS,
+  HIDDEN_SQL_STYLE_RULE_IDS,
+} from "@/constants/demo-rules";
 import { SITE_HOST } from "@/constants/site";
 import { getDoctorFace } from "@/utils/get-doctor-face";
 import { getScoreColorClass } from "@/utils/get-score-color-class";
@@ -131,83 +136,9 @@ const VISIBLE_DIAGNOSTICS: RuleDiagnostic[] = [
   },
 ];
 
-/** Remaining dbt-doctor + sqlfluff rules (collapsed in CLI) — needed for an honest Critical score. */
-const HIDDEN_DBT_RULE_IDS = [
-  "staging-prefix",
-  "staging-naming-convention",
-  "staging-materialized-view",
-  "intermediate-prefix",
-  "marts-prefix",
-  "generic-test-present",
-  "direct-source-and-ref",
-  "prefer-ref-over-raw-source",
-  "dbt-project-name",
-  "bigquery-partition-filter",
-  "materialization-hint",
-  "empty-model-file",
-  "jinja-config-block",
-] as const;
-
-const SQLFLUFF_RULE_CODES = [
-  "AL01",
-  "AL02",
-  "AL05",
-  "AM01",
-  "AM02",
-  "AM04",
-  "CP01",
-  "CP02",
-  "CP03",
-  "CP04",
-  "CP05",
-  "CV01",
-  "CV02",
-  "CV03",
-  "CV04",
-  "CV05",
-  "CV06",
-  "CV07",
-  "CV08",
-  "CV10",
-  "CV11",
-  "JJ01",
-  "LT01",
-  "LT02",
-  "LT04",
-  "LT05",
-  "LT06",
-  "LT08",
-  "LT09",
-  "LT12",
-  "LT13",
-  "LT14",
-  "LT15",
-  "RF02",
-  "RF04",
-  "RF05",
-  "RF06",
-  "ST01",
-  "ST02",
-  "ST03",
-  "ST05",
-  "ST06",
-  "ST07",
-  "ST08",
-  "ST09",
-  "ST10",
-  "ST11",
-  "TQ01",
-  "TQ02",
-  "TQ03",
-  "LT07",
-  "LT10",
-  "LT11",
-  "RF01",
-  "RF03",
-] as const;
-
+/** Remaining native rules (collapsed in CLI) — needed for an honest Critical score. */
 const buildAllScoreDiagnostics = (): RuleDiagnostic[] => {
-  const hiddenDbt: RuleDiagnostic[] = HIDDEN_DBT_RULE_IDS.map((ruleId) => ({
+  const hiddenGovernance: RuleDiagnostic[] = HIDDEN_GOVERNANCE_RULE_IDS.map((ruleId) => ({
     ruleKey: `dbt-doctor/${ruleId}`,
     severity: "warning",
     message: "",
@@ -216,16 +147,16 @@ const buildAllScoreDiagnostics = (): RuleDiagnostic[] => {
     location: "",
   }));
 
-  const hiddenSqlfluff: RuleDiagnostic[] = SQLFLUFF_RULE_CODES.map((code) => ({
-    ruleKey: `sqlfluff/${code}`,
+  const hiddenSqlStyle: RuleDiagnostic[] = HIDDEN_SQL_STYLE_RULE_IDS.map((ruleId) => ({
+    ruleKey: `dbt-doctor/${ruleId}`,
     severity: "warning",
     message: "",
     help: "",
-    count: 3,
+    count: 2,
     location: "",
   }));
 
-  return [...VISIBLE_DIAGNOSTICS, ...hiddenDbt, ...hiddenSqlfluff];
+  return [...VISIBLE_DIAGNOSTICS, ...hiddenGovernance, ...hiddenSqlStyle];
 };
 
 const ALL_SCORE_DIAGNOSTICS = buildAllScoreDiagnostics();
@@ -299,7 +230,7 @@ const ScoreHeader = ({ score }: { score: number }) => {
 
 const CollapsedRulesSummary = () => (
   <div className="mb-1 text-neutral-500">
-    {`  … +${COLLAPSED_RULE_COUNT} more rules (dbt-doctor + sqlfluff)`}
+    {`  … +${COLLAPSED_RULE_COUNT} more rules`}
   </div>
 );
 
@@ -538,7 +469,7 @@ const Terminal = () => {
               <span className="text-neutral-500">{"  "}</span>
               <span className="text-red-400">{TOTAL_ISSUE_COUNT} findings</span>
               <span className="text-neutral-500">
-                {`  (${SCORE_RULE_COUNT} rules)  across ${AFFECTED_FILE_COUNT}/${TOTAL_SOURCE_FILE_COUNT} files  in ${ELAPSED_TIME}`}
+                {`  (${SCORE_RULE_COUNT}/${BUILTIN_RULE_COUNT} rules)  across ${AFFECTED_FILE_COUNT}/${TOTAL_SOURCE_FILE_COUNT} files  in ${ELAPSED_TIME}`}
               </span>
             </div>
             <Spacer />
